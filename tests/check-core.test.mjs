@@ -328,3 +328,14 @@ test('df-allow on the preceding line only counts when that line holds nothing bu
   assert.deepEqual(r.fresh.map((f) => f.line), [2]);
   assert.equal(r.suppressed.length, 1);
 });
+
+test('a finding-level severity overrides the check severity; targetSelectors is an accepted config key', () => {
+  registerCheck({ id: 'sev-probe', ruleIds: [], run: (ctx) => (ctx.config.checks['sev-probe'] ? [{ file: 'x.css', line: 1, snippet: 'a', message: 'm', severity: 'error' }, { file: 'x.css', line: 1, snippet: 'b', message: 'm' }] : []) });
+  const dir = mkdtempSync(join(tmpdir(), 'df-sev-'));
+  writeFileSync(join(dir, 'x.css'), 'a{}');
+  writeFileSync(join(dir, 'c.json'), JSON.stringify({ checks: { 'sev-probe': 'warn' }, targetSelectors: ['.chip'] }));
+  const r = evaluate(join(dir, 'c.json'));
+  const f = r.findings.filter((x) => x.check === 'sev-probe');
+  assert.deepEqual(f.map((x) => [x.snippet, x.severity]), [['a', 'error'], ['b', 'warn']]);
+  assert.deepEqual(r.config.targetSelectors, ['.chip']);
+});

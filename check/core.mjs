@@ -16,7 +16,7 @@ export class ConfigError extends Error {
 /** Check ids from spec §6 that are valid in a config before their module exists. */
 export const PLANNED_CHECKS = ['raw-values', 'reduced-motion', 'contrast', 'text-floor', 'targets', 'focus', 'icons'];
 export const SEVERITIES = ['error', 'warn', 'off'];
-const TOP_KEYS = ['$schema', 'version', 'include', 'exclude', 'tokenFiles', 'projectTokens', 'checks', 'motionCalls', 'manifest', 'baseline'];
+const TOP_KEYS = ['$schema', 'version', 'include', 'exclude', 'tokenFiles', 'projectTokens', 'checks', 'motionCalls', 'manifest', 'baseline', 'targetSelectors'];
 const DEFAULT_INCLUDE = ['**/*.{css,html,htm,js,mjs,cjs,jsx,ts,tsx}'];
 const KINDS = { '.css': 'css', '.html': 'html', '.htm': 'html', '.js': 'js', '.mjs': 'js', '.cjs': 'js', '.jsx': 'js', '.ts': 'js', '.tsx': 'js' };
 const SKIP_DIRS = new Set(['node_modules', '.git']);
@@ -66,6 +66,7 @@ export function loadConfig(path) {
     checks: { ...checks },
     motionCalls: strList(raw.motionCalls, 'motionCalls', []),
     manifest: optStr(raw.manifest, 'manifest'),
+    targetSelectors: strList(raw.targetSelectors, 'targetSelectors', []),
     baseline: optStr(raw.baseline, 'baseline') ?? 'design-foundations.baseline.json',
   };
 }
@@ -184,7 +185,7 @@ export function runChecks(config, ctx) {
       throw new Error(`check "${mod.id}" crashed: ${e.stack ?? e}`);
     }
     for (const f of result) {
-      findings.push({ ruleIds: mod.ruleIds ?? [], ...f, check: mod.id, severity, line: f.line ?? 1, snippet: f.snippet ?? '' });
+      findings.push({ ruleIds: mod.ruleIds ?? [], ...f, check: mod.id, severity: f.severity ?? severity, line: f.line ?? 1, snippet: f.snippet ?? '' });
     }
   }
   assignFingerprints(findings);
