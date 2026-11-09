@@ -33,6 +33,35 @@ function readJson(path) {
   }
 }
 
+const toMs = (v) => (typeof v === 'number' ? v : /ms$/.test(v) ? parseFloat(v) : parseFloat(v) * 1000);
+const num = (v) => (typeof v === 'number' ? v : parseFloat(v));
+const bezier = (v) => `cubic-bezier(${v.join(', ')})`;
+const easingString = (v) => (Array.isArray(v) ? bezier(v) : typeof v === 'object' ? springCurve(v).easing : String(v));
+
+/** The resolved motion values inlined into dist/motion.js (durations in ms, CSS easing strings). */
+export function motionTokens(resolved) {
+  const durations = {};
+  for (const [p, { type, value }] of resolved) {
+    if (type !== 'duration') continue;
+    const [, group, key] = p.split('.');
+    if (group === 'duration') durations[key] = toMs(value);
+    else if (group === 'camera') durations[`camera${key[0].toUpperCase()}${key.slice(1)}`] = toMs(value);
+  }
+  const side = ({ properties, duration, easing, distance }) => ({
+    duration: toMs(duration),
+    easing: easingString(easing),
+    properties: [...properties],
+    ...(distance !== undefined ? { distance: num(distance) } : {}),
+  });
+  const transitions = {};
+  for (const [p, { type, value }] of resolved) {
+    if (type === 'transition') transitions[p.split('.').at(-1)] = { normal: side(value.normal), reduced: side(value.reduced) };
+  }
+  return { durations, transitions };
+}
+
+const PLACEHOLDER = '/*__DF_TOKENS__*/null';
+
 export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src') } = {}) {
   const resolved = baseTokens();
   mkdirSync(out, { recursive: true });
@@ -41,7 +70,12 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src') 
 
   if (existsSync(srcDir)) {
     for (const f of readdirSync(srcDir).filter((n) => /\.(m?js)$/.test(n)).sort()) {
-      copyFileSync(join(srcDir, f), join(out, f));
+      const text = readFileSync(join(srcDir, f), 'utf8');
+      if (text.includes(PLACEHOLDER)) {
+        writeFileSync(join(out, f), text.replace(PLACEHOLDER, () => JSON.stringify(motionTokens(resolved), null, 2)));
+      } else {
+        copyFileSync(join(srcDir, f), join(out, f));
+      }
     }
   }
 
