@@ -146,6 +146,10 @@ export function checkPairs(project, schema) {
       }
     }
   }
+  // Spec 4.4: missing is reported, never skipped. Required roles with no entry at all.
+  for (const role of schema.required ?? []) {
+    if (!project.roles?.[role]) out.push({ fg: role, bg: null, mode: null, ratio: null, min: null, status: 'missing' });
+  }
   return out;
 }
 
@@ -169,8 +173,10 @@ export function emitColorCss(project, schema) {
   };
   add(':root{', 'light');
   add('@media (prefers-color-scheme: dark){:root{', 'dark', '}}');
-  add('@media (prefers-contrast: more){:root{', 'light-hc', '}}');
+  // Scoped to light so a dark-scheme user never gets a light-hc value; dark falls back to its dark slot.
+  add('@media (prefers-contrast: more) and (prefers-color-scheme: light){:root{', 'light-hc', '}}');
   add('@media (prefers-color-scheme: dark) and (prefers-contrast: more){:root{', 'dark-hc', '}}');
+  // An explicit [data-theme] overrides prefers-contrast (it carries only the normal slots).
   add('[data-theme="light"]{', 'light');
   add('[data-theme="dark"]{', 'dark');
   return blocks.join('\n') + '\n';

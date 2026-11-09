@@ -148,12 +148,12 @@ test('emitColorCss includes prefers-color-scheme and prefers-contrast blocks', (
   const css = emitColorCss(example, schema);
   assert.match(css, /^:root\{/);
   assert.ok(css.includes('@media (prefers-color-scheme: dark){:root{'));
-  assert.ok(css.includes('@media (prefers-contrast: more){:root{'));
+  assert.ok(css.includes('@media (prefers-contrast: more) and (prefers-color-scheme: light){:root{'));
   assert.ok(css.includes('@media (prefers-color-scheme: dark) and (prefers-contrast: more){:root{'));
   assert.ok(css.includes('[data-theme="light"]{'));
   assert.ok(css.includes('[data-theme="dark"]{'));
   assert.ok(css.includes('--df-color-bg-grouped-primary:'));
-  const order = [':root{', '(prefers-color-scheme: dark){', '(prefers-contrast: more){', 'dark) and (prefers-contrast', '[data-theme="light"]', '[data-theme="dark"]'].map((s) => css.indexOf(s));
+  const order = [':root{', '(prefers-color-scheme: dark){', '(prefers-contrast: more) and (prefers-color-scheme: light){', 'dark) and (prefers-contrast', '[data-theme="light"]', '[data-theme="dark"]'].map((s) => css.indexOf(s));
   assert.deepEqual([...order].sort((a, b) => a - b), order);
 });
 
@@ -164,4 +164,23 @@ test('emitColorCss omits absent slots', () => {
   assert.ok(css.includes('--df-color-label-primary:#fff'));
   const dark = css.match(/prefers-color-scheme: dark\)\{:root\{([^}]*)\}/)[1];
   assert.ok(!dark.includes('bg-primary'));
+});
+
+test('light-hc without dark-hc never reaches dark-scheme users', () => {
+  const p = { roles: { 'bg.primary': { light: '#ffffff', dark: '#111111', 'light-hc': '#fefefe' } } };
+  const css = emitColorCss(p, schema);
+  const blocks = css.split('\n');
+  const withHc = blocks.filter((b) => b.includes('#fefefe'));
+  assert.equal(withHc.length, 1);
+  assert.ok(withHc[0].includes('prefers-color-scheme: light'));
+  assert.ok(!css.includes('prefers-color-scheme: dark) and (prefers-contrast'));
+  assert.ok(css.includes('--df-color-bg-primary:#111111'));
+});
+
+test('required roles absent from the project are reported missing once', () => {
+  const p = clone(example);
+  delete p.roles.link;
+  const rows = checkPairs(p, schema).filter((r) => r.fg === 'link' && r.bg === null);
+  assert.deepEqual(rows, [{ fg: 'link', bg: null, mode: null, ratio: null, min: null, status: 'missing' }]);
+  assert.equal(checkPairs(example, schema).filter((r) => r.bg === null).length, 0);
 });
