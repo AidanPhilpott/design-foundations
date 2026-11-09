@@ -7,10 +7,10 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 
 ## DRK-01 (should)
 
-Follow the appearance people chose for the whole device, and if an in-app override exists at all, make following the system its default.
+Follow the appearance people chose for the whole device and avoid a separate in-app appearance setting, but if one is unavoidable, make System its default.
 
 - Why: A separate switch in the app is one more thing to set, and an app that ignores the system choice looks broken.
-- Web: Let prefers-color-scheme drive tokens.css; a data-theme override, if offered, starts at System and is stored per person, never forced at load.
+- Web: Let prefers-color-scheme drive tokens.css and offer no theme switch by default; if a data-theme override must exist, it starts at System and is stored per person, never forced at load.
 - Platforms: web, swift
 - Source: [HIG › Dark Mode › Best practices](https://developer.apple.com/design/human-interface-guidelines/dark-mode)
 
@@ -46,7 +46,7 @@ Keep text contrast at 4.5:1 or better in dark appearance too, and aim for about 
 Test dark appearance with Reduce Transparency and Increase Contrast turned on, each alone and then both at once.
 
 - Why: These combinations are where dark text on dark surfaces tends to break.
-- Web: In browser devtools emulate prefers-color-scheme dark with prefers-contrast more and prefers-reduced-transparency reduce in each combination, then repeat on an iPhone with the matching settings.
+- Web: In browser devtools emulate prefers-color-scheme dark with prefers-contrast more and prefers-reduced-transparency reduce in each combination, then repeat on an iPhone for Increase Contrast; Safari may not expose prefers-reduced-transparency, so an iPhone with Reduce Transparency on does not prove the transparency fallback works.
 - Platforms: web, swift
 - Source: [HIG › Dark Mode › Best practices](https://developer.apple.com/design/human-interface-guidelines/dark-mode)
 

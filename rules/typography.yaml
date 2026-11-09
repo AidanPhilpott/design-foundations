@@ -135,7 +135,7 @@
   why: Many iPhone users set their preferred size once in Settings and expect every app to follow it.
   source: {topic: typography, anchor: "Supporting Dynamic Type", via: house}
   platforms: [web]
-  web: Add the df-dynamic-type class to html, which sets font -apple-system-body where Safari supports it so every rem token follows Dynamic Type, and falls back to 100%.
+  web: Add the df-dynamic-type class to html; where Safari supports font -apple-system-body the root becomes the user's body size and tokens.css redefines every type token as pt ÷ 17 rem, so body is exactly 1rem, and elsewhere the root stays at 100%.
   severity: should
   tokens: [type.body]
 

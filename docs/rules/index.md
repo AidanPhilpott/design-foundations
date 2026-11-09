@@ -20,7 +20,7 @@
 | [ACC-14](accessibility.md#acc-14-should) | should |  | Prefer familiar, standard controls and interactions over custom ones people must learn. |
 | [ACC-15](accessibility.md#acc-15-should) | should |  | Ask for confirmation, or offer an undo, before an action that is hard to reverse, such as deleting a list or a log entry. |
 | [ACC-16](accessibility.md#acc-16-should) | should |  | Test each release with the screen reader, keyboard-only use and enlarged text, not only with automated tools. |
-| [COL-01](color.md#col-01-must) | must | `contrast` | Body text needs a contrast ratio of at least 4.5:1 with its background, and only text of 18 points and up, or bold text, may drop to 3:1. |
+| [COL-01](color.md#col-01-must) | must | `contrast` | Text needs a contrast ratio of at least 4.5:1 with its background, and only large text, meaning 24 CSS px and up or bold at about 19 CSS px and up, may drop to 3:1. |
 | [COL-02](color.md#col-02-must) | must | `raw-values` | Take every colour from a semantic role token instead of writing raw colour values in components. |
 | [COL-03](color.md#col-03-must) | must |  | Never let colour be the only way to tell things apart, show that something is interactive, or carry essential information. |
 | [COL-04](color.md#col-04-must) | must |  | Give each colour a single meaning across the app, and keep the interactive colour off anything that cannot be tapped. |
@@ -35,7 +35,7 @@
 | [COL-13](color.md#col-13-consider) | consider |  | Consider how colours read in other cultures before using them to signal good or bad. |
 | [COL-14](color.md#col-14-consider) | consider |  | When people can pick a colour, use the platform colour picker. |
 | [COL-15](color.md#col-15-consider) | consider |  | Embed an sRGB colour profile in images, and use wide-gamut P3 colour only as an enhancement with an sRGB fallback. |
-| [DRK-01](dark-mode.md#drk-01-should) | should |  | Follow the appearance people chose for the whole device, and if an in-app override exists at all, make following the system its default. |
+| [DRK-01](dark-mode.md#drk-01-should) | should |  | Follow the appearance people chose for the whole device and avoid a separate in-app appearance setting, but if one is unavoidable, make System its default. |
 | [DRK-02](dark-mode.md#drk-02-must) | must |  | Design and ship both appearances as equals, and switch between them live when the setting changes while the app is open. |
 | [DRK-03](dark-mode.md#drk-03-should) | should |  | Treat dark colours as their own considered palette rather than an inversion of the light one. |
 | [DRK-04](dark-mode.md#drk-04-should) | should |  | Keep text contrast at 4.5:1 or better in dark appearance too, and aim for about 7:1 for small text in custom colours. |
@@ -61,6 +61,7 @@
 | [LAY-13](layout.md#lay-13-should) | should |  | Make the layout work in every orientation and window size, even if one orientation is the main use. |
 | [LAY-14](layout.md#lay-14-should) | should |  | Test the smallest and largest layouts first, then the sizes, languages and text settings in between. |
 | [LAY-15](layout.md#lay-15-consider) | consider |  | When background art or imagery meets a new aspect ratio, scale it to fill rather than stretching or boxing it. |
+| [LAY-16](layout.md#lay-16-should) | should |  | On wide screens, limit how long a line of running text can get instead of letting it span the whole window. |
 | [MAT-01](materials.md#mat-01-must) | must |  | Turn every translucent surface solid when Reduce Transparency is on or when the browser cannot blur. |
 | [MAT-02](materials.md#mat-02-should) | should |  | Use a material for surfaces that float above content, such as bars, map controls and sheets, so the layer below still shows through faintly. |
 | [MAT-03](materials.md#mat-03-should) | should |  | Pick a material by its purpose and the legibility it must give, not by the tint it adds. |

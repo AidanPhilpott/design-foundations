@@ -153,7 +153,7 @@ Honour the Bold Text setting by making text weights heavier when it is on.
 Let the iOS text size setting reach the web app, not only the browser zoom.
 
 - Why: Many iPhone users set their preferred size once in Settings and expect every app to follow it.
-- Web: Add the df-dynamic-type class to html, which sets font -apple-system-body where Safari supports it so every rem token follows Dynamic Type, and falls back to 100%.
+- Web: Add the df-dynamic-type class to html; where Safari supports font -apple-system-body the root becomes the user's body size and tokens.css redefines every type token as pt ÷ 17 rem, so body is exactly 1rem, and elsewhere the root stays at 100%.
 - Platforms: web
 - Source: house rule (related: [HIG › Typography › Supporting Dynamic Type](https://developer.apple.com/design/human-interface-guidelines/typography))
 - Tokens: `type.body`

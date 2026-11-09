@@ -7,12 +7,12 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 
 ## COL-01 (must)
 
-Body text needs a contrast ratio of at least 4.5:1 with its background, and only text of 18 points and up, or bold text, may drop to 3:1.
+Text needs a contrast ratio of at least 4.5:1 with its background, and only large text, meaning 24 CSS px and up or bold at about 19 CSS px and up, may drop to 3:1.
 
 - Why: Faint text is unreadable for people with low vision and for everyone in sunlight or on a dim screen.
-- Web: The contrast check holds label.primary and label.secondary on every bg.* role, accent.on on accent and link on bg.primary to 4.5:1, and label.tertiary to 3:1 for large or bold text only, in light, dark and both increased-contrast modes.
+- Web: The contrast check holds label.primary and label.secondary on every bg.* role, accent.on on accent and link on bg.primary to 4.5:1, and label.tertiary to 3:1, so tertiary labels are allowed only on large text (at least 1.5rem regular, or 1.1667rem at weight 700), in light, dark and both increased-contrast modes; the HIG's 18pt and any-bold thresholds are looser than WCAG AA and do not apply here.
 - Platforms: web, swift
-- Source: [HIG › Accessibility › Vision](https://developer.apple.com/design/human-interface-guidelines/accessibility)
+- Source: WCAG 2.2 › 1.4.3 Contrast (Minimum) (see also [HIG › Color](https://developer.apple.com/design/human-interface-guidelines/color))
 - Check: `contrast`
 
 ## COL-02 (must)

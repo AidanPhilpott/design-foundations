@@ -88,7 +88,7 @@ Keep the gestures for frequent tasks as simple as possible, such as a single tap
 Audio, video and animated images that start on their own must come with controls to pause or stop them.
 
 - Why: Unwanted sound and movement distract, and can drown out a screen reader.
-- Web: Avoid autoplay; where it is used, video is muted with visible controls, and animated GIF or WebP content has a pause button or plays only when prefers-reduced-motion is no-preference.
+- Web: Avoid autoplay; where it is used, video is muted with visible controls, and animated GIF or WebP content has a pause button and also plays only when prefers-reduced-motion is no-preference.
 - Platforms: web, swift
 - Source: WCAG 2.2 › 2.2.2 Pause, Stop, Hide (see also [HIG › Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility))
 

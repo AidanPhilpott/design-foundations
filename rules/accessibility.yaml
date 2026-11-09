@@ -77,7 +77,7 @@
   why: Unwanted sound and movement distract, and can drown out a screen reader.
   source: {topic: accessibility, anchor: "2.2.2 Pause, Stop, Hide", via: wcag}
   platforms: [web, swift]
-  web: Avoid autoplay; where it is used, video is muted with visible controls, and animated GIF or WebP content has a pause button or plays only when prefers-reduced-motion is no-preference.
+  web: Avoid autoplay; where it is used, video is muted with visible controls, and animated GIF or WebP content has a pause button and also plays only when prefers-reduced-motion is no-preference.
   severity: must
 
 - id: ACC-10

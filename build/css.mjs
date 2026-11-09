@@ -8,7 +8,7 @@ const kebab = (s) => s.replace(/_/g, '-').replace(/([a-z0-9])([A-Z])/g, '$1-$2')
 export const varName = (path) => `--df-${path.split('.').map(kebab).join('-')}`;
 
 const num = (n) => String(Math.round(n * 1e4) / 1e4);
-const rem = (pt) => `${num(pt / 16)}rem`;
+const rem = (pt, base = 16) => `${num(pt / base)}rem`;
 // Dimension numbers are px; strings pass through.
 const dim = (v) => (typeof v === 'number' ? `${num(v)}px` : String(v));
 const bezier = (v) => `cubic-bezier(${v.map(num).join(', ')})`;
@@ -48,6 +48,7 @@ export function emitCss(resolved, { header = true } = {}) {
   const root = []; // [name, value]
   const motion = []; // reduced-motion overrides
   const solid = []; // material solid overrides
+  const dynType = []; // type sizes for html.df-dynamic-type
 
   for (const p of paths) {
     const { type, value, ext } = resolved.get(p);
@@ -78,6 +79,8 @@ export function emitCss(resolved, { header = true } = {}) {
         [`${name}-weight`, String(value.weight)],
         [`${name}-weight-em`, String(value.weightEmphasized ?? value.weight)],
       );
+      // Under .df-dynamic-type the root is -apple-system-body (17pt at default), so sizes are pt ÷ 17.
+      dynType.push([`${name}-size`, rem(value.size, 17)], [`${name}-leading`, rem(value.leading, 17)]);
     } else {
       root.push([name, plain(type, value)]);
       const last = p.split('.').at(-1);
@@ -94,8 +97,8 @@ export function emitCss(resolved, { header = true } = {}) {
   if (motion.length) out.push(`@media (prefers-reduced-motion: reduce) {\n${rootBlock(motion, '  ')}\n}`);
   if (solid.length) {
     out.push(`@media (prefers-reduced-transparency: reduce) {\n${rootBlock(solid, '  ')}\n}`);
-    out.push(`@supports not (backdrop-filter: blur(1px)) {\n${rootBlock(solid, '  ')}\n}`);
+    out.push(`@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {\n${rootBlock(solid, '  ')}\n}`);
   }
-  out.push('@supports (font: -apple-system-body) {\n  html.df-dynamic-type {\n    font: -apple-system-body;\n  }\n}');
+  out.push(`@supports (font: -apple-system-body) {\n  html.df-dynamic-type {\n    font: -apple-system-body;\n${decls(dynType, '    ')}\n  }\n}`);
   return out.join('\n\n') + '\n';
 }

@@ -171,7 +171,7 @@
   }
 }
 
-@supports not (backdrop-filter: blur(1px)) {
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   :root {
     --df-material-regular-blur: 0px;
     --df-material-regular-opacity: 1;
@@ -187,5 +187,27 @@
 @supports (font: -apple-system-body) {
   html.df-dynamic-type {
     font: -apple-system-body;
+    --df-type-body-size: 1rem;
+    --df-type-body-leading: 1.2941rem;
+    --df-type-callout-size: 0.9412rem;
+    --df-type-callout-leading: 1.2353rem;
+    --df-type-caption1-size: 0.7059rem;
+    --df-type-caption1-leading: 0.9412rem;
+    --df-type-caption2-size: 0.6471rem;
+    --df-type-caption2-leading: 0.7647rem;
+    --df-type-footnote-size: 0.7647rem;
+    --df-type-footnote-leading: 1.0588rem;
+    --df-type-headline-size: 1rem;
+    --df-type-headline-leading: 1.2941rem;
+    --df-type-large-title-size: 2rem;
+    --df-type-large-title-leading: 2.4118rem;
+    --df-type-subhead-size: 0.8824rem;
+    --df-type-subhead-leading: 1.1765rem;
+    --df-type-title1-size: 1.6471rem;
+    --df-type-title1-leading: 2rem;
+    --df-type-title2-size: 1.2941rem;
+    --df-type-title2-leading: 1.6471rem;
+    --df-type-title3-size: 1.1765rem;
+    --df-type-title3-leading: 1.4706rem;
   }
 }

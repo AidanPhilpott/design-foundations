@@ -10,7 +10,7 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 Turn every translucent surface solid when Reduce Transparency is on or when the browser cannot blur.
 
 - Why: Blurred, see-through backgrounds lower legibility for people who asked for less transparency.
-- Web: Build materials only from the --df-material-* variables, which tokens.css sets to 0px blur and opacity 1 under @media (prefers-reduced-transparency: reduce) and @supports not (backdrop-filter: blur(1px)); never hard-code a fallback that stays translucent.
+- Web: Build materials only from the --df-material-* variables, which tokens.css sets to 0px blur and opacity 1 under @media (prefers-reduced-transparency: reduce) and when neither backdrop-filter nor -webkit-backdrop-filter is supported; Safari and iOS PWAs may not expose prefers-reduced-transparency, so where it is unsupported make text-heavy surfaces solid by default, and never hard-code a fallback that stays translucent.
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Materials › Standard materials](https://developer.apple.com/design/human-interface-guidelines/materials))
 - Tokens: `material.ultraThin.blur`, `material.ultraThin.opacity`, `material.thin.blur`, `material.thin.opacity`, `material.regular.blur`, `material.regular.opacity`, `material.thick.blur`, `material.thick.opacity`

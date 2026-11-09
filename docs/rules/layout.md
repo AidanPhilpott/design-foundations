@@ -113,7 +113,7 @@ Make controls look distinct from content, and let full-screen content run undern
 Size full-height panes and sheets by the visible viewport so browser toolbars and the on-screen keyboard never cover their controls.
 
 - Why: In mobile browsers a plain viewport-height unit can extend behind the toolbar and hide the bottom of the screen.
-- Web: Use 100dvh (with a 100vh fallback first) for full-height layouts and cap sheets with max-height in dvh; keep the focused input visible when the keyboard opens.
+- Web: Use 100dvh (with a 100vh fallback first) for full-height layouts and cap sheets with max-height in dvh; dvh ignores the iOS keyboard, so keep controls above it with window.visualViewport resize and scroll events, and add interactive-widget=resizes-content to the viewport meta for Chromium.
 - Platforms: web
 - Source: house rule (related: [HIG › Layout › Guides and safe areas](https://developer.apple.com/design/human-interface-guidelines/layout))
 
@@ -143,3 +143,12 @@ When background art or imagery meets a new aspect ratio, scale it to fill rather
 - Web: Give background and hero images object-fit cover (or background-size cover) with a sensible object-position, never a forced width and height alone; images whose edges carry information, such as topos with marked lines, use contain.
 - Platforms: web, swift
 - Source: [HIG › Layout › Adaptability](https://developer.apple.com/design/human-interface-guidelines/layout)
+
+## LAY-16 (should)
+
+On wide screens, limit how long a line of running text can get instead of letting it span the whole window.
+
+- Why: Very long lines make it hard for the eye to find the start of the next one.
+- Web: Give paragraphs and description blocks max-inline-size around 70ch (centred or leading-aligned in the column), while maps, tables and images may still use the full width.
+- Platforms: web, swift
+- Source: [HIG › Layout › Guides and safe areas](https://developer.apple.com/design/human-interface-guidelines/layout)

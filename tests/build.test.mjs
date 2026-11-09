@@ -47,8 +47,18 @@ test('springs, materials and dynamic type are emitted', () => {
   assert.match(out, /--df-motion-ease-standard: cubic-bezier\(0\.4, 0, 0\.2, 1\);/);
   assert.match(out, /--df-motion-transition-push-easing: var\(--df-motion-spring-smooth\);/);
   assert.match(out, /@media \(prefers-reduced-transparency: reduce\)/);
-  assert.match(out, /@supports not \(backdrop-filter: blur\(1px\)\)/);
+  assert.match(out, /@supports not \(\(backdrop-filter: blur\(1px\)\) or \(-webkit-backdrop-filter: blur\(1px\)\)\)/);
   assert.match(out, /@supports \(font: -apple-system-body\)\s*\{\s*html\.df-dynamic-type\s*\{\s*font: -apple-system-body;/);
+});
+
+test('dynamic type redefines type sizes as pt/17 rem under html.df-dynamic-type', () => {
+  const block = css().match(/@supports \(font: -apple-system-body\) \{([\s\S]*?)\n\}/)[1];
+  assert.match(block, /html\.df-dynamic-type \{[^}]*font: -apple-system-body;/);
+  assert.match(block, /--df-type-body-size: 1rem;/);
+  assert.match(block, /--df-type-body-leading: 1\.2941rem;/);
+  assert.match(block, /--df-type-caption2-size: 0\.6471rem;/);
+  assert.match(block, /--df-type-large-title-size: 2rem;/);
+  assert.doesNotMatch(block, /-weight/);
 });
 
 test('tokens.json is flat with resolved values', async () => {
