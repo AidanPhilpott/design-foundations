@@ -1,5 +1,5 @@
 // `design-foundations build`: tokens/base -> dist/tokens.css + dist/tokens.json (+ project.css);
-// rules/*.yaml -> validated, then docs/rules/*.md.
+// rules/*.yaml -> validated, then docs/rules/*.md under docsRoot (opt-in).
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -65,7 +65,7 @@ export function motionTokens(resolved) {
 
 const PLACEHOLDER = '/*__DF_TOKENS__*/null';
 
-export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'), rulesDir = join(ROOT, 'rules'), docsRoot = ROOT } = {}) {
+export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'), rulesDir = join(ROOT, 'rules'), docsRoot } = {}) {
   const resolved = baseTokens();
   const rules = loadRules(rulesDir);
   const errs = validateRules(rules, await ruleContext(resolved));
@@ -89,7 +89,8 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'),
     }
   }
 
-  for (const [rel, text] of Object.entries(emitRuleDocs(rules))) {
+  // docs/rules is written only when asked (the CLI passes the repo root), so tests never touch the repo.
+  for (const [rel, text] of docsRoot ? Object.entries(emitRuleDocs(rules)) : []) {
     mkdirSync(dirname(join(docsRoot, rel)), { recursive: true });
     writeFileSync(join(docsRoot, rel), text);
   }

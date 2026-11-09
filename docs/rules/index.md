@@ -16,3 +16,5 @@
 | [MOT-10](motion.md#mot-10-should) | should | `reduced-motion` | Respond to Reduce Motion by reducing each animation individually, not by switching all animation off at once. |
 | [MOT-11](motion.md#mot-11-must) | must | `raw-values` | Take every duration, easing curve and spring from the motion tokens rather than writing raw values. |
 | [MOT-12](motion.md#mot-12-consider) | consider |  | Let departing elements leave a little faster than they arrived, accelerating out where arrivals slow to a stop. |
+| [MOT-13](motion.md#mot-13-must) | must |  | Nothing on screen may flash more than three times in any one second. |
+| [MOT-14](motion.md#mot-14-should) | should |  | Keep parallax and large background or full-screen movement out of the interface, and remove any that remains when Reduce Motion is on. |

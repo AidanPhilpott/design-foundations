@@ -33,7 +33,7 @@ async function buildCmd(args) {
   const { TokenError } = await import('../build/tokens.mjs');
   const { RulesError } = await import('../build/rules.mjs');
   try {
-    await build({ out: opt('--out') ?? path.join(ROOT, 'dist'), project: opt('--project') });
+    await build({ out: opt('--out') ?? path.join(ROOT, 'dist'), project: opt('--project'), docsRoot: ROOT });
     return 0;
   } catch (e) {
     if (e instanceof TokenError || e instanceof RulesError) {

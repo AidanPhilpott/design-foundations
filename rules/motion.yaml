@@ -1,5 +1,5 @@
-# Motion rules, paraphrased from Apple's HIG (motion + the Reduce Motion part of accessibility).
-# Format: docs/specs/2026-11-09-design-foundations-design.md §5. IDs are never reused.
+# Motion rules in our own words: HIG motion + the Reduce Motion part of accessibility, plus WCAG and house rules.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
 
 - id: MOT-01
   rule: Animate a change only when the movement tells people something, such as where content came from or what just happened.
@@ -40,7 +40,7 @@
   why: Sliding, zooming and bouncing can trigger dizziness or nausea, but feedback must not vanish along with them.
   source: {topic: accessibility, anchor: "Cognitive", via: hig}
   platforms: [web, swift]
-  web: Under prefers-reduced-motion use each transition's reduced variant (opacity at the short duration) via tokens.css or motion.js, never a bare duration that ignores the setting.
+  web: Under prefers-reduced-motion use each named transition's own reduced variant from tokens.css or motion.js (push, pop and rise fade, sheet loses its bounce, feedback keeps colour only), never a bare duration that ignores the setting.
   severity: must
   check: reduced-motion
   tokens: [motion.transition.push, motion.transition.pop, motion.transition.rise, motion.transition.sheet, motion.transition.feedback]
@@ -63,8 +63,8 @@
 
 - id: MOT-08
   rule: Avoid endless or slowly repeating animation; any loop must stop on its own or on request, and must be static under Reduce Motion.
-  why: Sustained movement, especially a gentle swing near 0.2 Hz, is a known trigger for motion discomfort.
-  source: {topic: motion, anchor: "visionOS", via: hig}
+  why: WCAG asks that automatic movement can be paused or stopped, and the HIG adds that steady swinging, worst near 0.2 Hz, causes discomfort.
+  source: {topic: motion, anchor: "2.2.2 Pause, Stop, Hide", via: wcag}
   platforms: [web, swift]
   web: No animation-iteration-count infinite without a reduced-motion override; pulses and shimmers use the loop transition, which is still when motion is reduced.
   severity: must
@@ -74,9 +74,9 @@
 - id: MOT-09
   rule: Map flights, zooms and smooth scrolling honour Reduce Motion by jumping straight to the destination.
   why: Panning or zooming the whole view is the kind of large-field movement most likely to unsettle people.
-  source: {topic: accessibility, anchor: "Cognitive", via: hig}
+  source: {topic: accessibility, anchor: "Cognitive", via: house}
   platforms: [web, swift]
-  web: Use setView instead of flyTo and scroll behavior auto instead of smooth when prefers-reduced-motion is set; otherwise time camera moves with the camera tokens.
+  web: Move Leaflet (or an equivalent map) through motion.js camera(), which flies with the camera tokens and calls setView without animation under prefers-reduced-motion; scroll with behavior auto rather than smooth when motion is reduced.
   severity: must
   check: reduced-motion
   tokens: [motion.transition.camera, motion.camera.near, motion.camera.far]
@@ -84,7 +84,7 @@
 - id: MOT-10
   rule: Respond to Reduce Motion by reducing each animation individually, not by switching all animation off at once.
   why: A global off switch also removes the fades and state feedback that the setting is meant to keep.
-  source: {topic: accessibility, anchor: "Cognitive", via: hig}
+  source: {topic: accessibility, anchor: "Cognitive", via: house}
   platforms: [web, swift]
   web: 'No blanket override such as * { animation: none !important } inside prefers-reduced-motion; rely on the reduced token blocks and motion.js instead.'
   severity: should
@@ -93,7 +93,7 @@
 - id: MOT-11
   rule: Take every duration, easing curve and spring from the motion tokens rather than writing raw values.
   why: Shared timing keeps the apps feeling consistent and lets Reduce Motion swap values in one place.
-  source: {topic: motion, anchor: "Best practices", via: swiftui-defaults}
+  source: {topic: motion, anchor: "Best practices", via: house}
   platforms: [web, swift]
   web: Write var(--df-motion-...) or motion.js transitions in CSS and JS instead of literals like 0.3s or ease-in-out; springs follow the SwiftUI smooth, snappy and bouncy presets.
   severity: must
@@ -103,8 +103,24 @@
 - id: MOT-12
   rule: Let departing elements leave a little faster than they arrived, accelerating out where arrivals slow to a stop.
   why: People need to follow what is coming in, but anything going away should clear the stage quickly.
-  source: {topic: motion, anchor: "Providing feedback", via: hig}
+  source: {topic: motion, anchor: "Providing feedback", via: house}
   platforms: [web, swift]
   web: Pair the enter easing with the exit easing on the way out, at roughly 0.7 of the enter duration (for example medium in, short out).
   severity: consider
   tokens: [motion.ease.enter, motion.ease.exit, motion.duration.medium, motion.duration.short]
+
+- id: MOT-13
+  rule: Nothing on screen may flash more than three times in any one second.
+  why: Rapid flashing can set off seizures in photosensitive people, a risk the HIG also raises for fast blinking animation.
+  source: {topic: accessibility, anchor: "2.3.1 Three Flashes or Below Threshold", via: wcag}
+  platforms: [web, swift]
+  web: Blinking cursors, alert pulses and loading effects stay at three cycles per second or slower, and large bright areas never strobe.
+  severity: must
+
+- id: MOT-14
+  rule: Keep parallax and large background or full-screen movement out of the interface, and remove any that remains when Reduce Motion is on.
+  why: Movement that fills the view or drifts behind the content makes people feel they themselves are moving.
+  source: {topic: accessibility, anchor: "Cognitive", via: hig}
+  platforms: [web, swift]
+  web: No scroll-linked parallax, animated full-page backgrounds or auto-panning maps; under prefers-reduced-motion the background stays fixed.
+  severity: should

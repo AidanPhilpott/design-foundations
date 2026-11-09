@@ -73,13 +73,33 @@ test('check ruleIds must exist only for topics whose yaml exists', () => {
   assert.ok(!errs.some((e) => /COL-02/.test(e)), 'color.yaml absent: COL ids are not required yet');
 });
 
+test('unknown keys and non-object entries fail', () => {
+  const errs = validateRules([rule({ sevrity: 'must' }), rule({ id: 'MOT-02', source: { topic: 'motion', anchor: 'x', via: 'hig', ancor: 'y' } })], ctx);
+  assert.ok(errs.some((e) => /MOT-01: unknown key "sevrity"/.test(e)), errs.join('\n'));
+  assert.ok(errs.some((e) => /MOT-02: unknown key "source\.ancor"/.test(e)), errs.join('\n'));
+  const dir = tmpRules({ 'motion.yaml': '- just a string\n' });
+  assert.ok(validateRules(loadRules(dir), ctx).some((e) => /must be a mapping/.test(e)));
+});
+
+test('via: house is accepted and rendered as a house rule', () => {
+  const r = rule({ source: { topic: 'motion', anchor: 'Best practices', via: 'house' } });
+  assert.deepEqual(validateRules([r], ctx), []);
+  const md = emitRuleDocs([r])['docs/rules/motion.md'];
+  assert.match(md, /Source: house rule/);
+  assert.match(emitRuleDocs([rule()])['docs/rules/motion.md'], /Source: \[HIG › Motion › Best practices\]/);
+});
+
 test('motion.yaml validates', async () => {
   const rules = loadRules(RULES_DIR).filter((r) => r.topic === 'motion');
-  assert.equal(rules.length, 12);
+  assert.equal(rules.length, 14);
   assert.deepEqual(validateRules(rules, await ruleContext()), []);
   const byId = Object.fromEntries(rules.map((r) => [r.id, r]));
   for (const id of ['MOT-05', 'MOT-08', 'MOT-09', 'MOT-10']) assert.equal(byId[id].check, 'reduced-motion');
   assert.equal(byId['MOT-11'].check, 'raw-values');
+  for (const id of ['MOT-09', 'MOT-10', 'MOT-11', 'MOT-12']) assert.equal(byId[id].source.via, 'house', id);
+  assert.equal(byId['MOT-08'].source.via, 'wcag');
+  assert.equal(byId['MOT-13'].source.via, 'wcag');
+  assert.equal(byId['MOT-13'].severity, 'must');
 });
 
 test('index.md lists every id', () => {
@@ -98,7 +118,18 @@ test('build writes rule docs and fails on invalid rules', async () => {
   const out = mkdtempSync(join(tmpdir(), 'df-build-rules-'));
   await build({ out: join(out, 'dist'), docsRoot: out });
   assert.ok(existsSync(join(out, 'docs/rules/index.md')));
-  assert.match(readFileSync(join(out, 'docs/rules/motion.md'), 'utf8'), /MOT-12/);
+  assert.match(readFileSync(join(out, 'docs/rules/motion.md'), 'utf8'), /MOT-14/);
+  const none = mkdtempSync(join(tmpdir(), 'df-build-nodocs-'));
+  await build({ out: join(none, 'dist') });
+  assert.ok(!existsSync(join(none, 'docs')), 'no docsRoot: no docs written');
   const bad = tmpRules({ 'motion.yaml': '- id: MOT-01\n  rule: x\n' });
   await assert.rejects(build({ out: join(out, 'dist2'), docsRoot: out, rulesDir: bad }), /missing "why"/);
+});
+
+test('committed docs/rules match the generator (run `design-foundations build`)', () => {
+  for (const [rel, text] of Object.entries(emitRuleDocs(loadRules(RULES_DIR)))) {
+    const path = new URL(`../${rel}`, import.meta.url);
+    assert.ok(existsSync(path), `${rel} missing`);
+    assert.equal(readFileSync(path, 'utf8'), text, `${rel} is stale`);
+  }
 });

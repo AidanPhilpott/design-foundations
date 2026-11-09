@@ -205,7 +205,7 @@ over `bg.primary`. Solid fallback under `prefers-reduced-transparency: reduce` a
 - id: MOT-04                 # topic prefix + number; IDs are never reused
   rule: <one sentence, our words>
   why: <one sentence>
-  source: {topic: motion, anchor: "Accessibility", via: hig}   # via: hig | swiftui-defaults | wcag
+  source: {topic: motion, anchor: "Accessibility", via: hig}   # via: hig | swiftui-defaults | wcag | house
   platforms: [web, swift]
   web: <how it applies on the web, or "n/a">
   severity: must | should | consider
@@ -215,7 +215,8 @@ over `bg.primary`. Solid fallback under `prefers-reduced-transparency: reduce` a
 
 Prefixes: ACC, ICO (app icons), BRD, COL, DRK, ICN (icons), IMG, INC, LAY, MAT, MOT, PRV, RTL,
 TYP, WRT. Target 8–20 rules per topic. Values not in the HIG text (e.g. SwiftUI spring presets,
-WCAG ratios) cite `via: swiftui-defaults` or `via: wcag`.
+WCAG ratios) cite `via: swiftui-defaults` or `via: wcag`; guidance that is our own (not Apple's,
+SwiftUI's or WCAG's) cites `via: house`. Never cite `via: hig` for something the HIG does not say.
 
 Generated from rules: `docs/rules/<topic>.md`, `docs/rules/index.md` (all IDs, severity, check),
 and the plugin's references (§7). Build fails on duplicate IDs, unknown `check` ids, unknown

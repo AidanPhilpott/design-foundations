@@ -14,7 +14,11 @@ export const TOPIC_PREFIX = {
 const REQUIRED = ['rule', 'why', 'source', 'severity', 'platforms', 'web'];
 const SEVERITIES = ['must', 'should', 'consider'];
 const PLATFORMS = ['web', 'swift'];
-const VIAS = ['hig', 'swiftui-defaults', 'wcag'];
+const VIAS = ['hig', 'swiftui-defaults', 'wcag', 'house'];
+const RULE_KEYS = ['id', 'topic', 'rule', 'why', 'source', 'platforms', 'web', 'severity', 'check', 'tokens'];
+const SOURCE_KEYS = ['topic', 'anchor', 'via'];
+
+const isMapping = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
 
 export const higPageUrl = (topic) => `https://developer.apple.com/design/human-interface-guidelines/${topic}`;
 
@@ -31,7 +35,7 @@ export function loadRules(dir) {
       throw new RulesError(`${f}: ${e.message}`);
     }
     if (!Array.isArray(data)) throw new RulesError(`${f}: expected a list of rules`);
-    for (const r of data) rules.push({ ...r, topic });
+    for (const r of data) rules.push(isMapping(r) ? { ...r, topic } : { topic, invalid: r });
   }
   return rules;
 }
@@ -44,8 +48,13 @@ export function validateRules(rules, { checkIds, tokenPaths, checkRuleIds = new 
   const errs = [];
   const seen = new Set();
   for (const r of rules) {
+    if ('invalid' in r) {
+      errs.push(`${r.topic}.yaml: entry ${JSON.stringify(r.invalid)} must be a mapping`);
+      continue;
+    }
     const id = r.id ?? '(no id)';
     const err = (msg) => errs.push(`${r.topic}.yaml ${id}: ${msg}`);
+    for (const k of Object.keys(r)) if (!RULE_KEYS.includes(k)) err(`unknown key "${k}"`);
     const prefix = TOPIC_PREFIX[r.topic];
     if (!prefix) err(`unknown topic "${r.topic}"`);
     if (typeof r.id !== 'string' || !/^[A-Z]{3}-\d{2,}$/.test(r.id)) err('id must look like ABC-01');
@@ -64,6 +73,7 @@ export function validateRules(rules, { checkIds, tokenPaths, checkRuleIds = new 
       const s = r.source;
       if (typeof s !== 'object' || Array.isArray(s)) err('source must be {topic, anchor, via}');
       else {
+        for (const k of Object.keys(s)) if (!SOURCE_KEYS.includes(k)) err(`unknown key "source.${k}"`);
         if (!TOPICS.includes(s.topic)) err(`source.topic "${s.topic}" is not a covered HIG topic`);
         if (typeof s.anchor !== 'string' || !s.anchor) err('missing "source.anchor"');
         if (!VIAS.includes(s.via)) err(`source.via "${s.via}" is not ${VIAS.join('|')}`);
@@ -103,16 +113,32 @@ export async function ruleContext(resolved) {
 
 const HEADER = '<!-- generated from rules/*.yaml by `design-foundations build` — do not edit -->';
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
+const title = (topic) => topic.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+const higLink = (s) => `[HIG › ${title(s.topic)}](${higPageUrl(s.topic)})`;
+
+/** How a rule's source reads in docs: Apple guidance is marked apart from house, SwiftUI and WCAG guidance. */
+function sourceLine(s) {
+  switch (s.via) {
+    case 'hig': return `[HIG › ${title(s.topic)} › ${s.anchor}](${higPageUrl(s.topic)})`;
+    case 'wcag': return `WCAG 2.2 › ${s.anchor} (see also ${higLink(s)})`;
+    case 'swiftui-defaults': return `SwiftUI defaults (related: [HIG › ${title(s.topic)} › ${s.anchor}](${higPageUrl(s.topic)}))`;
+    default: return `house rule (related: [HIG › ${title(s.topic)} › ${s.anchor}](${higPageUrl(s.topic)}))`;
+  }
+}
+
 const byId = (a, b) => a.id.localeCompare(b.id, 'en', { numeric: true });
 
 function topicDoc(topic, rules) {
-  const lines = [HEADER, '', `# ${topic} rules`, ''];
-  lines.push(`Paraphrased from the Apple Human Interface Guidelines page for this topic: ${higPageUrl(topic)}`, '');
+  const lines = [HEADER, '', `# ${title(topic)} rules`, ''];
+  lines.push(
+    `Our own wording. Rules marked HIG paraphrase the Apple Human Interface Guidelines (${higPageUrl(topic)});`,
+    'WCAG, SwiftUI-defaults and house rules come from those sources or from this project.',
+    '',
+  );
   for (const r of rules) {
     lines.push(`## ${r.id} (${r.severity})`, '', r.rule, '', `- Why: ${r.why}`, `- Web: ${r.web}`);
     lines.push(`- Platforms: ${r.platforms.join(', ')}`);
-    const s = r.source;
-    lines.push(`- Source: [${s.topic}](${higPageUrl(s.topic)}), "${s.anchor}" (via ${s.via})`);
+    lines.push(`- Source: ${sourceLine(r.source)}`);
     if (r.check) lines.push(`- Check: \`${r.check}\``);
     if (r.tokens?.length) lines.push(`- Tokens: ${r.tokens.map((t) => `\`${t}\``).join(', ')}`);
     lines.push('');
