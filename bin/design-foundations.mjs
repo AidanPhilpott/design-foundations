@@ -24,8 +24,27 @@ async function ingest(args) {
   return 2;
 }
 
-// Later tasks add `build`, `check` and `sync` here: name -> async (args) => exit code.
-export const commands = { ingest };
+async function buildCmd(args) {
+  const opt = (flag) => {
+    const i = args.indexOf(flag);
+    return i >= 0 ? args[i + 1] : undefined;
+  };
+  const { build } = await import('../build/build.mjs');
+  const { TokenError } = await import('../build/tokens.mjs');
+  try {
+    await build({ out: opt('--out') ?? path.join(ROOT, 'dist'), project: opt('--project') });
+    return 0;
+  } catch (e) {
+    if (e instanceof TokenError) {
+      console.error(e.message);
+      return 2;
+    }
+    throw e;
+  }
+}
+
+// Later tasks add `check` and `sync` here: name -> async (args) => exit code.
+export const commands = { ingest, build: buildCmd };
 
 const USAGE = `usage: design-foundations <command> [args]
 
