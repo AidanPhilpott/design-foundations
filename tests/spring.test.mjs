@@ -36,3 +36,45 @@ test('point count == 40 by default', () => {
   const c = springCurve({ duration: 0.5, bounce: 0 }, { points: 10 });
   assert.equal(c.easing.slice(7, -1).split(', ').length, 10);
 });
+
+const close = (a, b, dp) => assert.ok(Math.abs(a - b) < 0.5 * 10 ** -dp, `${a} vs ${b}`);
+
+test('critically damped value at t = duration', () => {
+  close(springAt(0.5, { duration: 0.5, bounce: 0 }), 0.98640, 4);
+});
+
+test('underdamped known value and peak', () => {
+  const p = { duration: 0.5, bounce: 0.3 };
+  close(springAt(0.2, p), 0.8737, 4);
+  let max = 0;
+  for (let us = 0; us <= 1000000; us += 100) max = Math.max(max, springAt(us / 1e6, p));
+  close(max, 1.0460, 3);
+});
+
+test('settle: within 0.1 % from settleMs to 5x duration, not at settleMs - 1', () => {
+  for (const p of [{ duration: 0.5, bounce: 0.3 }, { duration: 0.3, bounce: 0 }, { duration: 0.8, bounce: 0.5 }]) {
+    const { settleMs } = springCurve(p);
+    for (let ms = settleMs; ms <= p.duration * 5000; ms++) {
+      assert.ok(Math.abs(1 - springAt(ms / 1000, p)) < 0.001, `${ms}ms`);
+    }
+    assert.ok(Math.abs(1 - springAt((settleMs - 1) / 1000, p)) >= 0.001);
+  }
+});
+
+test('curve values equal springAt at evenly spaced times; last is exactly 1', () => {
+  for (const p of [{ duration: 0.5, bounce: 0.3 }, { duration: 0.5, bounce: 0 }]) {
+    const { easing, settleMs } = springCurve(p);
+    const vals = easing.slice(7, -1).split(', ').map(Number);
+    vals.slice(0, -1).forEach((v, i) => {
+      const expected = Math.round(springAt((settleMs * i) / 39 / 1000, p) * 1e4) / 1e4;
+      assert.equal(v, expected);
+    });
+    assert.equal(vals.at(-1), 1);
+  }
+});
+
+test('bounce-0 curve is non-decreasing and its midpoint is past 0.5', () => {
+  const vals = springCurve({ duration: 0.5, bounce: 0 }).easing.slice(7, -1).split(', ').map(Number);
+  for (let i = 1; i < vals.length; i++) assert.ok(vals[i] >= vals[i - 1]);
+  assert.ok(vals[20] > 0.5);
+});
