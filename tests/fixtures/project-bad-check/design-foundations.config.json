@@ -1,0 +1,1 @@
+{ "include": ["**/*.css"], "checks": { "nope": "error" } }

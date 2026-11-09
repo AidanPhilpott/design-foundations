@@ -43,8 +43,13 @@ async function buildCmd(args) {
   }
 }
 
-// Later tasks add `check` and `sync` here: name -> async (args) => exit code.
-export const commands = { ingest, build: buildCmd };
+async function checkCmd(args) {
+  const { runCheckCli } = await import('../check/cli.mjs');
+  return runCheckCli(args);
+}
+
+// Later tasks add `sync` here: name -> async (args) => exit code.
+export const commands = { ingest, build: buildCmd, check: checkCmd };
 
 const USAGE = `usage: design-foundations <command> [args]
 
