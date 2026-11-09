@@ -31,11 +31,12 @@ async function buildCmd(args) {
   };
   const { build } = await import('../build/build.mjs');
   const { TokenError } = await import('../build/tokens.mjs');
+  const { RulesError } = await import('../build/rules.mjs');
   try {
     await build({ out: opt('--out') ?? path.join(ROOT, 'dist'), project: opt('--project') });
     return 0;
   } catch (e) {
-    if (e instanceof TokenError) {
+    if (e instanceof TokenError || e instanceof RulesError) {
       console.error(e.message);
       return 2;
     }

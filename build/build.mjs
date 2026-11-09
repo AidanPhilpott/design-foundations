@@ -1,4 +1,5 @@
-// `design-foundations build`: tokens/base -> dist/tokens.css + dist/tokens.json (+ project.css).
+// `design-foundations build`: tokens/base -> dist/tokens.css + dist/tokens.json (+ project.css);
+// rules/*.yaml -> validated, then docs/rules/*.md.
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,6 +8,7 @@ import { springCurve } from './spring.mjs';
 import { emitColorCss } from './color.mjs';
 import { emitCss } from './css.mjs';
 import { emitPreset } from './tailwind.mjs';
+import { loadRules, validateRules, emitRuleDocs, ruleContext, RulesError } from './rules.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE_DIR = join(ROOT, 'tokens', 'base');
@@ -63,8 +65,12 @@ export function motionTokens(resolved) {
 
 const PLACEHOLDER = '/*__DF_TOKENS__*/null';
 
-export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src') } = {}) {
+export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'), rulesDir = join(ROOT, 'rules'), docsRoot = ROOT } = {}) {
   const resolved = baseTokens();
+  const rules = loadRules(rulesDir);
+  const errs = validateRules(rules, await ruleContext(resolved));
+  if (errs.length) throw new RulesError(`invalid rules:\n  ${errs.join('\n  ')}`);
+
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, 'tokens.css'), emitCss(resolved));
   writeFileSync(join(out, 'tokens.json'), JSON.stringify(flatten(resolved), null, 2) + '\n');
@@ -81,6 +87,11 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src') 
         copyFileSync(join(srcDir, f), join(out, f));
       }
     }
+  }
+
+  for (const [rel, text] of Object.entries(emitRuleDocs(rules))) {
+    mkdirSync(dirname(join(docsRoot, rel)), { recursive: true });
+    writeFileSync(join(docsRoot, rel), text);
   }
 
   if (project) {

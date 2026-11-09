@@ -1,0 +1,110 @@
+# Motion rules, paraphrased from Apple's HIG (motion + the Reduce Motion part of accessibility).
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5. IDs are never reused.
+
+- id: MOT-01
+  rule: Animate a change only when the movement tells people something, such as where content came from or what just happened.
+  why: Decorative movement competes with the content and can leave some people distracted or queasy.
+  source: {topic: motion, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Before adding a CSS transition or keyframe animation, name the state change it explains; drop it if there is none.
+  severity: should
+
+- id: MOT-02
+  rule: Never rely on animation alone to convey a state change, result or warning; pair it with a lasting visual cue, text, sound or haptic.
+  why: People who turn motion off, or simply look away, still need to get the message.
+  source: {topic: motion, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: A shake on a bad input also shows an error message, and a pulsing badge also has a static label or count.
+  severity: must
+
+- id: MOT-03
+  rule: Make motion match the gesture that caused it, so a view leaves along the same path it arrived by.
+  why: Movement that contradicts the user's own hand makes the interface feel unpredictable.
+  source: {topic: motion, anchor: "Providing feedback", via: hig}
+  platforms: [web, swift]
+  web: A sheet that rose from the bottom closes downward (and swipes down to close); a pane pushed in from the right pops back out to the right.
+  severity: should
+  tokens: [motion.transition.push, motion.transition.pop, motion.transition.rise, motion.transition.sheet]
+
+- id: MOT-04
+  rule: Keep feedback animations short and tied precisely to the action they confirm.
+  why: A quick, exact response reads instantly and stays out of the way, while a large one slows people down.
+  source: {topic: motion, anchor: "Providing feedback", via: hig}
+  platforms: [web, swift]
+  web: Press, hover and toggle feedback uses the micro duration and the feedback transition, changing colour or a small scale only.
+  severity: should
+  tokens: [motion.duration.micro, motion.transition.feedback]
+
+- id: MOT-05
+  rule: When Reduce Motion is on, swap movement for fades, settle springs without bounce and skip depth or blur animation, yet still show every state change.
+  why: Sliding, zooming and bouncing can trigger dizziness or nausea, but feedback must not vanish along with them.
+  source: {topic: accessibility, anchor: "Cognitive", via: hig}
+  platforms: [web, swift]
+  web: Under prefers-reduced-motion use each transition's reduced variant (opacity at the short duration) via tokens.css or motion.js, never a bare duration that ignores the setting.
+  severity: must
+  check: reduced-motion
+  tokens: [motion.transition.push, motion.transition.pop, motion.transition.rise, motion.transition.sheet, motion.transition.feedback]
+
+- id: MOT-06
+  rule: Leave controls people use over and over without custom animation, or keep it barely noticeable.
+  why: An effect that is charming once becomes a delay when it plays on every tap.
+  source: {topic: motion, anchor: "Providing feedback", via: hig}
+  platforms: [web, swift]
+  web: Filter chips, list taps and map pans respond immediately; reserve transitions for less frequent changes such as opening a panel.
+  severity: should
+
+- id: MOT-07
+  rule: Never block input until a transition ends; acting during one interrupts or redirects it.
+  why: Forced waits add up quickly, especially for transitions people see many times a day.
+  source: {topic: motion, anchor: "Providing feedback", via: hig}
+  platforms: [web, swift]
+  web: Do not disable buttons or block pointer events for the length of a transition; a second tap reverses or skips it, and Web Animations can be cancelled.
+  severity: should
+
+- id: MOT-08
+  rule: Avoid endless or slowly repeating animation; any loop must stop on its own or on request, and must be static under Reduce Motion.
+  why: Sustained movement, especially a gentle swing near 0.2 Hz, is a known trigger for motion discomfort.
+  source: {topic: motion, anchor: "visionOS", via: hig}
+  platforms: [web, swift]
+  web: No animation-iteration-count infinite without a reduced-motion override; pulses and shimmers use the loop transition, which is still when motion is reduced.
+  severity: must
+  check: reduced-motion
+  tokens: [motion.transition.loop]
+
+- id: MOT-09
+  rule: Map flights, zooms and smooth scrolling honour Reduce Motion by jumping straight to the destination.
+  why: Panning or zooming the whole view is the kind of large-field movement most likely to unsettle people.
+  source: {topic: accessibility, anchor: "Cognitive", via: hig}
+  platforms: [web, swift]
+  web: Use setView instead of flyTo and scroll behavior auto instead of smooth when prefers-reduced-motion is set; otherwise time camera moves with the camera tokens.
+  severity: must
+  check: reduced-motion
+  tokens: [motion.transition.camera, motion.camera.near, motion.camera.far]
+
+- id: MOT-10
+  rule: Respond to Reduce Motion by reducing each animation individually, not by switching all animation off at once.
+  why: A global off switch also removes the fades and state feedback that the setting is meant to keep.
+  source: {topic: accessibility, anchor: "Cognitive", via: hig}
+  platforms: [web, swift]
+  web: 'No blanket override such as * { animation: none !important } inside prefers-reduced-motion; rely on the reduced token blocks and motion.js instead.'
+  severity: should
+  check: reduced-motion
+
+- id: MOT-11
+  rule: Take every duration, easing curve and spring from the motion tokens rather than writing raw values.
+  why: Shared timing keeps the apps feeling consistent and lets Reduce Motion swap values in one place.
+  source: {topic: motion, anchor: "Best practices", via: swiftui-defaults}
+  platforms: [web, swift]
+  web: Write var(--df-motion-...) or motion.js transitions in CSS and JS instead of literals like 0.3s or ease-in-out; springs follow the SwiftUI smooth, snappy and bouncy presets.
+  severity: must
+  check: raw-values
+  tokens: [motion.duration.micro, motion.duration.short, motion.duration.medium, motion.duration.long, motion.ease.standard, motion.ease.enter, motion.ease.exit, motion.spring.smooth, motion.spring.snappy, motion.spring.bouncy]
+
+- id: MOT-12
+  rule: Let departing elements leave a little faster than they arrived, accelerating out where arrivals slow to a stop.
+  why: People need to follow what is coming in, but anything going away should clear the stage quickly.
+  source: {topic: motion, anchor: "Providing feedback", via: hig}
+  platforms: [web, swift]
+  web: Pair the enter easing with the exit easing on the way out, at roughly 0.7 of the enter duration (for example medium in, short out).
+  severity: consider
+  tokens: [motion.ease.enter, motion.ease.exit, motion.duration.medium, motion.duration.short]
