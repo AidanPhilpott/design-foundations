@@ -8,6 +8,7 @@ const squash = (s) => s.replace(/\s+/g, ' ').trim();
 
 /** Does this declaration remove the outline? */
 function removesOutline(prop, value) {
+  value = value.replace(/\s*!\s*important\s*$/i, '');
   const toks = value.toLowerCase().split(/\s+/).filter(Boolean);
   if (prop === 'outline') return toks.length > 0 && toks.every((t) => t === 'none' || t === '0' || t === '0px');
   if (prop === 'outline-style') return value.trim().toLowerCase() === 'none';

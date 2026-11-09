@@ -231,3 +231,8 @@ test('df-allow suppresses these checks and findings default to the configured se
   assert.equal(r.findings.length, 1);
   assert.equal(r.findings[0].severity, 'error');
 });
+
+test('focus flags outline: none !important', () => {
+  const r = run({ 'a.css': '.a { outline: none !important; }\n.b { outline-style: none!important; }\n.c { outline-width: 0 !important; }\n.d { outline: 2px solid red !important; }' });
+  assert.deepEqual(by(r, 'focus').map((f) => f.line), [1, 2, 3]);
+});
