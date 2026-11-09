@@ -6,6 +6,7 @@ import { loadTokens, resolveTokens, TokenError } from './tokens.mjs';
 import { springCurve } from './spring.mjs';
 import { emitColorCss } from './color.mjs';
 import { emitCss } from './css.mjs';
+import { emitPreset } from './tailwind.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE_DIR = join(ROOT, 'tokens', 'base');
@@ -68,6 +69,9 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src') 
   writeFileSync(join(out, 'tokens.css'), emitCss(resolved));
   writeFileSync(join(out, 'tokens.json'), JSON.stringify(flatten(resolved), null, 2) + '\n');
 
+  const schema = readJson(join(ROOT, 'tokens', 'roles.schema.json'));
+  writeFileSync(join(out, 'tailwind-preset.cjs'), emitPreset(resolved, schema.roles));
+
   if (existsSync(srcDir)) {
     for (const f of readdirSync(srcDir).filter((n) => /\.(m?js)$/.test(n)).sort()) {
       const text = readFileSync(join(srcDir, f), 'utf8');
@@ -81,7 +85,6 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src') 
 
   if (project) {
     const proj = readJson(project);
-    const schema = readJson(join(ROOT, 'tokens', 'roles.schema.json'));
     let css = emitColorCss(proj, schema);
     if (proj.tokens) {
       const tmp = resolveTokens(proj.tokens);
