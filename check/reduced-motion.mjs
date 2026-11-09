@@ -48,22 +48,22 @@ function checkCss(ctx, out) {
       const reduce = inReduce(d);
       if (reduce) {
         if (KILLS.test(d.prop) && noImportant(d.value).toLowerCase() === 'none' && parts(d.selector).some((p) => p.includes('*'))) {
-          out.push({ file: file.path, line: d.line, snippet: declSnippet(d), message: 'blanket kill: removing all animation under Reduce Motion also removes feedback; redefine the --df- motion tokens instead' });
+          out.push({ file: file.path, line: d.line, snippet: declSnippet(d), ruleIds: ['MOT-10'], message: 'blanket kill: removing all animation under Reduce Motion also removes feedback; redefine the --df- motion tokens instead' });
         }
         continue;
       }
       if (!tokenFiles.has(file.path) && TIMED.test(d.prop)) {
         const reasons = rawReasons(d.prop, d.value).filter((r) => r === 'literal duration' || r === 'literal easing');
-        if (reasons.length) out.push({ file: file.path, line: d.line, snippet: declSnippet(d), message: `${d.prop} timing is not from tokens (${reasons.join(', ')}); use --df-motion-* variables` });
+        if (reasons.length) out.push({ file: file.path, line: d.line, snippet: declSnippet(d), ruleIds: ['MOT-05'], message: `${d.prop} timing is not from tokens (${reasons.join(', ')}); use --df-motion-* variables` });
       }
-      if (isInfinite(d)) {
+      if (isInfinite(d) && !inNoPref(d)) {
         const ps = parts(d.selector);
         if (!ps.length || !ps.every((p) => stopped.has(p))) {
-          out.push({ file: file.path, line: d.line, snippet: declSnippet(d), message: 'infinite animation with no rule for the same selector inside @media (prefers-reduced-motion: reduce) that stops or limits it' });
+          out.push({ file: file.path, line: d.line, snippet: declSnippet(d), ruleIds: ['MOT-08'], message: 'infinite animation with no rule for the same selector inside @media (prefers-reduced-motion: reduce) that stops or limits it' });
         }
       }
       if (d.prop === 'scroll-behavior' && /^smooth\b/i.test(d.value) && !inNoPref(d)) {
-        out.push({ file: file.path, line: d.line, snippet: declSnippet(d), message: 'smooth scrolling outside @media (prefers-reduced-motion: no-preference)' });
+        out.push({ file: file.path, line: d.line, snippet: declSnippet(d), ruleIds: ['MOT-09'], message: 'smooth scrolling outside @media (prefers-reduced-motion: no-preference)' });
       }
     }
   }
@@ -132,6 +132,19 @@ function functionBodies(code) {
       if (fn) out.push({ start, end: i });
     }
   }
+  // Expression-bodied arrows: `(m) => expr` or `m => expr` runs to the next top-level `,` `;` or closing bracket.
+  for (const m of code.matchAll(/=>\s*(?!\{)/g)) {
+    const start = m.index + m[0].length;
+    let depth = 0;
+    let end = code.length;
+    for (let i = start; i < code.length; i++) {
+      const c = code[i];
+      if ('([{'.includes(c)) depth++;
+      else if (')]}'.includes(c)) { if (depth-- === 0) { end = i; break; } }
+      else if (depth === 0 && (c === ';' || c === ',')) { end = i; break; }
+    }
+    out.push({ start: m.index, end });
+  }
   return out;
 }
 
@@ -168,7 +181,7 @@ function checkScript(file, motionCalls, out) {
       if (close >= 0 && /^\s*\{/.test(code.slice(close + 1)) && !callee.includes('.')) continue; // method definition
       const guarded = enclosing(m.index).some((b) => /prefersReducedMotion\s*\(/.test(code.slice(b.start, b.end)));
       if (imports && guarded) continue;
-      out.push({ file: file.path, line: lineOf(code, m.index), snippet: `${callee}(`, message: `${callee}() bypasses Reduce Motion; route it through motion.js (camera()/animate()/scrollToTop())` });
+      out.push({ file: file.path, line: lineOf(code, m.index), snippet: `${callee}(`, ruleIds: ['MOT-09'], message: `${callee}() bypasses Reduce Motion; route it through motion.js (camera()/animate()/scrollToTop())` });
     }
   }
 
@@ -176,7 +189,7 @@ function checkScript(file, motionCalls, out) {
     if (!code.startsWith('behavior', m.index)) continue; // inside a string
     const aware = enclosing(m.index).some((b) => /prefersReducedMotion\s*\(|prefers-reduced-motion/.test(stripped.slice(b.start, b.end)));
     if (aware) continue;
-    out.push({ file: file.path, line: lineOf(code, m.index), snippet: m[0].replace(/\s+/g, ' '), message: "behavior: 'smooth' without a Reduce Motion check; use scrollToTop() from motion.js or check prefersReducedMotion()" });
+    out.push({ file: file.path, line: lineOf(code, m.index), snippet: m[0].replace(/\s+/g, ' '), ruleIds: ['MOT-09'], message: "behavior: 'smooth' without a Reduce Motion check; use scrollToTop() from motion.js or check prefersReducedMotion()" });
   }
 }
 

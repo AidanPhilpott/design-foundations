@@ -106,3 +106,31 @@ test('reads <style> blocks and style attributes', () => {
   const r = run({ 'p.html': '<style>\n.x { animation: p 1s infinite; }\n</style>\n<div style="transition: all .2s ease"></div>' });
   assert.deepEqual(found(r).map((f) => f.line).sort(), [2, 2, 4]);
 });
+
+test('each finding kind carries only its own rule id', () => {
+  const r = run({
+    'a.css': '.a { transition: all .2s ease; }\n.p { animation: x var(--df-d) infinite; }\nhtml { scroll-behavior: smooth; }\n@media (prefers-reduced-motion: reduce) { * { animation: none; } }',
+    'a.js': 'map.flyTo([1, 2], 3);',
+  });
+  const ids = Object.fromEntries(found(r).map((f) => [f.snippet, f.ruleIds]));
+  assert.deepEqual(ids['transition: all .2s ease'], ['MOT-05']);
+  assert.deepEqual(ids['animation: x var(--df-d) infinite'], ['MOT-08']);
+  assert.deepEqual(ids['scroll-behavior: smooth'], ['MOT-09']);
+  assert.deepEqual(ids['map.flyTo('], ['MOT-09']);
+  assert.deepEqual(ids['animation: none'], ['MOT-10']);
+});
+
+test('infinite animation inside a no-preference media block is not a finding', () => {
+  const r = run({ 'a.css': '@media (prefers-reduced-motion: no-preference) { .p { animation: x var(--df-d) infinite; } }' });
+  assert.deepEqual(found(r), []);
+});
+
+test('expression-bodied arrow with prefersReducedMotion guard and motion.js import passes', () => {
+  const src = "import { prefersReducedMotion } from './motion.js';\nconst go = (m) => prefersReducedMotion() ? m.setView(1) : m.flyTo(1);\nconst h = m => prefersReducedMotion() ? 0 : m.flyTo(2);\n";
+  assert.deepEqual(found(run({ 'a.js': src })), []);
+  assert.equal(found(run({ 'a.js': "import { camera } from './motion.js';\nconst go = (m) => m.flyTo(1);\n" })).length, 1);
+});
+
+test('a file named motion.js is skipped', () => {
+  assert.deepEqual(found(run({ 'src/motion.js': 'export function camera(map) { map.flyTo([1, 2], 3); }\n' })), []);
+});
