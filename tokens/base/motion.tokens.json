@@ -1,0 +1,250 @@
+{
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "instant": {
+        "$type": "duration",
+        "$value": "0ms",
+        "$description": "reduced-motion replacement for moves"
+      },
+      "micro": {
+        "$type": "duration",
+        "$value": "100ms",
+        "$description": "press, hover, colour feedback"
+      },
+      "short": {
+        "$type": "duration",
+        "$value": "200ms",
+        "$description": "small fades, toggles, chevrons"
+      },
+      "medium": {
+        "$type": "duration",
+        "$value": "300ms",
+        "$description": "pane push/pop, panels"
+      },
+      "long": {
+        "$type": "duration",
+        "$value": "500ms",
+        "$description": "sheets, large moves"
+      }
+    },
+    "camera": {
+      "near": {
+        "$type": "duration",
+        "$value": "500ms",
+        "$description": "map flight within an area"
+      },
+      "far": {
+        "$type": "duration",
+        "$value": "800ms",
+        "$description": "map flight between regions"
+      }
+    },
+    "ease": {
+      "standard": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0,
+          0.2,
+          1
+        ],
+        "$description": "on-screen change"
+      },
+      "enter": {
+        "$type": "cubicBezier",
+        "$value": [
+          0,
+          0,
+          0.2,
+          1
+        ],
+        "$description": "element arriving (decelerate)"
+      },
+      "exit": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0,
+          1,
+          1
+        ],
+        "$description": "element leaving (accelerate); exit duration is about 0.7 x enter"
+      }
+    },
+    "spring": {
+      "smooth": {
+        "$type": "spring",
+        "$extensions": {
+          "df": {
+            "duration": 0.5,
+            "bounce": 0
+          }
+        },
+        "$description": "sheets, cards (SwiftUI .smooth)"
+      },
+      "snappy": {
+        "$type": "spring",
+        "$extensions": {
+          "df": {
+            "duration": 0.5,
+            "bounce": 0.15
+          }
+        },
+        "$description": "quick, lively UI (SwiftUI .snappy)"
+      },
+      "bouncy": {
+        "$type": "spring",
+        "$extensions": {
+          "df": {
+            "duration": 0.5,
+            "bounce": 0.3
+          }
+        },
+        "$description": "playful; use sparingly (SwiftUI .bouncy)"
+      }
+    },
+    "transition": {
+      "push": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "transform",
+              "opacity"
+            ],
+            "duration": "{motion.duration.medium}",
+            "easing": "{motion.spring.smooth}",
+            "distance": "28px"
+          },
+          "reduced": {
+            "properties": [
+              "opacity"
+            ],
+            "duration": "{motion.duration.short}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      },
+      "pop": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "transform",
+              "opacity"
+            ],
+            "duration": "{motion.duration.medium}",
+            "easing": "{motion.spring.smooth}",
+            "distance": "28px"
+          },
+          "reduced": {
+            "properties": [
+              "opacity"
+            ],
+            "duration": "{motion.duration.short}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      },
+      "rise": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "transform",
+              "opacity"
+            ],
+            "duration": "{motion.duration.medium}",
+            "easing": "{motion.ease.enter}",
+            "distance": "16px"
+          },
+          "reduced": {
+            "properties": [
+              "opacity"
+            ],
+            "duration": "{motion.duration.short}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      },
+      "sheet": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "transform"
+            ],
+            "duration": "{motion.duration.long}",
+            "easing": "{motion.spring.smooth}"
+          },
+          "reduced": {
+            "properties": [
+              "transform"
+            ],
+            "duration": "{motion.duration.short}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      },
+      "feedback": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "background-color",
+              "color",
+              "transform"
+            ],
+            "duration": "{motion.duration.micro}",
+            "easing": "{motion.ease.standard}"
+          },
+          "reduced": {
+            "properties": [
+              "background-color",
+              "color"
+            ],
+            "duration": "{motion.duration.micro}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      },
+      "camera": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "camera"
+            ],
+            "duration": "{motion.camera.near}",
+            "easing": "{motion.ease.standard}"
+          },
+          "reduced": {
+            "properties": [
+              "camera"
+            ],
+            "duration": "{motion.duration.instant}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      },
+      "loop": {
+        "$type": "transition",
+        "$value": {
+          "normal": {
+            "properties": [
+              "opacity"
+            ],
+            "duration": "{motion.duration.long}",
+            "easing": "{motion.ease.standard}"
+          },
+          "reduced": {
+            "properties": [],
+            "duration": "{motion.duration.instant}",
+            "easing": "{motion.ease.standard}"
+          }
+        }
+      }
+    }
+  }
+}

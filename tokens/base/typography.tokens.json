@@ -1,0 +1,139 @@
+{
+  "type": {
+    "fontFamily": {
+      "default": {
+        "$type": "fontFamily",
+        "$value": [
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif"
+        ],
+        "$description": "default stack; projects may override"
+      }
+    },
+    "floor": {
+      "body": {
+        "$type": "dimension",
+        "$value": 17,
+        "$description": "body text is never smaller (pt)"
+      },
+      "min": {
+        "$type": "dimension",
+        "$value": 11,
+        "$description": "no text smaller than this (pt)"
+      }
+    },
+    "largeTitle": {
+      "$type": "typography",
+      "$value": {
+        "size": 34,
+        "leading": 41,
+        "weight": 400,
+        "weightEmphasized": 700
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "title1": {
+      "$type": "typography",
+      "$value": {
+        "size": 28,
+        "leading": 34,
+        "weight": 400,
+        "weightEmphasized": 700
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "title2": {
+      "$type": "typography",
+      "$value": {
+        "size": 22,
+        "leading": 28,
+        "weight": 400,
+        "weightEmphasized": 700
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "title3": {
+      "$type": "typography",
+      "$value": {
+        "size": 20,
+        "leading": 25,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "headline": {
+      "$type": "typography",
+      "$value": {
+        "size": 17,
+        "leading": 22,
+        "weight": 600,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "body": {
+      "$type": "typography",
+      "$value": {
+        "size": 17,
+        "leading": 22,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "callout": {
+      "$type": "typography",
+      "$value": {
+        "size": 16,
+        "leading": 21,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "subhead": {
+      "$type": "typography",
+      "$value": {
+        "size": 15,
+        "leading": 20,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "footnote": {
+      "$type": "typography",
+      "$value": {
+        "size": 13,
+        "leading": 18,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "caption1": {
+      "$type": "typography",
+      "$value": {
+        "size": 12,
+        "leading": 16,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    },
+    "caption2": {
+      "$type": "typography",
+      "$value": {
+        "size": 11,
+        "leading": 13,
+        "weight": 400,
+        "weightEmphasized": 600
+      },
+      "$description": "iOS text style at default size, pt"
+    }
+  }
+}
