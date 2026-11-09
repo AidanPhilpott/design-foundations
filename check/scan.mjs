@@ -66,6 +66,7 @@ export function scanCss(text) {
   for (let i = 0; i < src.length; i++) {
     const c = src[i];
     if (c === '\n') { line++; continue; }
+    if (c === '{' || c === '}') paren = 0; // an unbalanced "(" must not swallow the rest of the file
     if (c === '(') paren++;
     else if (c === ')') paren = Math.max(0, paren - 1);
     else if (paren > 0) continue;
@@ -85,6 +86,7 @@ export function scanCss(text) {
       segLine = line;
     }
   }
+  flushDecl(src.length); // final declaration without a terminating ";" or "}"
   return out;
 }
 

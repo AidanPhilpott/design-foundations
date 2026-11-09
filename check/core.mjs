@@ -163,7 +163,10 @@ export function writeBaseline(path, findings) {
 const ALLOW = /df-allow\s+([\w-]+)\s*:/g;
 function allowedChecks(lines, line) {
   const ids = new Set();
-  for (const l of [lines[line - 1], lines[line - 2]]) for (const m of (l ?? '').matchAll(ALLOW)) ids.add(m[1]);
+  // The preceding line counts only when it holds nothing but a comment.
+  const commentOnly = (l) => l.replace(/\/\*.*?(?:\*\/|$)|\/\/.*$|<!--.*?(?:-->|$)|^(?:(?!\/\*).)*?\*\//g, '').trim() === '';
+  const prev = lines[line - 2] ?? '';
+  for (const l of [lines[line - 1], commentOnly(prev) ? prev : '']) for (const m of (l ?? '').matchAll(ALLOW)) ids.add(m[1]);
   return ids;
 }
 

@@ -303,3 +303,27 @@ test('bad usage exits 2', () => {
   assert.equal(runCheckCli(['--format', 'xml'], q), 2);
   assert.equal(runCheckCli(['--bogus'], q), 2);
 });
+
+test('scanCss flushes a final unterminated declaration at end of file', () => {
+  const ds = scanCss('.a { color: red; transition: all .2s');
+  assert.deepEqual(ds.map((d) => [d.prop, d.value]), [['color', 'red'], ['transition', 'all .2s']]);
+  assert.deepEqual(scanInlineStyle('color: red; margin: 0').map((d) => d.prop), ['color', 'margin']);
+});
+
+test('scanCss: an unbalanced ( does not swallow the rest of the file', () => {
+  const ds = scanCss('.a { width: calc(1px + 2px; color: red; }\n.b { transition: all .2s; }\n');
+  assert.ok(ds.some((d) => d.prop === 'transition' && d.selector === '.b' && d.line === 2), JSON.stringify(ds));
+});
+
+test('df-allow on the preceding line only counts when that line holds nothing but the comment', () => {
+  const css = [
+    '.a { color: red; } /* df-allow raw-values: belongs to line 1 only */',
+    '.b { transition: all .2s; }',
+    '/* df-allow raw-values: standalone */',
+    '.c { transition: all .2s; }',
+  ].join('\n');
+  const { cfg } = project({ 'a.css': css });
+  const r = evaluate(cfg);
+  assert.deepEqual(r.fresh.map((f) => f.line), [2]);
+  assert.equal(r.suppressed.length, 1);
+});
