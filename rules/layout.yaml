@@ -1,0 +1,127 @@
+# Layout rules in our own words: HIG layout and the spacing part of accessibility, plus house rules for PWAs.
+# Target sizes are ACC-04; text-size reflow is TYP-07 to TYP-09.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: LAY-01
+  rule: Keep content and controls inside the safe area, clear of notches, the home indicator, rounded corners and browser bars.
+  why: Anything under a hardware cutout or system bar is hidden or impossible to tap.
+  source: {topic: layout, anchor: "Guides and safe areas", via: hig}
+  platforms: [web, swift]
+  web: Set viewport-fit=cover in the viewport meta and pad fixed headers, tab bars, bottom sheets and map controls with env(safe-area-inset-top|right|bottom|left, 0px); full-bleed maps and imagery may extend underneath.
+  severity: must
+
+- id: LAY-02
+  rule: Arrange each screen by importance, placing what matters most at the top and on the leading side.
+  why: People scan in reading order, so position is the first signal of priority.
+  source: {topic: layout, anchor: "Visual hierarchy", via: hig}
+  platforms: [web, swift]
+  web: On an area or climb page the name, grade and key action come first; secondary details such as history and sources follow; use logical properties (inline-start) so the leading side flips in right-to-left text.
+  severity: should
+
+- id: LAY-03
+  rule: Leave about 12 points around controls with a visible bezel and about 24 points around bare icons or text controls.
+  why: Spacing is as important as size in preventing taps on the wrong control.
+  source: {topic: accessibility, anchor: "Mobility", via: hig}
+  platforms: [web, swift]
+  web: Separate adjacent bordered buttons and chips by the bezel spacing token and bare icon buttons by the bare spacing token, measured from their visible edges (gap or margin).
+  severity: should
+  tokens: [a11y.spacing.bezel, a11y.spacing.bare]
+
+- id: LAY-04
+  rule: Base layout decisions on the space actually available, never on the device type or its orientation.
+  why: The same device can show the app at many widths, in split view, a resized window or landscape.
+  source: {topic: layout, anchor: "Size classes", via: hig}
+  platforms: [web, swift]
+  web: Switch layouts with width media or container queries at the regular breakpoint token (700px by default, overridable per project, for example 761px in Pebble Picker); no user-agent sniffing and no orientation queries for layout.
+  severity: must
+  tokens: [layout.breakpoint.regular]
+
+- id: LAY-05
+  rule: Offer the same functions at every size, changing only how much of it is visible at once.
+  why: People should not lose a feature because they rotated the phone or narrowed a window.
+  source: {topic: layout, anchor: "Size classes", via: hig}
+  platforms: [web, swift]
+  web: A wide screen may show a side panel next to the map where a phone uses a sheet or a More menu, but both reach every action.
+  severity: must
+
+- id: LAY-06
+  rule: Use the standard side margins, 16 points in compact widths and 20 points in regular widths.
+  why: Consistent margins align content with the system and other apps and keep text off the screen edge.
+  source: {topic: layout, anchor: "Guides and safe areas", via: house}
+  platforms: [web, swift]
+  web: Pad page content inline by the compact margin token below the regular breakpoint and by the regular margin token above it, added to the safe-area inset rather than replacing it.
+  severity: should
+  tokens: [layout.margin.compact, layout.margin.regular, layout.breakpoint.regular]
+
+- id: LAY-07
+  rule: Keep spacing on the 4-point grid by taking every gap, padding and margin from the space scale.
+  why: A shared rhythm makes screens look orderly and keeps spacing consistent across both apps.
+  source: {topic: layout, anchor: "Visual hierarchy", via: house}
+  platforms: [web, swift]
+  web: Write var(--df-space-*) or the Tailwind spacing keys from the preset instead of arbitrary pixel values.
+  severity: should
+  tokens: [space.0, space.0_5, space.1, space.2, space.3, space.4, space.5, space.6, space.8, space.10, space.12, space.16]
+
+- id: LAY-08
+  rule: Align items to shared edges for easy scanning, and indent only to show that an item belongs beneath the one above.
+  why: People read aligned things as peers and indented things as children, so stray offsets suggest a false hierarchy.
+  source: {topic: layout, anchor: "Visual hierarchy", via: hig}
+  platforms: [web, swift]
+  web: List rows share one leading text edge; problem variations indent under their parent problem by one step of the space scale.
+  severity: should
+
+- id: LAY-09
+  rule: Group related items and set unrelated ones apart using whitespace, a shared container or a separator.
+  why: Visible groups tell people which controls and facts belong together.
+  source: {topic: layout, anchor: "Visual hierarchy", via: hig}
+  platforms: [web, swift]
+  web: Put each wall's problems in one card on bg.secondary, divide rows with the separator role, and leave a larger space step between groups than within them.
+  severity: should
+
+- id: LAY-10
+  rule: Show the essentials first and reveal detail on request.
+  why: A screen with everything open at once makes finding any one thing slow.
+  source: {topic: layout, anchor: "Visual hierarchy", via: hig}
+  platforms: [web, swift]
+  web: Use details and summary, expandable sections or a sheet for long approach notes, full FA history and per-problem variations; the collapsed state still names what is inside.
+  severity: should
+
+- id: LAY-11
+  rule: Make controls look distinct from content, and let full-screen content run underneath bars and floating controls.
+  why: Clear separation tells people what they can operate, while edge-to-edge content keeps the view open.
+  source: {topic: layout, anchor: "Visual hierarchy", via: hig}
+  platforms: [web, swift]
+  web: The map fills the viewport under the header and tab bar; buttons over it sit on a material or solid fill with a separator edge (see MAT-02).
+  severity: should
+
+- id: LAY-12
+  rule: Size full-height panes and sheets by the visible viewport so browser toolbars and the on-screen keyboard never cover their controls.
+  why: In mobile browsers a plain viewport-height unit can extend behind the toolbar and hide the bottom of the screen.
+  source: {topic: layout, anchor: "Guides and safe areas", via: house}
+  platforms: [web]
+  web: Use 100dvh (with a 100vh fallback first) for full-height layouts and cap sheets with max-height in dvh; keep the focused input visible when the keyboard opens.
+  severity: must
+
+- id: LAY-13
+  rule: Make the layout work in every orientation and window size, even if one orientation is the main use.
+  why: People rotate phones, resize desktop browsers and split screens, and expect the app to stay familiar.
+  source: {topic: layout, anchor: "Adaptability", via: hig}
+  platforms: [web, swift]
+  web: Do not set orientation in the web manifest unless the app truly cannot work otherwise; test a short landscape phone height, where sheets must scroll.
+  severity: should
+
+- id: LAY-14
+  rule: Test the smallest and largest layouts first, then the sizes, languages and text settings in between.
+  why: Clipping and overlap show up first at the extremes.
+  source: {topic: layout, anchor: "Adaptability", via: hig}
+  platforms: [web, swift]
+  web: Check 320 CSS px wide (small iPhone with Display Zoom), a landscape phone, a wide desktop window, 200% text and long translated strings in responsive devtools and on a real phone.
+  severity: should
+
+- id: LAY-15
+  rule: When background art or imagery meets a new aspect ratio, scale it to fill rather than stretching or boxing it.
+  why: Distorted or letterboxed artwork looks broken and wastes the screen.
+  source: {topic: layout, anchor: "Adaptability", via: hig}
+  platforms: [web, swift]
+  web: Give background and hero images object-fit cover (or background-size cover) with a sensible object-position, never a forced width and height alone; images whose edges carry information, such as topos with marked lines, use contain.
+  severity: consider

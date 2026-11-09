@@ -1,0 +1,85 @@
+# Materials rules in our own words: HIG materials (standard materials only; Liquid Glass guidance is out of scope), plus house rules.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: MAT-01
+  rule: Turn every translucent surface solid when Reduce Transparency is on or when the browser cannot blur.
+  why: Blurred, see-through backgrounds lower legibility for people who asked for less transparency.
+  source: {topic: materials, anchor: "Standard materials", via: house}
+  platforms: [web, swift]
+  web: 'Build materials only from the --df-material-* variables, which tokens.css sets to 0px blur and opacity 1 under @media (prefers-reduced-transparency: reduce) and @supports not (backdrop-filter: blur(1px)); never hard-code a fallback that stays translucent.'
+  severity: must
+  tokens: [material.ultraThin.blur, material.ultraThin.opacity, material.thin.blur, material.thin.opacity, material.regular.blur, material.regular.opacity, material.thick.blur, material.thick.opacity]
+
+- id: MAT-02
+  rule: Use a material for surfaces that float above content, such as bars, map controls and sheets, so the layer below still shows through faintly.
+  why: A hint of what is underneath keeps people oriented while the surface separates controls from content.
+  source: {topic: materials, anchor: "Materials", via: hig}
+  platforms: [web, swift]
+  web: The header, tab bar, map control clusters and partial sheets over the map use a material; list rows and cards inside a scrolling page stay on solid bg.* roles.
+  severity: should
+
+- id: MAT-03
+  rule: Pick a material by its purpose and the legibility it must give, not by the tint it adds.
+  why: How a material looks shifts with settings and with the content behind it, so its colour is not a stable design choice.
+  source: {topic: materials, anchor: "Standard materials", via: hig}
+  platforms: [web, swift]
+  web: Choose among ultraThin, thin, regular and thick by how much text sits on the surface; to change colour, change the role behind it, not the material's opacity.
+  severity: should
+
+- id: MAT-04
+  rule: Use thicker materials under text and fine detail, and thinner ones only where keeping the background visible matters more.
+  why: More opacity buys contrast, while more translucency preserves context, and text needs the former.
+  source: {topic: materials, anchor: "Standard materials", via: hig}
+  platforms: [web, swift]
+  web: Sheets and popovers holding paragraphs use regular or thick; a small icon-only map control may use thin; ultraThin is for surfaces without text.
+  severity: should
+  tokens: [material.thick.opacity, material.regular.opacity, material.thin.opacity, material.ultraThin.opacity]
+
+- id: MAT-05
+  rule: Put only primary or secondary label colours on a material, never the fainter tertiary or quaternary ones.
+  why: The background behind a material keeps changing, so faint text that passes on one spot fails on the next.
+  source: {topic: materials, anchor: "iOS, iPadOS", via: house}
+  platforms: [web, swift]
+  web: Text on --df-material-* surfaces uses label.primary or label.secondary; hints that would normally be label.tertiary move off the material or step up to secondary.
+  severity: must
+
+- id: MAT-06
+  rule: Draw fills and dividers on a material with the fill and separator roles, which are meant to sit on translucent surfaces.
+  why: Opaque greys on a material look like holes and break the layered effect.
+  source: {topic: materials, anchor: "iOS, iPadOS", via: hig}
+  platforms: [web, swift]
+  web: Segmented controls, search fields and dividers on a material use fill.primary to fill.tertiary and separator, not solid bg.* colours.
+  severity: should
+
+- id: MAT-07
+  rule: Judge legibility on a material against the brightest and busiest content that can appear behind it.
+  why: Text that reads well over plain ground can disappear over snow, sky or a dense photo.
+  source: {topic: materials, anchor: "Standard materials", via: house}
+  platforms: [web, swift]
+  web: Test controls over the lightest and darkest satellite tiles and over topo photos; if text fails anywhere, move to a thicker material or a solid fill.
+  severity: should
+
+- id: MAT-08
+  rule: Take blur and opacity from the material tokens, layered over the background role, rather than writing ad-hoc backdrop filters.
+  why: Shared values keep surfaces consistent and let accessibility settings switch them in one place.
+  source: {topic: materials, anchor: "Standard materials", via: house}
+  platforms: [web, swift]
+  web: 'Write backdrop-filter: blur(var(--df-material-regular-blur)) with the -webkit- prefix for older Safari, and a background of color-mix(in srgb, var(--df-color-bg-primary) calc(var(--df-material-regular-opacity) * 100%), transparent).'
+  severity: should
+  tokens: [material.regular.blur, material.regular.opacity]
+
+- id: MAT-09
+  rule: Under Increase Contrast, give material surfaces a visible edge or make them solid.
+  why: People who ask for more contrast need floating surfaces to stand clearly apart from what lies behind them.
+  source: {topic: materials, anchor: "Standard materials", via: house}
+  platforms: [web, swift]
+  web: 'Inside @media (prefers-contrast: more) add a 1px border in separator.opaque to material surfaces, or raise their opacity to 1.'
+  severity: should
+
+- id: MAT-10
+  rule: Keep translucent, blurred surfaces to the few places that benefit from them.
+  why: Too much translucency is visually noisy, and every blurred layer costs battery and frame rate on phones.
+  source: {topic: materials, anchor: "Standard materials", via: house}
+  platforms: [web, swift]
+  web: Limit backdrop-filter to the persistent chrome and the current sheet; never blur many list items or large scrolling regions.
+  severity: consider

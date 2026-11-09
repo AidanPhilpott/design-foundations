@@ -1,0 +1,148 @@
+# Typography rules in our own words: HIG typography and the type parts of accessibility, plus house rules.
+# Text scaling to 200% is ACC-02; text contrast is COL-01.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: TYP-01
+  rule: Set no text smaller than 11 points, and give running text the 17-point body size.
+  why: These iOS defaults are the smallest sizes most people can read comfortably on a phone.
+  source: {topic: accessibility, anchor: "Vision", via: hig}
+  platforms: [web, swift]
+  web: Nothing below 0.6875rem (11px at default size), and paragraphs and descriptions use the body style at 1.0625rem; the text-floor check flags smaller literals and tokens.
+  severity: must
+  check: text-floor
+  tokens: [type.floor.min, type.floor.body, type.body, type.caption2]
+
+- id: TYP-02
+  rule: Use regular weight or heavier for interface text, and go larger than usual if a typeface is thin.
+  why: Ultralight, thin and light weights break up at small sizes and on low-contrast screens.
+  source: {topic: typography, anchor: "Ensuring legibility", via: hig}
+  platforms: [web, swift]
+  web: Keep font-weight at 400 or above (500 to 700 for emphasis); a thin display face is allowed only at title sizes.
+  severity: should
+
+- id: TYP-03
+  rule: Take every font size, line height and weight from the type style tokens instead of writing raw values.
+  why: One shared scale keeps hierarchy consistent and lets text resize everywhere at once.
+  source: {topic: typography, anchor: "Using system fonts", via: house}
+  platforms: [web, swift]
+  web: Write var(--df-type-<style>-size), -leading and -weight (or the Tailwind fontSize keys) rather than px or rem literals; the raw-values check reports literals.
+  severity: must
+  check: raw-values
+  tokens: [type.largeTitle, type.title1, type.title2, type.title3, type.headline, type.body, type.callout, type.subhead, type.footnote, type.caption1, type.caption2]
+
+- id: TYP-04
+  rule: Express hierarchy through the named text styles, varying size, weight and label colour, and keep their relative order when text is resized.
+  why: A predictable scale lets people see at a glance what is a title, what is content and what is detail.
+  source: {topic: typography, anchor: "Conveying hierarchy", via: hig}
+  platforms: [web, swift]
+  web: Page titles use title1 or largeTitle, section headings headline, content body, metadata subhead or footnote; emphasis uses the style's -weight-em value, and rem sizing keeps the ratios when text grows.
+  severity: should
+  tokens: [type.largeTitle, type.title1, type.headline, type.body, type.subhead, type.footnote]
+
+- id: TYP-05
+  rule: Stick to one typeface family, with at most one more for a clear purpose.
+  why: Every extra face weakens the hierarchy and makes the interface feel stitched together.
+  source: {topic: typography, anchor: "Conveying hierarchy", via: hig}
+  platforms: [web, swift]
+  web: Use the default family token everywhere; a monospace stack only for codes or coordinates.
+  severity: should
+  tokens: [type.fontFamily.default]
+
+- id: TYP-06
+  rule: Use the system font through the platform's own font names rather than bundling copies of it.
+  why: The system face is tuned per size and language, and Apple's fonts are not licensed for embedding in web apps.
+  source: {topic: typography, anchor: "Using system fonts", via: hig}
+  platforms: [web, swift]
+  web: font-family var(--df-type-font-family-default), which starts with system-ui and -apple-system; never serve SF Pro or New York as web font files.
+  severity: should
+  tokens: [type.fontFamily.default]
+
+- id: TYP-07
+  rule: Make the layout adapt to every text size up to the largest accessibility sizes, with containers that grow instead of clipping.
+  why: People who enlarge text need the whole screen to keep working, not only the paragraphs.
+  source: {topic: typography, anchor: "Supporting Dynamic Type", via: hig}
+  platforms: [web, swift]
+  web: No fixed height on anything that holds text (use min-height and padding), let rows wrap, and check at 200% zoom and at the largest iOS accessibility size with .df-dynamic-type on.
+  severity: must
+
+- id: TYP-08
+  rule: Keep truncation to a minimum as text grows, letting labels wrap and offering a way to read anything that is still shortened.
+  why: An ellipsis can hide exactly the words someone enlarged the text to read.
+  source: {topic: typography, anchor: "Supporting Dynamic Type", via: hig}
+  platforms: [web, swift]
+  web: Prefer wrapping to text-overflow ellipsis; where a line clamp stays (long route descriptions), the full text is one tap away on a detail view.
+  severity: should
+
+- id: TYP-09
+  rule: At large text sizes, stack side-by-side items vertically and reduce the number of columns.
+  why: Inline extras such as icons, grades and times crowd text into overlap or truncation when space runs out.
+  source: {topic: typography, anchor: "Supporting Dynamic Type", via: hig}
+  platforms: [web, swift]
+  web: Write breakpoints and container queries in em or rem so they react to text size, and let flex rows wrap so metadata drops below the title.
+  severity: should
+
+- id: TYP-10
+  rule: Scale meaningful icons along with the text around them.
+  why: An icon that stays small while its label doubles becomes the hardest thing on screen to read.
+  source: {topic: typography, anchor: "Supporting Dynamic Type", via: hig}
+  platforms: [web, swift]
+  web: Size inline and button icons in em (for example width and height 1.25em) instead of px.
+  severity: should
+
+- id: TYP-11
+  rule: Keep the order of information the same at every text size, with the most important elements still at the top.
+  why: Rearranging the screen at large sizes makes people lose track of what they were reading.
+  source: {topic: typography, anchor: "Supporting Dynamic Type", via: hig}
+  platforms: [web, swift]
+  web: Reflow at large sizes by stacking, never by moving titles or primary actions below secondary content or reordering with CSS order.
+  severity: should
+
+- id: TYP-12
+  rule: When text grows, let the content people came for grow first, while compact chrome may grow more modestly.
+  why: People enlarge text to read the content, not to make every tab label and badge enormous.
+  source: {topic: typography, anchor: "Conveying hierarchy", via: hig}
+  platforms: [web, swift]
+  web: Titles, descriptions and data use rem tokens without limits; tab and map-control labels may cap growth with min() as long as browser zoom still enlarges them to 200%.
+  severity: consider
+
+- id: TYP-13
+  rule: Give long passages roomy line spacing and keep tight leading for one or two lines in height-limited rows.
+  why: Generous spacing helps the eye find the next line, while tight leading on three or more lines becomes a wall of text.
+  source: {topic: typography, anchor: "Using system fonts", via: hig}
+  platforms: [web, swift]
+  web: Use each style's -leading variable; descriptions and approach text keep at least body leading, and only one- or two-line list rows may set a tighter line-height.
+  severity: should
+  tokens: [type.body, type.callout, type.footnote]
+
+- id: TYP-14
+  rule: A custom typeface must scale and respond to accessibility settings the same way the system font does.
+  why: A brand font that ignores text size settings undoes the accessibility work of the rest of the app.
+  source: {topic: typography, anchor: "Using custom fonts", via: hig}
+  platforms: [web, swift]
+  web: Custom @font-face families still use the rem type tokens, load with font-display swap, and fall back to the system stack.
+  severity: should
+
+- id: TYP-15
+  rule: Honour the Bold Text setting by making text weights heavier when it is on.
+  why: Some people with low vision rely on heavier strokes to read at all.
+  source: {topic: typography, anchor: "Using custom fonts", via: hig}
+  platforms: [swift]
+  web: n/a, browsers do not expose the iOS Bold Text setting; prefers-contrast more can raise weights as a partial stand-in.
+  severity: should
+
+- id: TYP-16
+  rule: Let the iOS text size setting reach the web app, not only the browser zoom.
+  why: Many iPhone users set their preferred size once in Settings and expect every app to follow it.
+  source: {topic: typography, anchor: "Supporting Dynamic Type", via: house}
+  platforms: [web]
+  web: Add the df-dynamic-type class to html, which sets font -apple-system-body where Safari supports it so every rem token follows Dynamic Type, and falls back to 100%.
+  severity: should
+  tokens: [type.body]
+
+- id: TYP-17
+  rule: Try text where it will really be read, and fix hard-to-read spots with more size, more contrast or a more legible face.
+  why: Type that is fine on a desk can fail outdoors, over imagery or at arm's length.
+  source: {topic: typography, anchor: "Ensuring legibility", via: hig}
+  platforms: [web, swift]
+  web: Check labels over map imagery and on sheets in sunlight on a phone; raise the style or move text onto a material rather than adding text shadows.
+  severity: consider
