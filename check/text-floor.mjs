@@ -20,7 +20,7 @@ const toPx = (num, unit) => (UNIT_PX[unit] ? parseFloat(num) * UNIT_PX[unit] : n
 
 /** Pixel size a font-size / font declaration resolves to, or null when it is not a plain literal or known token. */
 export function resolveSize(prop, value, sizes) {
-  const v = value.trim();
+  const v = value.replace(/\s*!important\s*$/i, '').trim();
   const fn = v.match(/^var\(\s*(--[\w-]+)\s*(?:,[^)]*)?\)$/);
   if (prop === 'font-size') {
     if (fn) return sizes.get(fn[1]) ?? null;

@@ -158,6 +158,11 @@ test('text-floor flags 10px and 0.6rem, passes 11px', () => {
   assert.match(f[1].message, /9\.6px/);
 });
 
+test('text-floor handles !important', () => {
+  const r = run({ 'a.css': '.a { font-size: 10px !important; }\n.b { font-size: 10px!important; }\n.c { font: 9px/1 x !important; }\n.d { font-size: 12px !important; }' });
+  assert.deepEqual(by(r, 'text-floor').map((f) => f.line), [1, 2, 3]);
+});
+
 test('text-floor resolves var(--df-type-*-size) through the tokens and ignores unknown vars', () => {
   const r = run({
     'a.css': ['.a { font-size: var(--df-type-caption2-size); }', '.b { font-size: var(--df-type-footnote-size); }', '.c { font-size: var(--unknown); }', '.d { font-size: var(--df-type-large-title-size); }'].join('\n'),
@@ -197,13 +202,14 @@ test('focus: :focus alone is not a replacement; :not(:focus-visible) does not co
       '.a { outline: none; }',
       '.a:focus { outline: 2px solid red; }',
       '.b:focus:not(:focus-visible) { outline: none; }',
+      '.b2:focus { outline: none; }',
       '.c:focus-visible { outline: none; }',
       '.d { outline: none; }',
       '.d:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--x); }',
       '.e { outline-style: none; }',
     ].join('\n'),
   });
-  assert.deepEqual(by(r, 'focus').map((f) => f.line), [1, 3, 4, 7]);
+  assert.deepEqual(by(r, 'focus').map((f) => f.line), [1, 4, 5, 8]);
 });
 
 test('focus: a global :focus-visible rule covers everything; comma selectors check each part', () => {

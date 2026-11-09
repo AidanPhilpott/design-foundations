@@ -15,9 +15,11 @@ function removesOutline(prop, value) {
   return false;
 }
 
-/** Selector parts with :not(:focus-visible) removed. */
-const parts = (selector) => selector.replace(/:not\(\s*:focus-visible\s*\)/g, '').split(/,(?![^(]*\))/).map(squash).filter(Boolean);
-const hasFv = (part) => /:focus-visible/.test(part);
+const parts = (selector) => selector.split(/,(?![^(]*\))/).map(squash).filter(Boolean);
+// `:focus:not(:focus-visible)` is the accessible pattern (ring removed for pointer focus only): never a finding,
+// and not a replacement rule either.
+const NOT_FV = /:not\(\s*:focus-visible\s*\)/;
+const hasFv = (part) => !NOT_FV.test(part) && /:focus-visible/.test(part);
 /** The element a selector part styles: focus pseudo-classes stripped, whitespace collapsed. '' = any element. */
 const base = (part) => squash(part.replace(/:focus-visible|:focus-within|:focus(?![\w-])/g, '')).replace(/^\*$/, '');
 
@@ -38,7 +40,7 @@ registerCheck({
     const out = [];
     for (const { file, d } of all) {
       if (!removesOutline(d.prop, d.value)) continue;
-      const bases = parts(d.selector).map(base);
+      const bases = parts(d.selector).filter((p) => !NOT_FV.test(p)).map(base);
       const missing = bases.filter((b) => !replaced.has(b) && !replaced.has(''));
       if (missing.length) {
         out.push({ file, line: d.line, snippet: declSnippet(d), message: `outline removed on ${missing.map((b) => b || '*').join(', ')} with no :focus-visible replacement rule` });
