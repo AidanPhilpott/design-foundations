@@ -43,6 +43,7 @@ function project(files, config = {}) {
     writeFileSync(join(dir, p), text);
   }
   const cfg = { include: ['**/*.css'], checks: { 'raw-values': 'error' }, ...config };
+  cfg.checks = { 'reduced-motion': 'off', ...cfg.checks }; // these tests drive the dummy raw-values check only
   writeFileSync(join(dir, 'design-foundations.config.json'), JSON.stringify(cfg));
   return { dir, cfg: join(dir, 'design-foundations.config.json') };
 }

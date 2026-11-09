@@ -102,7 +102,7 @@ function stripHtmlComments(text) {
 }
 
 /** Blank JS comments, leaving string/template contents alone. */
-function stripJsComments(text) {
+export function stripJsComments(text) {
   let out = '';
   let i = 0;
   while (i < text.length) {

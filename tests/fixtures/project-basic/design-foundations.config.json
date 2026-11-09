@@ -3,6 +3,6 @@
   "include": ["app/**/*.{css,js,html}"],
   "exclude": ["app/vendor/**"],
   "tokenFiles": ["app/tokens.css"],
-  "checks": { "raw-values": "error", "targets": "warn" },
+  "checks": { "raw-values": "error", "reduced-motion": "off", "targets": "warn" },
   "baseline": "design-foundations.baseline.json"
 }

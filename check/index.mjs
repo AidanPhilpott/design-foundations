@@ -3,3 +3,4 @@ export { registerCheck, getChecks, checkIds } from './registry.mjs';
 import './raw-values.mjs';
 import './text-floor.mjs';
 import './focus.mjs';
+import './reduced-motion.mjs';
