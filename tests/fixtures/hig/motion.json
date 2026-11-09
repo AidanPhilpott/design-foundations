@@ -1,0 +1,68 @@
+{
+  "metadata": { "title": "Sample Motion" },
+  "abstract": [{ "type": "text", "text": "Short sample abstract about movement." }],
+  "references": {
+    "doc://sample/ref-one": { "title": "Sample Reference" }
+  },
+  "primaryContentSections": [
+    {
+      "kind": "content",
+      "content": [
+        { "type": "heading", "level": 2, "text": "Best practices", "anchor": "Best-practices" },
+        {
+          "type": "paragraph",
+          "inlineContent": [
+            { "type": "text", "text": "Keep it " },
+            { "type": "strong", "inlineContent": [{ "type": "text", "text": "short" }] },
+            { "type": "text", "text": " and use " },
+            { "type": "codeVoice", "code": "ease-out" },
+            { "type": "text", "text": ". See " },
+            { "type": "reference", "identifier": "doc://sample/ref-one", "isActive": true },
+            { "type": "text", "text": " and " },
+            { "type": "emphasis", "inlineContent": [{ "type": "text", "text": "more" }] },
+            { "type": "image", "identifier": "pic.png" },
+            { "type": "text", "text": "." }
+          ]
+        },
+        {
+          "type": "unorderedList",
+          "items": [
+            { "content": [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "First sample point" }] }] },
+            { "content": [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Second sample point" }] }] }
+          ]
+        },
+        {
+          "type": "orderedList",
+          "items": [
+            { "content": [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Step A" }] }] }
+          ]
+        },
+        {
+          "type": "aside",
+          "style": "note",
+          "name": "Note",
+          "content": [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Sample aside text" }] }]
+        },
+        { "type": "heading", "level": 2, "text": "Change log", "anchor": "Change-log" },
+        {
+          "type": "table",
+          "header": "row",
+          "rows": [
+            [
+              [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Date" }] }],
+              [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Changes" }] }]
+            ],
+            [
+              [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "September 9, 2025" }] }],
+              [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Sample newest entry." }] }]
+            ],
+            [
+              [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "June 10, 2024" }] }],
+              [{ "type": "paragraph", "inlineContent": [{ "type": "text", "text": "Sample older entry." }] }]
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
