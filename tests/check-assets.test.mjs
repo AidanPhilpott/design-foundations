@@ -62,10 +62,10 @@ test('contrast, icons, targets register with their rule ids', () => {
   const ids = (id) => getChecks().find((c) => c.id === id).ruleIds;
   assert.deepEqual(ids('contrast'), ['COL-01', 'ACC-03']);
   assert.deepEqual(ids('icons'), ['ICO-01', 'ICO-02']);
-  assert.deepEqual(ids('targets'), ['ACC-04', 'LAY-03']);
+  assert.deepEqual(ids('targets'), ['ACC-04']);
   assert.deepEqual(CONTRAST_RULE_IDS, ['COL-01', 'ACC-03']);
   assert.deepEqual(ICONS_RULE_IDS, ['ICO-01', 'ICO-02']);
-  assert.deepEqual(TARGETS_RULE_IDS, ['ACC-04', 'LAY-03']);
+  assert.deepEqual(TARGETS_RULE_IDS, ['ACC-04']);
 });
 
 // ---- contrast ----
@@ -204,6 +204,24 @@ test('icons flags a missing apple-touch-icon link, wrong size, and missing file'
   assert.match(of(small, 'icons')[0].message, /180/);
   const gone = run({ ...base, 'public/index.html': html('nofile.png') }, cfgI);
   assert.match(of(gone, 'icons')[0].message, /nofile\.png/);
+});
+
+test('icons: directory, non-PNG and truncated PNG hrefs report instead of crashing', () => {
+  const base = { ...iconFiles, 'public/manifest.webmanifest': manifest(goodIcons) };
+  for (const href of ['sub', '/', './']) {
+    const r = run({ ...base, 'public/index.html': html(href), 'public/sub/keep.txt': 'x' }, cfgI);
+    const f = of(r, 'icons');
+    assert.equal(f.length, 1, href);
+    assert.match(f[0].message, /not a file|readable/);
+  }
+  const txt = run({ ...base, 'public/index.html': html(), 'public/touch.png': 'hello, not a png at all, definitely more than 33 bytes long' }, cfgI);
+  assert.match(of(txt, 'icons')[0].message, /not a PNG/);
+  const cut = run({ ...base, 'public/index.html': html(), 'public/touch.png': png(180, 2).subarray(0, 40) }, cfgI);
+  assert.ok(Array.isArray(of(cut, 'icons'))); // reaching here means it did not throw
+  const tiny = run({ ...base, 'public/index.html': html(), 'public/touch.png': png(180, 2).subarray(0, 20) }, cfgI);
+  assert.match(of(tiny, 'icons')[0].message, /not a PNG/);
+  const dirIcon = run({ ...iconFiles, 'public/manifest.webmanifest': manifest(goodIcons.map((i) => (i.purpose ? { ...i, src: 'icons' } : i))), 'public/index.html': html(), 'public/touch.png': png(180, 2) }, cfgI);
+  assert.match(of(dirIcon, 'icons')[0].message, /not a file/);
 });
 
 test('icons without a manifest checks only apple-touch-icon', () => {

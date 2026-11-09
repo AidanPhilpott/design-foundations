@@ -1,7 +1,15 @@
 // icons: manifest has 192 + 512 + maskable 512 PNG icons; an apple-touch-icon 180 PNG is linked and has no alpha.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, statSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { registerCheck } from './registry.mjs';
+
+const isFile = (p) => {
+  try {
+    return statSync(p).isFile();
+  } catch {
+    return false;
+  }
+};
 
 export const ICONS_RULE_IDS = ['ICO-01', 'ICO-02'];
 
@@ -52,8 +60,8 @@ function checkManifest(config, out) {
   }
   for (const ic of icons) {
     if (typeof ic.src !== 'string' || /^(?:[a-z]+:|\/\/|data:)/i.test(ic.src)) continue;
-    if (!existsSync(resolve(dirname(abs), ic.src.split(/[?#]/)[0].replace(/^\//, '')))) {
-      out.push({ file: rel, line: lineOfText(text, ic.src), snippet: `missing file ${ic.src}`, message: `manifest icon ${ic.src} does not exist`, ruleIds: ['ICO-01'] });
+    if (!isFile(resolve(dirname(abs), ic.src.split(/[?#]/)[0].replace(/^\//, '')))) {
+      out.push({ file: rel, line: lineOfText(text, ic.src), snippet: `missing file ${ic.src}`, message: `manifest icon ${ic.src} does not exist or is not a file`, ruleIds: ['ICO-01'] });
     }
   }
 }
@@ -79,8 +87,14 @@ function checkTouchIcon(ctx, out) {
     if (!l.href || /^(?:[a-z]+:|\/\/|data:)/i.test(l.href)) continue;
     const clean = l.href.split(/[?#]/)[0];
     const abs = clean.startsWith('/') ? join(config.dir, clean) : resolve(config.dir, dirname(l.file), clean);
-    if (!existsSync(abs)) { fail(`missing file ${l.href}`, `apple-touch-icon ${l.href} does not exist`); continue; }
-    const p = readPng(readFileSync(abs));
+    if (!isFile(abs)) { fail(`missing file ${l.href}`, `apple-touch-icon ${l.href} does not exist or is not a file`); continue; }
+    let p = null;
+    try {
+      p = readPng(readFileSync(abs));
+    } catch {
+      fail(`unreadable ${l.href}`, `apple-touch-icon ${l.href} is not a readable PNG file`);
+      continue;
+    }
     if (!p) { fail(`not a PNG ${l.href}`, `apple-touch-icon ${l.href} is not a PNG`); continue; }
     if (p.width !== 180 || p.height !== 180) fail(`size ${l.href}`, `apple-touch-icon ${l.href} is ${p.width}x${p.height}, needs 180x180`);
     if (pngHasAlpha(p)) fail(`alpha ${l.href}`, `apple-touch-icon ${l.href} has an alpha channel; iOS fills transparency with black, so export it opaque`);

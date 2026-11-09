@@ -2,7 +2,7 @@
 import { registerCheck } from './registry.mjs';
 import { fileDecls, isCustomProp } from './decls.mjs';
 
-export const TARGETS_RULE_IDS = ['ACC-04', 'LAY-03'];
+export const TARGETS_RULE_IDS = ['ACC-04'];
 const MIN = 44;
 
 const INTERACTIVE = /^(?:button|a|input|summary|select)(?![\w-])|\[\s*role\s*=\s*["']?button["']?\s*\]/i;
