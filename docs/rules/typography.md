@@ -30,7 +30,7 @@ Use regular weight or heavier for interface text, and go larger than usual if a 
 Take every font size, line height and weight from the type style tokens instead of writing raw values.
 
 - Why: One shared scale keeps hierarchy consistent and lets text resize everywhere at once.
-- Web: Write var(--df-type-<style>-size), -leading and -weight (or the Tailwind fontSize keys) rather than px or rem literals; the raw-values check reports literals.
+- Web: Write var(--df-type-&lt;style&gt;-size), -leading and -weight (or the Tailwind fontSize keys) rather than px or rem literals; the raw-values check reports literals.
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Typography › Using system fonts](https://developer.apple.com/design/human-interface-guidelines/typography))
 - Check: `raw-values`

@@ -1,0 +1,11 @@
+{
+  "name": "design-foundations",
+  "owner": { "name": "Aidan Philpott" },
+  "plugins": [
+    {
+      "name": "design-foundations",
+      "source": "./plugin",
+      "description": "Design standards from Apple's HIG for web projects: tokens, rules by topic, and a checker workflow."
+    }
+  ]
+}

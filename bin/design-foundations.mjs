@@ -49,8 +49,32 @@ async function checkCmd(args) {
   return runCheckCli(args);
 }
 
-// Later tasks add `sync` here: name -> async (args) => exit code.
-export const commands = { ingest, build: buildCmd, check: checkCmd };
+async function syncCmd(args) {
+  const opt = (flag) => {
+    const i = args.indexOf(flag);
+    return i >= 0 ? args[i + 1] : undefined;
+  };
+  const to = opt('--to');
+  const skill = opt('--skill');
+  if (!to || to.startsWith('--') || (args.includes('--skill') && (!skill || skill.startsWith('--')))) {
+    console.error('usage: design-foundations sync --to <dir> [--skill <dir>]');
+    return 2;
+  }
+  const { sync } = await import('../sync/sync.mjs');
+  const { readFileSync } = await import('node:fs');
+  const { version } = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  try {
+    await sync({ to: path.resolve(to), skill: skill && path.resolve(skill), version });
+  } catch (e) {
+    console.error(e.message);
+    return 1;
+  }
+  console.log(`synced design-foundations ${version} to ${to}${skill ? ` and the skill to ${skill}/design-foundations` : ''}`);
+  return 0;
+}
+
+// name -> async (args) => exit code.
+export const commands = { ingest, build: buildCmd, check: checkCmd, sync: syncCmd };
 
 const USAGE = `usage: design-foundations <command> [args]
 

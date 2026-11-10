@@ -20,7 +20,7 @@ Text needs a contrast ratio of at least 4.5:1 with its background, and only larg
 Take every colour from a semantic role token instead of writing raw colour values in components.
 
 - Why: Roles let one change of theme, mode or contrast setting update the whole interface consistently.
-- Web: Use var(--df-color-<role>) or the Tailwind preset colour classes; hex, rgb() and hsl() literals belong only in the project colour file.
+- Web: Use var(--df-color-&lt;role&gt;) or the Tailwind preset colour classes; hex, rgb() and hsl() literals belong only in the project colour file.
 - Platforms: web, swift
 - Source: [HIG › Color › System colors](https://developer.apple.com/design/human-interface-guidelines/color)
 - Check: `raw-values`

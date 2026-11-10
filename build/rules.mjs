@@ -111,6 +111,14 @@ export async function ruleContext(resolved) {
   };
 }
 
+/** Escape < and > in markdown prose so placeholders like <role> survive rendering; `code spans` are left as written. */
+export function escapeMd(text) {
+  return String(text ?? '')
+    .split(/(`[^`]*`)/)
+    .map((part, i) => (i % 2 ? part : part.replace(/</g, '&lt;').replace(/>/g, '&gt;')))
+    .join('');
+}
+
 const HEADER = '<!-- generated from rules/*.yaml by `design-foundations build` — do not edit -->';
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
 const title = (topic) => topic.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
@@ -136,7 +144,7 @@ function topicDoc(topic, rules) {
     '',
   );
   for (const r of rules) {
-    lines.push(`## ${r.id} (${r.severity})`, '', r.rule, '', `- Why: ${r.why}`, `- Web: ${r.web}`);
+    lines.push(`## ${r.id} (${r.severity})`, '', escapeMd(r.rule), '', `- Why: ${escapeMd(r.why)}`, `- Web: ${escapeMd(r.web)}`);
     lines.push(`- Platforms: ${r.platforms.join(', ')}`);
     lines.push(`- Source: ${sourceLine(r.source)}`);
     if (r.check) lines.push(`- Check: \`${r.check}\``);
@@ -159,7 +167,7 @@ export function emitRuleDocs(rules) {
     const list = topics.get(topic);
     out[`docs/rules/${topic}.md`] = topicDoc(topic, list);
     for (const r of list) {
-      index.push(`| [${r.id}](${topic}.md#${r.id.toLowerCase()}-${r.severity}) | ${r.severity} | ${r.check ? `\`${r.check}\`` : ''} | ${cell(r.rule)} |`);
+      index.push(`| [${r.id}](${topic}.md#${r.id.toLowerCase()}-${r.severity}) | ${r.severity} | ${r.check ? `\`${r.check}\`` : ''} | ${escapeMd(cell(r.rule))} |`);
     }
   }
   out['docs/rules/index.md'] = index.join('\n') + '\n';

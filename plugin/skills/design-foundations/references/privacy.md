@@ -1,0 +1,26 @@
+<!-- generated from rules/*.yaml and the base tokens by `design-foundations build` — do not edit -->
+
+# Privacy
+
+Each line: `ID — rule — what to do on the web`. Details and sources: docs/rules/privacy.md.
+
+## Must
+
+PRV-01 — Ask for a permission at the moment someone uses the feature that needs it, and not at launch unless the app cannot work at all without it. — Call navigator.geolocation only from a tap on Locate me, and Notification.requestPermission only from a tap on Turn on alerts (Safari requires a user gesture); check 'Notification' in window first, because iOS Safari exposes it only in web apps added to the Home Screen (iOS 16.4 or later), and hide or explain the alerts option where it is missing.
+PRV-02 — Collect only the data a feature needs, and ask for the narrowest form of access that does the job. — Prefer one getCurrentPosition call to watchPosition, leave enableHighAccuracy off unless precision matters, and use a file input for photos, which needs no camera permission; store no more about a person than lists, sends and objectives require.
+PRV-03 — Never imitate, picture or annotate the permission prompt, and never offer rewards for accepting it. — No custom dialog that looks like the browser's own, no arrows pointing at Allow, no screenshots of the prompt and no unlocks in return for permission; the HIG states this for tracking prompts, and applying it to every permission is house advice.
+PRV-04 — When people decline a permission, keep the rest of the feature working, explain how to turn it on later, and do not ask again unprompted. — Browsers usually will not prompt again after a denial and the app cannot force them to, so detect it (the PERMISSION_DENIED error, Notification.permission after checking 'Notification' in window, or permissions.query where supported) and offer area search or a manual location instead, with a short note on where the site setting lives.
+PRV-05 — Say plainly what data the app collects, where it is kept and who can see it. — A short privacy note reachable from settings or sign-in lists what is stored in the cloud (lists, sends, objectives, issue reports), who can read it, and what stays on the device.
+PRV-06 — Do not load third-party trackers, and share personal data with outside services only as far as a feature needs it. — No ad or cross-site analytics scripts; weather or tile requests carry only the coordinates they must, and the privacy note says that map tile providers see which area is being viewed.
+PRV-07 — Never keep passwords, secret keys or other sensitive values in plain storage or in code that ships to the client. — The public site holds only the publishable Supabase key, never the service role key; never put passwords in localStorage or IndexedDB, and keep private data behind row-level security; in SwiftUI use the Keychain.
+PRV-08 — Use an established sign-in method rather than a home-made scheme, avoiding passwords on their own where possible. — Magic links, Google sign-in through the auth provider or WebAuthn passkeys; if passwords are ever needed, require a second factor; in SwiftUI offer Sign in with Apple and passkeys.
+
+## Should
+
+PRV-09 — Tell people in one plain, specific, active sentence why the app wants access, right where they ask for the feature. — Browser prompts show no custom explanation, so put it on or beside the button (Show boulders near you; your location stays on this phone); in SwiftUI write the usage description string the same way.
+PRV-10 — Use an explanation screen before the prompt only when the context does not already explain the request, and give it a single button that leads to the prompt. — Label that button Continue or Next, never Allow, and add no other actions; build it as a page or a dialog that still closes on Escape and back, skip it when the permission is already granted or denied, call requestPermission synchronously inside the Continue click handler so Safari sees a user gesture, and handle a result that stays default (the prompt was dismissed) as not yet decided.
+PRV-11 — Process personal data on the device whenever the task allows. — Work out distances from the current position to boulders or saved places in the browser, and do not send the person's coordinates to the backend or to analytics.
+PRV-12 — Respect the privacy features people turn on, and do not work around them. — Accept relay addresses such as privaterelay.appleid.com like any other email, do not rely on email tracking pixels, and do not fingerprint browsers to recognise people who cleared their data.
+PRV-13 — Offer a single, recognisable control for sharing the current location exactly when a task calls for it. — A Locate me map button with the standard location-arrow glyph and an accessible name (Show my location); in SwiftUI use LocationButton.
+PRV-14 — While the app is following someone's location, make that visible and let them stop it with one tap. — Show an active state on the locate button while watchPosition runs, call clearWatch when it is tapped again, and stop watching when the page becomes hidden (visibilitychange).
+PRV-15 — Let people delete what they have stored, including their account, and remove it from the server rather than just hiding it. — Deleting a list, send, objective or account removes the rows in the database, and the privacy note says how to ask for full deletion.

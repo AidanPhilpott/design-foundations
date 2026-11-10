@@ -8,6 +8,7 @@ import { springCurve } from './spring.mjs';
 import { emitColorCss } from './color.mjs';
 import { emitCss } from './css.mjs';
 import { emitPreset } from './tailwind.mjs';
+import { emitPluginRefs } from './plugin.mjs';
 import { loadRules, validateRules, emitRuleDocs, ruleContext, RulesError } from './rules.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -102,8 +103,8 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'),
     }
   }
 
-  // docs/rules is written only when asked (the CLI passes the repo root), so tests never touch the repo.
-  for (const [rel, text] of docsRoot ? Object.entries(emitRuleDocs(rules)) : []) {
+  // docs/rules and the plugin references are written only when asked (the CLI passes the repo root), so tests never touch the repo.
+  for (const [rel, text] of docsRoot ? Object.entries({ ...emitRuleDocs(rules), ...emitPluginRefs(rules, resolved) }) : []) {
     mkdirSync(dirname(join(docsRoot, rel)), { recursive: true });
     writeFileSync(join(docsRoot, rel), text);
   }
