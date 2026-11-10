@@ -19,7 +19,7 @@ Ask for a permission at the moment someone uses the feature that needs it, and n
 Collect only the data a feature needs, and ask for the narrowest form of access that does the job.
 
 - Why: Every extra piece of data is something people must trust you with and something that can leak.
-- Web: Prefer one getCurrentPosition call to watchPosition, leave enableHighAccuracy off unless precision matters, and use a file input for photos, which needs no camera permission; store no more about a person than lists, sends and objectives require.
+- Web: Prefer one getCurrentPosition call to watchPosition, leave enableHighAccuracy off unless precision matters, and use a file input for photos, which needs no camera permission; store no more about a person than the app's own features require.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Best practices](https://developer.apple.com/design/human-interface-guidelines/privacy)
 
@@ -46,7 +46,7 @@ When people decline a permission, keep the rest of the feature working, explain 
 Say plainly what data the app collects, where it is kept and who can see it.
 
 - Why: People share more comfortably when nothing about the handling of their data is hidden.
-- Web: A short privacy note reachable from settings or sign-in lists what is stored in the cloud (lists, sends, objectives, issue reports), who can read it, and what stays on the device.
+- Web: A short privacy note reachable from settings or sign-in lists what is stored in the cloud (each kind of saved item and any feedback or reports people send), who can read it, and what stays on the device.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Best practices](https://developer.apple.com/design/human-interface-guidelines/privacy)
 

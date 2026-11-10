@@ -15,7 +15,7 @@
   why: Every extra piece of data is something people must trust you with and something that can leak.
   source: {topic: privacy, anchor: "Best practices", via: hig}
   platforms: [web, swift]
-  web: Prefer one getCurrentPosition call to watchPosition, leave enableHighAccuracy off unless precision matters, and use a file input for photos, which needs no camera permission; store no more about a person than lists, sends and objectives require.
+  web: Prefer one getCurrentPosition call to watchPosition, leave enableHighAccuracy off unless precision matters, and use a file input for photos, which needs no camera permission; store no more about a person than the app's own features require.
   severity: must
 
 - id: PRV-03
@@ -39,7 +39,7 @@
   why: People share more comfortably when nothing about the handling of their data is hidden.
   source: {topic: privacy, anchor: "Best practices", via: hig}
   platforms: [web, swift]
-  web: A short privacy note reachable from settings or sign-in lists what is stored in the cloud (lists, sends, objectives, issue reports), who can read it, and what stays on the device.
+  web: A short privacy note reachable from settings or sign-in lists what is stored in the cloud (each kind of saved item and any feedback or reports people send), who can read it, and what stays on the device.
   severity: must
 
 - id: PRV-06

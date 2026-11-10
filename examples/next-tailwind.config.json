@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "include": ["src/**/*.{ts,tsx,css}"],
   "exclude": [],
-  "tokenFiles": ["src/app/globals.css"],
+  "tokenFiles": ["src/app/tokens.css"],
   "checks": {
     "raw-values": "error",
     "reduced-motion": "error",

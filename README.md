@@ -10,6 +10,8 @@ Shared design standards for Aidan's projects, derived from Apple's Human Interfa
 
 Private repo. Rules are paraphrased; Apple's pages are never committed (see Copyright).
 
+> **The `v0.1.0` tag does not exist yet.** It is created when this branch is merged. Until then every `#v0.1.0` below fails to resolve; pin a commit SHA (`#<sha>`) instead, and switch to the tag once it exists.
+
 ## Quick start: static projects (no build step)
 
 Vendor a pinned copy of `dist/` into the project:
@@ -54,6 +56,8 @@ import 'design-foundations/dist/tokens.css';
 import { camera, animate } from 'design-foundations/dist/motion.js';
 ```
 
+Keep any token overrides or project variables in their own file (for example `src/app/tokens.css`, imported from `app/layout.tsx`) rather than in `globals.css`, and list that file as `tokenFiles` in the checker config (`examples/next-tailwind.config.json` does). The checker skips `tokenFiles` for raw values and reduced motion, so a token file that also holds ordinary styles hides their findings.
+
 The preset maps Tailwind's spacing, radius, font size, `duration-*`, `ease-*` and colour-role keys onto the CSS variables, so `p-4`, `rounded-md`, `duration-short` and `text-body` follow the tokens.
 
 ## Project colours
@@ -64,7 +68,7 @@ Colour is the one thing each project decides. Write roles with values per mode (
 node bin/design-foundations.mjs build --project design/project.tokens.json
 ```
 
-This writes `design/project.css` next to the file (colour variables for all modes, with the `prefers-color-scheme` and `prefers-contrast` blocks), and an optional `tokens` key in the file adds project-specific DTCG tokens. The same file, set as `projectTokens` in the checker config, turns on the contrast check: every required text pair and every pair you declare is tested in every mode, and a missing role or mode is reported, not skipped.
+This writes only `design/project.css` next to the file (nothing in `dist/` or `docs/` changes): colour variables for all modes, with the `prefers-color-scheme` and `prefers-contrast` blocks; an optional `tokens` key in the file adds project-specific DTCG tokens. The same file, set as `projectTokens` in the checker config, turns on the contrast check: every required text pair and every pair you declare is tested in every mode, and a missing role or mode is reported, not skipped.
 
 ## The checker
 
@@ -85,7 +89,7 @@ Copy a config from `examples/` (`static-site.config.json` or `next-tailwind.conf
 | `focus` | ACC-05 | `outline: none` with no `:focus-visible` replacement |
 | `icons` | ICO-01, ICO-02 | manifest 192 / 512 / maskable 512 icons, an opaque 180 px apple-touch-icon |
 
-Exit code 0 is clean, 1 means new errors, 2 is a config or usage error. Each check's severity (`error`, `warn`, `off`) comes from the config; `warn` never fails.
+Exit code 0 is clean, 1 means new errors, 2 is a config or usage error. Each check's severity (`error`, `warn`, `off`) comes from the config; `warn` never fails. One exception: a few findings carry their own severity regardless of the config. An unresolvable contrast pair (a colour the checker cannot parse, such as `var()` or `color-mix()`) is always an error, so it can fail CI even with `contrast` set to `warn`; a missing role or mode is always a warning.
 
 **Baseline.** `check --update-baseline` writes `design-foundations.baseline.json`, a list of fingerprints (check + file + normalised snippet, so findings survive line moves). Known findings are listed but do not fail CI; re-run `--update-baseline` as you clean up and the file shrinks.
 
