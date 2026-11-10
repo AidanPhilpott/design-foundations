@@ -105,6 +105,22 @@ test('non-text pair failure uses ACC-03', () => {
   assert.deepEqual(f.ruleIds, ['ACC-03']);
 });
 
+test('contrast rule id follows the foreground role, not the pair minimum', () => {
+  const p = project({
+    'label.tertiary': { light: '#eeeeee', dark: '#ffffff' },
+    link: { light: '#eeeeee', dark: '#ffffff' },
+    'accent.on': { light: '#000000', dark: '#ffffff' },
+    separator: { light: '#ffffff', dark: '#ffffff' },
+  });
+  p.pairs = [{ fg: 'separator', bg: 'bg.primary', min: 4.5 }];
+  const r = run({ 'colors.json': JSON.stringify(p) }, cfgC);
+  const id = (snip) => of(r, 'contrast').find((x) => x.snippet === snip)?.ruleIds;
+  assert.deepEqual(id('label.tertiary on bg.primary (light)'), ['COL-01'], 'text at 3:1 is still text');
+  assert.deepEqual(id('link on bg.primary (light)'), ['COL-01']);
+  assert.deepEqual(id('accent.on on accent (light)'), ['COL-01']);
+  assert.deepEqual(id('separator on bg.primary (light)'), ['ACC-03'], 'non-text at 4.5:1 is still non-text');
+});
+
 test('unresolvable colour is an error, not a pass', () => {
   const p = project({ 'label.primary': { light: 'var(--x)', dark: '#ffffff' } });
   const r = run({ 'colors.json': JSON.stringify(p) }, { ...cfgC, checks: { contrast: 'warn' } });

@@ -8,6 +8,9 @@ import { checkPairs } from '../build/color.mjs';
 export const CONTRAST_RULE_IDS = ['COL-01', 'ACC-03'];
 
 const schema = JSON.parse(readFileSync(new URL('../tokens/roles.schema.json', import.meta.url), 'utf8'));
+// Text roles (label.*, link, accent.on) are COL-01 at whatever minimum the pair sets;
+// everything else (status.*, separators, fills) is a non-text indicator, ACC-03.
+const isTextRole = (role) => role.startsWith('label.') || role === 'link' || role === 'accent.on';
 const r2 = (n) => Math.round(n * 100) / 100;
 
 registerCheck({
@@ -31,8 +34,7 @@ registerCheck({
         continue;
       }
       const pair = `${row.fg} on ${row.bg} (${row.mode})`;
-      // Text pairs (4.5:1) are COL-01; non-text and status pairs (3:1) are ACC-03.
-      const ruleIds = [row.min >= 4.5 ? 'COL-01' : 'ACC-03'];
+      const ruleIds = [isTextRole(row.fg) ? 'COL-01' : 'ACC-03'];
       if (row.status === 'fail') {
         out.push({ ...base, ruleIds, snippet: pair, message: `${pair} has contrast ${r2(row.ratio)}:1, needs ${row.min}:1` });
       } else if (row.status === 'unresolvable') {

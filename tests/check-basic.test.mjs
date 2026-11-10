@@ -39,7 +39,7 @@ test('raw-values flags transition: all .2s ease', () => {
   assert.equal(f.length, 1);
   assert.equal(f[0].snippet, 'transition: all .2s ease');
   assert.equal(f[0].line, 3);
-  assert.deepEqual(f[0].ruleIds, ['MOT-11', 'COL-02', 'TYP-03']);
+  assert.deepEqual(f[0].ruleIds, ['MOT-11']);
   assert.match(f[0].message, /duration/);
   assert.match(f[0].message, /easing/);
 });
@@ -84,6 +84,29 @@ test('raw-values allows var(), 0, keywords, transparent, currentColor and custom
     ].join('\n'),
   });
   assert.deepEqual(snips(r, 'raw-values'), []);
+});
+
+test('raw-values labels each finding with the rule its reason breaks', () => {
+  const r = run({
+    'a.css': '.a { color: #fff; }\n.b { font-size: 13px; }\n.c { transition: opacity var(--d) ease-in; }\n.d { transition: color .2s; background: red; }\n.e { font: 12px/1.2 a; color: red; }\n',
+    'b.html': '<div class="duration-[250ms] ease-[cubic-bezier(0,0,1,1)] bg-[#fff] text-[13px]"></div>\n',
+  });
+  const ids = Object.fromEntries(by(r, 'raw-values').map((f) => [f.snippet, f.ruleIds]));
+  assert.deepEqual(ids['color: #fff'], ['COL-02']);
+  assert.deepEqual(ids['font-size: 13px'], ['TYP-03']);
+  assert.deepEqual(ids['transition: opacity var(--d) ease-in'], ['MOT-11']);
+  assert.deepEqual(ids['transition: color .2s'], ['MOT-11']);
+  assert.deepEqual(ids['background: red'], ['COL-02']);
+  assert.deepEqual(ids['font: 12px/1.2 a'], ['TYP-03']);
+  assert.deepEqual(ids['duration-[250ms]'], ['MOT-11']);
+  assert.deepEqual(ids['ease-[cubic-bezier(0,0,1,1)]'], ['MOT-11']);
+  assert.deepEqual(ids['bg-[#fff]'], ['COL-02']);
+  assert.deepEqual(ids['text-[13px]'], ['TYP-03']);
+});
+
+test('raw-values: one declaration with two kinds of raw value carries both rule ids', () => {
+  const r = run({ 'a.css': '.a { transition: color .2s #fff; }\n' });
+  assert.deepEqual(by(r, 'raw-values')[0].ruleIds, ['MOT-11', 'COL-02']);
 });
 
 test('raw-values ignores literals in comments, strings and url(#id)', () => {
@@ -154,7 +177,7 @@ test('text-floor flags 10px and 0.6rem, passes 11px', () => {
   });
   const f = by(r, 'text-floor');
   assert.deepEqual(f.map((x) => [x.snippet, x.line]), [['font-size: 10px', 1], ['font-size: 0.6rem', 2], ['font: 9px/1.2 sans-serif', 5]]);
-  assert.deepEqual(f[0].ruleIds, ['TYP-01', 'ACC-02']);
+  assert.deepEqual(f[0].ruleIds, ['TYP-01']);
   assert.match(f[1].message, /9\.6px/);
 });
 

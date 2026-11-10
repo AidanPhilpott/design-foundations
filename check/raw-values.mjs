@@ -4,6 +4,16 @@ import { fileDecls, classTokens, isCustomProp, declSnippet } from './decls.mjs';
 
 export const RAW_VALUES_RULE_IDS = ['MOT-11', 'COL-02', 'TYP-03'];
 
+const REASON_RULE = {
+  'literal duration': 'MOT-11',
+  'literal easing': 'MOT-11',
+  'literal colour': 'COL-02',
+  'named colour': 'COL-02',
+  'literal font size': 'TYP-03',
+};
+/** Rule IDs for a finding's reasons, in RAW_VALUES_RULE_IDS order. */
+export const reasonRuleIds = (reasons) => RAW_VALUES_RULE_IDS.filter((id) => reasons.some((r) => REASON_RULE[r] === id));
+
 const NAMED_COLORS = new Set(
   ('aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen').split(' '),
 );
@@ -74,11 +84,11 @@ registerCheck({
       for (const d of fileDecls(file)) {
         if (isCustomProp(d.prop)) continue; // token definitions are allowed anywhere
         const reasons = rawReasons(d.prop, d.value);
-        if (reasons.length) out.push({ file: file.path, line: d.line, snippet: declSnippet(d), message: `raw value (${reasons.join(', ')}); use a --df- token` });
+        if (reasons.length) out.push({ file: file.path, line: d.line, snippet: declSnippet(d), ruleIds: reasonRuleIds(reasons), message: `raw value (${reasons.join(', ')}); use a --df- token` });
       }
       for (const c of classTokens(file)) {
         const reason = rawClassReason(c.value);
-        if (reason) out.push({ file: file.path, line: c.line, snippet: c.value, message: `Tailwind arbitrary value (${reason}); use a token utility` });
+        if (reason) out.push({ file: file.path, line: c.line, snippet: c.value, ruleIds: reasonRuleIds([reason]), message: `Tailwind arbitrary value (${reason}); use a token utility` });
       }
     }
     return out;
