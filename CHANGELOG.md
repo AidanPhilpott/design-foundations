@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+Type roles and a text-style budget.
+
+- Tokens: `type.role.<title|headline|body|footnote|label>` (size, leading, weight, tracking, transform; defaults iOS Title 1 28/34 700, headline 17/22 600, body 15/20 400, footnote 13/18 400, label 12/16 600 uppercase +.06em). `tokens.css` gets `--df-type-role-<r>-size|-leading|-weight|-tracking|-transform` and a `--df-type-role-<r>` shorthand for `font:`. The Tailwind preset gets `fontSize` keys `role-title` ... `role-label`. Roles are not rescaled by `html.df-dynamic-type`.
+- Rule TYP-18 (house, should): at most 5 text roles, 3 weights and 3 text colours per screen. Runtime helper, no static check (203 rules).
+- Helper: `dist/text-audit.mjs` exports `auditTextStyles(page, {maxStyles, maxWeights, maxColours, ignore})` for Playwright; throws listing each over-budget style, weight or colour. Text on filled chips is left out of the colour count.
+
 ## 0.1.0 (unreleased)
 
 First release. Not tagged yet.

@@ -109,3 +109,24 @@ test('CLI build exits 0; a broken project file exits 2', async () => {
     console.error = err;
   }
 });
+
+test('role tokens emit CSS vars and the shorthand', () => {
+  const out = css();
+  assert.match(out, /--df-type-role-body: 400 0\.9375rem\/1\.25rem var\(--df-type-font-family-default\);/);
+  assert.match(out, /--df-type-role-title: 700 1\.75rem\/2\.125rem var\(--df-type-font-family-default\);/);
+  assert.match(out, /--df-type-role-body-size: 0\.9375rem;/);
+  assert.match(out, /--df-type-role-body-leading: 1\.25rem;/);
+  assert.match(out, /--df-type-role-body-weight: 400;/);
+  assert.match(out, /--df-type-role-body-tracking: 0em;/);
+  assert.match(out, /--df-type-role-body-transform: none;/);
+  assert.match(out, /--df-type-role-label-tracking: 0\.06em;/);
+  assert.match(out, /--df-type-role-label-transform: uppercase;/);
+  const dyn = out.match(/@supports \(font: -apple-system-body\) \{([\s\S]*?)\n\}/)[1];
+  assert.doesNotMatch(dyn, /type-role/);
+});
+
+test('build copies text-audit.mjs to dist', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'df-ta-'));
+  await build({ out: dir });
+  assert.ok(existsSync(join(dir, 'text-audit.mjs')));
+});

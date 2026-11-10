@@ -112,6 +112,46 @@ module.exports = {
             "lineHeight": "var(--df-type-title3-leading)",
             "fontWeight": "var(--df-type-title3-weight)"
           }
+        ],
+        "role-body": [
+          "var(--df-type-role-body-size)",
+          {
+            "lineHeight": "var(--df-type-role-body-leading)",
+            "fontWeight": "var(--df-type-role-body-weight)",
+            "letterSpacing": "var(--df-type-role-body-tracking)"
+          }
+        ],
+        "role-footnote": [
+          "var(--df-type-role-footnote-size)",
+          {
+            "lineHeight": "var(--df-type-role-footnote-leading)",
+            "fontWeight": "var(--df-type-role-footnote-weight)",
+            "letterSpacing": "var(--df-type-role-footnote-tracking)"
+          }
+        ],
+        "role-headline": [
+          "var(--df-type-role-headline-size)",
+          {
+            "lineHeight": "var(--df-type-role-headline-leading)",
+            "fontWeight": "var(--df-type-role-headline-weight)",
+            "letterSpacing": "var(--df-type-role-headline-tracking)"
+          }
+        ],
+        "role-label": [
+          "var(--df-type-role-label-size)",
+          {
+            "lineHeight": "var(--df-type-role-label-leading)",
+            "fontWeight": "var(--df-type-role-label-weight)",
+            "letterSpacing": "var(--df-type-role-label-tracking)"
+          }
+        ],
+        "role-title": [
+          "var(--df-type-role-title-size)",
+          {
+            "lineHeight": "var(--df-type-role-title-leading)",
+            "fontWeight": "var(--df-type-role-title-weight)",
+            "letterSpacing": "var(--df-type-role-title-tracking)"
+          }
         ]
       },
       "borderRadius": {

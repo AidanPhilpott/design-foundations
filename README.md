@@ -2,7 +2,7 @@
 
 Shared design standards for Aidan's projects, derived from Apple's Human Interface Guidelines (Foundations), WCAG and a few house rules. One versioned repo gives every project the same:
 
-- **Rules**: 202 rules in 15 topics, in our own words, each with an ID (`MOT-05`), a severity (must / should / consider) and a link back to the HIG section it comes from. Readable pages are in `docs/rules/`.
+- **Rules**: 203 rules in 15 topics, in our own words, each with an ID (`MOT-05`), a severity (must / should / consider) and a link back to the HIG section it comes from. Readable pages are in `docs/rules/`.
 - **Tokens**: motion (durations, easings, springs, transitions), type ramp, spacing, radius, materials, accessibility minimums, plus colour *roles* that each project fills in. Built to `dist/`.
 - **Helpers**: `motion.js`, a small Reduce-Motion-aware layer for what CSS can't express (map camera moves, scrolling, JS animation).
 - **A checker**: `design-foundations check` fails CI on new violations and ignores known ones through a baseline.
@@ -101,6 +101,19 @@ outline: none; /* df-allow focus: custom ring is drawn by the parent */
 
 Allowed findings are counted in the summary as suppressed. The reason is mandatory: a `df-allow` with an empty reason suppresses nothing and is itself reported ("df-allow needs a reason").
 
+## Text roles and auditTextStyles
+
+Five type roles sit beside the iOS-style ramp: `title`, `headline`, `body`, `footnote`, `label` (defaults 28/34 bold, 17/22 semibold, 15/20, 13/18, and 12/16 semibold uppercase with +0.06em tracking). Use them as `font: var(--df-type-role-body)` plus `letter-spacing: var(--df-type-role-label-tracking)` and `text-transform: var(--df-type-role-label-transform)`, or as Tailwind `text-role-label`. A project that wants another size overrides the `--df-type-role-<r>-*` variables (or the token in its own tokens file).
+
+Rule TYP-18 caps a screen at 5 text roles, 3 weights and 3 text colours. Enforce it in Playwright with the runtime helper:
+
+```js
+import { auditTextStyles } from 'design-foundations/dist/text-audit.mjs';
+await auditTextStyles(page, { maxStyles: 5, maxWeights: 3, maxColours: 3, ignore: ['.chip', 'svg', '.leaflet-marker-pane *'] });
+```
+
+It counts visible, in-viewport text by (size, weight, text-transform, monospace) and throws with the list when over budget. Text on a filled chip (the element, or an ancestor within 2 levels, has a background-color with alpha above 0.5 that differs from the page background) is excluded from the colour count. Use `ignore` for things that are not text roles: chips, map marks, icon glyphs.
+
 ## Known gaps
 
 - Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`.
@@ -163,7 +176,7 @@ Semver tags; projects pin a tag.
 tokens/       DTCG token sources and the colour-role schema
 rules/        rules per topic (YAML); docs/rules/ is generated from them
 build/        token and rule build; `node bin/design-foundations.mjs build` regenerates dist/ and docs/rules/
-dist/         tokens.css, tokens.json, motion.js, motion.global.js, tailwind-preset.cjs, targets-runtime.mjs
+dist/         tokens.css, tokens.json, motion.js, motion.global.js, tailwind-preset.cjs, targets-runtime.mjs, text-audit.mjs
 check/        the checker
 ingest/       HIG fetch and diff
 sync/         copy dist/ (and the skill) into a project

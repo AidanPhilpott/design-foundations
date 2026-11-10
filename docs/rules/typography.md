@@ -166,3 +166,13 @@ Try text where it will really be read, and fix hard-to-read spots with more size
 - Web: Check labels over map imagery and on sheets in sunlight on a phone; raise the style or move text onto a material rather than adding text shadows.
 - Platforms: web, swift
 - Source: [HIG › Typography › Ensuring legibility](https://developer.apple.com/design/human-interface-guidelines/typography)
+
+## TYP-18 (should)
+
+A screen uses at most 5 text roles, 3 font weights and 3 text colours; chips, map marks and icons are not text roles.
+
+- Why: Hierarchy that comes from a few deliberate styles reads at a glance, while many near-identical sizes and weights make every line compete.
+- Web: Build text from the --df-type-role-* tokens (title, headline, body, footnote, label) and run auditTextStyles(page, {maxStyles: 5, maxWeights: 3, maxColours: 3, ignore}) from dist/text-audit.mjs on every screen; list chips, map marks and icon glyphs in ignore. Runtime helper, no static check.
+- Platforms: web
+- Source: house rule (related: [HIG › Typography › Conveying hierarchy](https://developer.apple.com/design/human-interface-guidelines/typography))
+- Tokens: `type.role.title`, `type.role.headline`, `type.role.body`, `type.role.footnote`, `type.role.label`

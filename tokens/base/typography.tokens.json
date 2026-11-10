@@ -134,6 +134,63 @@
         "weightEmphasized": 600
       },
       "$description": "iOS text style at default size, pt"
+    },
+    "role": {
+      "title": {
+        "$type": "typographyRole",
+        "$value": {
+          "size": 28,
+          "leading": 34,
+          "weight": 700,
+          "tracking": 0,
+          "transform": "none"
+        },
+        "$description": "type role, px (emitted as rem); tracking in em; iOS Title 1 by default; projects may override the size (Pebble Picker uses 24/29)"
+      },
+      "headline": {
+        "$type": "typographyRole",
+        "$value": {
+          "size": 17,
+          "leading": 22,
+          "weight": 600,
+          "tracking": 0,
+          "transform": "none"
+        },
+        "$description": "type role, px (emitted as rem); tracking in em; row titles, stat values, primary buttons"
+      },
+      "body": {
+        "$type": "typographyRole",
+        "$value": {
+          "size": 15,
+          "leading": 20,
+          "weight": 400,
+          "tracking": 0,
+          "transform": "none"
+        },
+        "$description": "type role, px (emitted as rem); tracking in em; descriptions, form text, secondary buttons"
+      },
+      "footnote": {
+        "$type": "typographyRole",
+        "$value": {
+          "size": 13,
+          "leading": 18,
+          "weight": 400,
+          "tracking": 0,
+          "transform": "none"
+        },
+        "$description": "type role, px (emitted as rem); tracking in em; meta text"
+      },
+      "label": {
+        "$type": "typographyRole",
+        "$value": {
+          "size": 12,
+          "leading": 16,
+          "weight": 600,
+          "tracking": 0.06,
+          "transform": "uppercase"
+        },
+        "$description": "type role, px (emitted as rem); tracking in em; small caps section headers and field labels"
+      }
     }
   }
 }

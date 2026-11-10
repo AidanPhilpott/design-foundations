@@ -24,6 +24,7 @@ TYP-13 — Give long passages roomy line spacing and keep tight leading for one 
 TYP-14 — A custom typeface must scale and respond to accessibility settings the same way the system font does. — Custom @font-face families still use the rem type tokens, load with font-display swap, and fall back to the system stack.
 TYP-15 — Honour the Bold Text setting by making text weights heavier when it is on. — n/a, browsers do not expose the iOS Bold Text setting; prefers-contrast more can raise weights as a partial stand-in.
 TYP-16 — Let the iOS text size setting reach the web app, not only the browser zoom. — Add the df-dynamic-type class to html; where Safari supports font -apple-system-body the root becomes the user's body size and tokens.css redefines every type token as pt ÷ 17 rem, so body is exactly 1rem, and elsewhere the root stays at 100%.
+TYP-18 — A screen uses at most 5 text roles, 3 font weights and 3 text colours; chips, map marks and icons are not text roles. — Build text from the --df-type-role-* tokens (title, headline, body, footnote, label) and run auditTextStyles(page, {maxStyles: 5, maxWeights: 3, maxColours: 3, ignore}) from dist/text-audit.mjs on every screen; list chips, map marks and icon glyphs in ignore. Runtime helper, no static check.
 
 ## Consider
 
