@@ -187,6 +187,7 @@
 | [TYP-15](typography.md#typ-15-should) | should |  | Honour the Bold Text setting by making text weights heavier when it is on. |
 | [TYP-16](typography.md#typ-16-should) | should |  | Let the iOS text size setting reach the web app, not only the browser zoom. |
 | [TYP-17](typography.md#typ-17-consider) | consider |  | Try text where it will really be read, and fix hard-to-read spots with more size, more contrast or a more legible face. |
+| [TYP-18](typography.md#typ-18-should) | should |  | A screen uses at most 5 text roles, 3 font weights and 3 text colours; chips, map marks and icons are not text roles. |
 | [WRT-01](writing.md#wrt-01-should) | should |  | Say things plainly and briefly, removing any word that does not earn its place. |
 | [WRT-02](writing.md#wrt-02-should) | should |  | Write error messages that sit beside the problem and tell people exactly how to fix it. |
 | [WRT-03](writing.md#wrt-03-should) | should |  | Keep error copy calm and blame-free, with no cute interjections and no bare technical verdicts. |

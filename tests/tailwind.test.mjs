@@ -81,3 +81,12 @@ test('every var(--df-*) in the preset is defined in tokens.css or the colour CSS
   assert.deepEqual(missing, []);
   assert.doesNotMatch(JSON.stringify(preset), /\d(px|rem|ms)/);
 });
+
+test('preset has fontSize.role-label', () => {
+  assert.deepEqual(ext.fontSize['role-label'], [
+    'var(--df-type-role-label-size)',
+    { lineHeight: 'var(--df-type-role-label-leading)', fontWeight: 'var(--df-type-role-label-weight)', letterSpacing: 'var(--df-type-role-label-tracking)' },
+  ]);
+  for (const r of ['title', 'headline', 'body', 'footnote']) assert.ok(ext.fontSize[`role-${r}`], r);
+  assert.match(tokensCss, /--df-type-role-label-size: 0\.75rem;/);
+});

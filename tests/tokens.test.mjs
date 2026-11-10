@@ -43,7 +43,7 @@ test('typography: 11 styles, family, floors', () => {
     assert.deepEqual(v(t, `type.${s}`), { size, leading, weight, weightEmphasized }, s);
     assert.equal(t.get(`type.${s}`).type, 'typography');
   }
-  assert.equal([...t.keys()].filter((k) => /^type\.(?!fontFamily|floor)/.test(k)).length, 11);
+  assert.equal([...t.keys()].filter((k) => /^type\.(?!fontFamily|floor|role)/.test(k)).length, 11);
   assert.deepEqual(v(t, 'type.fontFamily.default'), ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif']);
   assert.equal(v(t, 'type.floor.body'), 17);
   assert.equal(v(t, 'type.floor.min'), 11);

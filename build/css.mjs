@@ -81,6 +81,18 @@ export function emitCss(resolved, { header = true } = {}) {
       );
       // Under .df-dynamic-type the root is -apple-system-body (17pt at default), so sizes are pt ÷ 17.
       dynType.push([`${name}-size`, rem(value.size, 17)], [`${name}-leading`, rem(value.leading, 17)]);
+    } else if (type === 'typographyRole') {
+      // Type roles: px -> rem at the 16px root; not scaled by html.df-dynamic-type (projects own their role sizes).
+      const fam = `var(${varName('type.fontFamily.default')})`;
+      root.push(
+        // Composed from the component vars so a project overriding -size/-leading changes `font: var(--df-type-role-x)`.
+        [name, `var(${name}-weight) var(${name}-size)/var(${name}-leading) ${fam}`],
+        [`${name}-size`, rem(value.size)],
+        [`${name}-leading`, rem(value.leading)],
+        [`${name}-weight`, String(value.weight)],
+        [`${name}-tracking`, `${num(value.tracking ?? 0)}em`],
+        [`${name}-transform`, value.transform ?? 'none'],
+      );
     } else {
       root.push([name, plain(type, value)]);
       const last = p.split('.').at(-1);

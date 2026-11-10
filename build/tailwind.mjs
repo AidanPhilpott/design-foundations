@@ -58,6 +58,12 @@ export function emitPreset(resolved, roles) {
     fontSize[kebab(key)] = [v('size'), { lineHeight: v('leading'), fontWeight: v('weight') }];
   }
 
+  // Type roles: role-title ... role-label
+  for (const [key, path] of leaves(resolved, 'type.role', 'typographyRole')) {
+    const v = (suffix) => `var(${varName(path)}-${suffix})`;
+    fontSize[`role-${kebab(key)}`] = [v('size'), { lineHeight: v('leading'), fontWeight: v('weight'), letterSpacing: v('tracking') }];
+  }
+
   const target = {
     target: ref('a11y.target.default'),
     'target-min': ref('a11y.target.min'),
