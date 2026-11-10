@@ -1,0 +1,91 @@
+# Image rules in our own words: HIG images (resolution, formats, testing), plus WCAG and house rules for the web.
+# Embedded colour profiles are COL-15; dimming bright images in dark mode is DRK-08; topo framing (contain, never crop) is LAY-15.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: IMG-01
+  rule: Give every informative image a text alternative that conveys its content or purpose, and mark purely decorative images as such.
+  why: People who cannot see the image get nothing from it unless its meaning is also available as text.
+  source: {topic: images, anchor: "1.1.1 Non-text Content", via: wcag}
+  platforms: [web, swift]
+  web: alt describes what the image shows or does (Topo of the Apron boulders with problems 16 to 21 marked), alt="" on decoration, and never a file name; in SwiftUI use accessibilityLabel or Image(decorative:).
+  severity: must
+
+- id: IMG-02
+  rule: Supply every bitmap at the pixel densities of the screens it will appear on, which for iPhone means 2x and 3x.
+  why: An image delivered at one density looks blurry on sharper screens.
+  source: {topic: images, anchor: "Resolution", via: hig}
+  platforms: [web, swift]
+  web: Use srcset with x descriptors for fixed-size images and w descriptors plus sizes for fluid ones, so the browser picks the right file; photos are usually fine at 2x, small UI bitmaps need 3x.
+  severity: should
+
+- id: IMG-03
+  rule: Use vector files for flat artwork, logos and diagrams, keeping bitmaps for photographs and textured art.
+  why: Vectors stay crisp at every size and density from a single file.
+  source: {topic: images, anchor: "Formats", via: hig}
+  platforms: [web, swift]
+  web: SVG for logos, legends, grade badges and schematic outlines; PDF or SVG assets in the SwiftUI asset catalog.
+  severity: should
+
+- id: IMG-04
+  rule: Choose the file format by content, a lossy format for photos and lossless PNG for flat graphics, with a reduced palette when few colours are needed.
+  why: The right format keeps files small without visible artefacts.
+  source: {topic: images, anchor: "Formats", via: hig}
+  platforms: [web, swift]
+  web: Photos as JPEG, or WebP or AVIF inside a picture element with a JPEG fallback (AVIF needs iOS 16 or later); HEIC is not supported in Chromium browsers, so do not serve it to the web.
+  severity: should
+
+- id: IMG-05
+  rule: Keep every image at its own aspect ratio and reserve its space before it loads.
+  why: Stretched images look broken, and pictures that pop in and push content down make people lose their place or mis-tap.
+  source: {topic: images, anchor: "Best practices", via: house}
+  platforms: [web, swift]
+  web: Set width and height attributes (or CSS aspect-ratio) on every img, and use object-fit rather than fixed width and height together; SwiftUI images use aspectRatio with fit or fill.
+  severity: should
+
+- id: IMG-06
+  rule: Put words in real text rather than baking them into an image, except for logos and source material that cannot be separated.
+  why: Text inside a picture cannot be resized, restyled for contrast, translated, searched or read aloud.
+  source: {topic: images, anchor: "1.4.5 Images of Text", via: wcag}
+  platforms: [web, swift]
+  web: Titles, captions and labels are HTML laid over or beside the image; scanned guidebook topos are exempt as source material, but the problems they mark are also listed as text.
+  severity: should
+
+- id: IMG-07
+  rule: Try every image on several real devices before shipping it.
+  why: Artwork that looks right in a design tool can come out pixelated, squashed or over-compressed on an actual screen.
+  source: {topic: images, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Check images on an iPhone, an Android phone and a desktop browser, in light and dark mode, including in the installed PWA.
+  severity: should
+
+- id: IMG-08
+  rule: Never send images much larger than they will be displayed, and load the ones off screen only when they are needed.
+  why: Oversized downloads drain data and battery and slow the app on weak mobile signal, such as at a trailhead.
+  source: {topic: images, anchor: "Resolution", via: house}
+  platforms: [web]
+  web: Resize to the largest displayed width times the device pixel ratio; add loading="lazy" and decoding="async" to images below the fold (Safari has supported lazy images since 15.4) but not to the first image people see.
+  severity: should
+
+- id: IMG-09
+  rule: Let people zoom into detailed images such as topos and diagrams.
+  why: Marked lines and small numbers are often unreadable at phone width, especially for people with low vision.
+  source: {topic: images, anchor: "Resolution", via: house}
+  platforms: [web, swift]
+  web: Open detailed images in a full-screen viewer with pinch zoom and visible zoom buttons, served at enough resolution to stay sharp when enlarged; do not block page zoom with user-scalable=no.
+  severity: should
+
+- id: IMG-10
+  rule: Show a neutral placeholder while an image loads and a clear message if it cannot load.
+  why: Blank gaps or broken-image icons look like bugs, and offline use makes failed loads common.
+  source: {topic: images, anchor: "Best practices", via: house}
+  platforms: [web, swift]
+  web: Give image boxes the bg.secondary role until they load, handle the img error event with a short text such as Topo not available offline, and keep alt text meaningful for that case too.
+  severity: should
+
+- id: IMG-11
+  rule: Request high-density map tiles and imagery on sharp screens where the provider offers them.
+  why: Standard-resolution tiles look soft on phone screens, which hides the detail people zoom in for.
+  source: {topic: images, anchor: "Resolution", via: house}
+  platforms: [web]
+  web: Use the provider's @2x tile URLs or vector tiles, or Leaflet's detectRetina option, which fetches the next zoom level's tiles at a quarter of the size.
+  severity: consider

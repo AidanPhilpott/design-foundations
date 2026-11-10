@@ -20,6 +20,28 @@
 | [ACC-14](accessibility.md#acc-14-should) | should |  | Prefer familiar, standard controls and interactions over custom ones people must learn. |
 | [ACC-15](accessibility.md#acc-15-should) | should |  | Ask for confirmation, or offer an undo, before an action that is hard to reverse, such as deleting a list or a log entry. |
 | [ACC-16](accessibility.md#acc-16-should) | should |  | Test each release with the screen reader, keyboard-only use and enlarged text, not only with automated tools. |
+| [ICO-01](app-icons.md#ico-01-must) | must | `icons` | List a 192 px and a 512 px PNG icon in the web app manifest, plus a separate 512 px icon marked maskable. |
+| [ICO-02](app-icons.md#ico-02-must) | must | `icons` | Link a 180 px apple-touch-icon PNG with a fully opaque, full-bleed background. |
+| [ICO-03](app-icons.md#ico-03-must) | must |  | Keep the main subject of the icon centred and well inside the edges, so no mask can clip it. |
+| [ICO-04](app-icons.md#ico-04-must) | must |  | Never show Apple hardware or other trademarked products in the icon. |
+| [ICO-05](app-icons.md#ico-05-should) | should |  | Draw the icon as one square master at 1024 px with square, unrounded edges, and let each platform apply its own mask. |
+| [ICO-06](app-icons.md#ico-06-should) | should |  | Build the icon around one simple idea with few shapes on a plain background. |
+| [ICO-07](app-icons.md#ico-07-should) | should |  | Leave words out of the icon unless a letter or wordmark is central to the brand, and never add instructions or labels such as New. |
+| [ICO-08](app-icons.md#ico-08-should) | should |  | Use a drawn illustration rather than a photograph or screenshot, and avoid hairline strokes and tiny sharp corners. |
+| [ICO-09](app-icons.md#ico-09-should) | should |  | Do not paint drop shadows, glows, bevels, gloss or blur into the icon artwork. |
+| [ICO-10](app-icons.md#ico-10-should) | should |  | Show the same icon design wherever the app appears, from the browser tab to the Home Screen. |
+| [ICO-11](app-icons.md#ico-11-should) | should |  | Provide an SVG favicon with a small PNG or ICO fallback. |
+| [ICO-12](app-icons.md#ico-12-consider) | consider |  | Keep the icon's core features recognisable when the system shows it darkened or tinted. |
+| [BRD-01](branding.md#brd-01-must) | must |  | Never use Apple trademarks in the app's name or artwork, and never make the app look like an Apple product or system screen. |
+| [BRD-02](branding.md#brd-02-should) | should |  | Let branding step back behind the content, never spending screen space on an element whose only job is to show the brand. |
+| [BRD-03](branding.md#brd-03-should) | should |  | Use the brand accent colour sparingly, for the primary action, the current selection and status that needs attention. |
+| [BRD-04](branding.md#brd-04-should) | should |  | Express the brand through restyled familiar components, keeping their size, position and behaviour as people expect. |
+| [BRD-05](branding.md#brd-05-should) | should |  | Even in a highly styled design, keep standard patterns for layout, symbols, navigation and modal screens. |
+| [BRD-06](branding.md#brd-06-should) | should |  | Show the logo only where it gives context, rather than repeating it across screens. |
+| [BRD-07](branding.md#brd-07-should) | should |  | Do not turn the launch screen into a brand moment; save branding for a welcome or onboarding screen if one is needed. |
+| [BRD-08](branding.md#brd-08-consider) | consider |  | If the brand uses a custom typeface, keep it to headings and use the system font for body text, captions and controls. |
+| [BRD-09](branding.md#brd-09-consider) | consider |  | Keep the brand's voice consistent in all the app's text, from labels to error messages. |
+| [BRD-10](branding.md#brd-10-should) | should |  | Do not override platform and browser behaviour for the sake of the brand. |
 | [COL-01](color.md#col-01-must) | must | `contrast` | Text needs a contrast ratio of at least 4.5:1 with its background, and only large text, meaning 24 CSS px and up or bold at about 19 CSS px and up, may drop to 3:1. |
 | [COL-02](color.md#col-02-must) | must | `raw-values` | Take every colour from a semantic role token instead of writing raw colour values in components. |
 | [COL-03](color.md#col-03-must) | must |  | Never let colour be the only way to tell things apart, show that something is interactive, or carry essential information. |
@@ -46,6 +68,43 @@
 | [DRK-09](dark-mode.md#drk-09-should) | should |  | In dark appearance, make surfaces raised above the main view, such as sheets and popovers, a little lighter than the view beneath. |
 | [DRK-10](dark-mode.md#drk-10-consider) | consider |  | Use a dark-only interface only in rare cases, such as a screen centred on immersive photos or imagery. |
 | [DRK-11](dark-mode.md#drk-11-should) | should |  | Give the browser and installed PWA chrome a theme colour for each appearance. |
+| [ICN-01](icons.md#icn-01-must) | must |  | Give every icon-only control an accessible name that says what it does, and hide icons that sit beside a visible label from assistive technology. |
+| [ICN-02](icons.md#icn-02-must) | must |  | Icons that carry information rather than trigger an action, such as hazard or style pictographs, also need a text equivalent. |
+| [ICN-03](icons.md#icn-03-should) | should |  | Choose a highly simplified icon with a familiar metaphor tied directly to the action or content it stands for. |
+| [ICN-04](icons.md#icn-04-should) | should |  | Use the widely known symbol for common actions instead of inventing a new one. |
+| [ICN-05](icons.md#icn-05-should) | should |  | Draw all interface icons as one family with the same grid, level of detail, stroke weight and viewpoint. |
+| [ICN-06](icons.md#icn-06-should) | should |  | Ship interface icons as vectors that take their colour from the surrounding text. |
+| [ICN-07](icons.md#icn-07-consider) | consider |  | Match an icon's visual weight to the weight of the text next to it unless one of them is meant to stand out. |
+| [ICN-08](icons.md#icn-08-should) | should |  | Give each icon a single meaning throughout the app, and never reuse a glyph for an unrelated action. |
+| [ICN-09](icons.md#icn-09-consider) | consider |  | Centre asymmetric icons by eye rather than by their bounding box, building any correction into the asset's padding. |
+| [ICN-10](icons.md#icn-10-consider) | consider |  | Add a separate selected-state icon only when the control does not already show selection in another way. |
+| [ICN-11](icons.md#icn-11-should) | should |  | Draw people in icons as gender-neutral figures and avoid images that only some cultures will recognise. |
+| [ICN-12](icons.md#icn-12-consider) | consider |  | Put letters inside an icon only when they are the clearest way to show the idea, and then localise them. |
+| [IMG-01](images.md#img-01-must) | must |  | Give every informative image a text alternative that conveys its content or purpose, and mark purely decorative images as such. |
+| [IMG-02](images.md#img-02-should) | should |  | Supply every bitmap at the pixel densities of the screens it will appear on, which for iPhone means 2x and 3x. |
+| [IMG-03](images.md#img-03-should) | should |  | Use vector files for flat artwork, logos and diagrams, keeping bitmaps for photographs and textured art. |
+| [IMG-04](images.md#img-04-should) | should |  | Choose the file format by content, a lossy format for photos and lossless PNG for flat graphics, with a reduced palette when few colours are needed. |
+| [IMG-05](images.md#img-05-should) | should |  | Keep every image at its own aspect ratio and reserve its space before it loads. |
+| [IMG-06](images.md#img-06-should) | should |  | Put words in real text rather than baking them into an image, except for logos and source material that cannot be separated. |
+| [IMG-07](images.md#img-07-should) | should |  | Try every image on several real devices before shipping it. |
+| [IMG-08](images.md#img-08-should) | should |  | Never send images much larger than they will be displayed, and load the ones off screen only when they are needed. |
+| [IMG-09](images.md#img-09-should) | should |  | Let people zoom into detailed images such as topos and diagrams. |
+| [IMG-10](images.md#img-10-should) | should |  | Show a neutral placeholder while an image loads and a clear message if it cannot load. |
+| [IMG-11](images.md#img-11-consider) | consider |  | Request high-density map tiles and imagery on sharp screens where the provider offers them. |
+| [INC-01](inclusion.md#inc-01-must) | must |  | Declare the language of every page, and of any passage written in a different language. |
+| [INC-02](inclusion.md#inc-02-should) | should |  | Format dates, times, numbers and units according to the person's language and region instead of hard-coding one style. |
+| [INC-03](inclusion.md#inc-03-should) | should |  | Leave out gender wherever it is not needed, using plural or neutral nouns and they in place of he or she. |
+| [INC-04](inclusion.md#inc-04-should) | should |  | Ask for gender only when a feature truly requires it, and then offer inclusive choices and a place to give pronouns. |
+| [INC-05](inclusion.md#inc-05-should) | should |  | Show a generic person as a neutral figure, and let people choose how their own avatar looks. |
+| [INC-06](inclusion.md#inc-06-should) | should |  | Do not build features or copy on narrow assumptions about people's lives, bodies, families or means. |
+| [INC-07](inclusion.md#inc-07-consider) | consider |  | When imagery shows people, show a real range of ages, bodies, backgrounds and abilities, without stereotyped roles. |
+| [INC-08](inclusion.md#inc-08-should) | should |  | Explain specialist terms the first time they appear, or use plain words instead. |
+| [INC-09](inclusion.md#inc-09-should) | should |  | Swap idioms and slang for literal language, and retire terms with exclusionary histories. |
+| [INC-10](inclusion.md#inc-10-should) | should |  | Avoid a tone that assumes expertise, and drop minimising words such as just, simply, obviously and easy. |
+| [INC-11](inclusion.md#inc-11-should) | should |  | Write about disability with respect, putting the person first or using the term a community prefers, and never use a disability as a figure of speech for something bad. |
+| [INC-12](inclusion.md#inc-12-should) | should |  | Make every feature available to people of all abilities instead of deciding in advance who will want it. |
+| [INC-13](inclusion.md#inc-13-consider) | consider |  | Use humour sparingly, if at all, and never where people are stressed or facing risk. |
+| [INC-14](inclusion.md#inc-14-consider) | consider |  | Make the app usable without prior knowledge, with an optional way to learn it that people can skip. |
 | [LAY-01](layout.md#lay-01-must) | must |  | Keep content and controls inside the safe area, clear of notches, the home indicator, rounded corners and browser bars. |
 | [LAY-02](layout.md#lay-02-should) | should |  | Arrange each screen by importance, placing what matters most at the top and on the leading side. |
 | [LAY-03](layout.md#lay-03-should) | should |  | Leave about 12 points around controls with a visible bezel and about 24 points around bare icons or text controls. |
@@ -86,6 +145,31 @@
 | [MOT-12](motion.md#mot-12-consider) | consider |  | Let departing elements leave a little faster than they arrived, accelerating out where arrivals slow to a stop. |
 | [MOT-13](motion.md#mot-13-must) | must |  | Nothing on screen may flash more than three times in any one second. |
 | [MOT-14](motion.md#mot-14-should) | should |  | Keep parallax and large background or full-screen movement out of the interface, and remove any that remains when Reduce Motion is on. |
+| [PRV-01](privacy.md#prv-01-must) | must |  | Ask for a permission at the moment someone uses the feature that needs it, and not at launch unless the app cannot work at all without it. |
+| [PRV-02](privacy.md#prv-02-must) | must |  | Collect only the data a feature needs, and ask for the narrowest form of access that does the job. |
+| [PRV-03](privacy.md#prv-03-must) | must |  | Never imitate, picture or annotate the permission prompt, and never offer rewards for accepting it. |
+| [PRV-04](privacy.md#prv-04-must) | must |  | When people decline a permission, keep the rest of the feature working, explain how to turn it on later, and do not ask again unprompted. |
+| [PRV-05](privacy.md#prv-05-must) | must |  | Say plainly what data the app collects, where it is kept and who can see it. |
+| [PRV-06](privacy.md#prv-06-must) | must |  | Do not load third-party trackers, and share personal data with outside services only as far as a feature needs it. |
+| [PRV-07](privacy.md#prv-07-must) | must |  | Never keep passwords, secret keys or other sensitive values in plain storage or in code that ships to the client. |
+| [PRV-08](privacy.md#prv-08-must) | must |  | Use an established sign-in method rather than a home-made scheme, avoiding passwords on their own where possible. |
+| [PRV-09](privacy.md#prv-09-should) | should |  | Tell people in one plain, specific, active sentence why the app wants access, right where they ask for the feature. |
+| [PRV-10](privacy.md#prv-10-should) | should |  | Use an explanation screen before the prompt only when the context does not already explain the request, and give it a single button that leads to the prompt. |
+| [PRV-11](privacy.md#prv-11-should) | should |  | Process personal data on the device whenever the task allows. |
+| [PRV-12](privacy.md#prv-12-should) | should |  | Respect the privacy features people turn on, and do not work around them. |
+| [PRV-13](privacy.md#prv-13-should) | should |  | Offer a single, recognisable control for sharing the current location exactly when a task calls for it. |
+| [PRV-14](privacy.md#prv-14-should) | should |  | While the app is following someone's location, make that visible and let them stop it with one tap. |
+| [PRV-15](privacy.md#prv-15-should) | should |  | Let people delete what they have stored, including their account, and remove it from the server rather than just hiding it. |
+| [RTL-01](right-to-left.md#rtl-01-should) | should |  | Build layouts on leading and trailing sides rather than left and right, so the whole interface can mirror for right-to-left languages. |
+| [RTL-02](right-to-left.md#rtl-02-should) | should |  | Never reverse the digits within a number such as a grade, phone number or distance. |
+| [RTL-03](right-to-left.md#rtl-03-should) | should |  | Mirror navigation and controls that show progress or order, and reverse any numbered sequence along with them. |
+| [RTL-04](right-to-left.md#rtl-04-should) | should |  | Keep controls that point to a real direction or a place on screen exactly as they are. |
+| [RTL-05](right-to-left.md#rtl-05-should) | should |  | Do not mirror photos, illustrations, logos, universal marks such as the checkmark, or icons of everyday objects. |
+| [RTL-06](right-to-left.md#rtl-06-consider) | consider |  | Align short text with the interface direction, but align a paragraph by the language it is written in. |
+| [RTL-07](right-to-left.md#rtl-07-consider) | consider |  | Keep every item in a list on the same alignment, even when an item is in another script. |
+| [RTL-08](right-to-left.md#rtl-08-consider) | consider |  | Mirror icons that stand for text or for forward and backward movement, and leave the rest alone. |
+| [RTL-09](right-to-left.md#rtl-09-consider) | consider |  | Reverse the order of images or cards whose sequence carries meaning, such as a timeline. |
+| [RTL-10](right-to-left.md#rtl-10-consider) | consider |  | Enlarge Arabic or Hebrew text slightly when it sits beside capitalised Latin text. |
 | [TYP-01](typography.md#typ-01-must) | must | `text-floor` | Set no text smaller than 11 points, and give running text the 17-point body size. |
 | [TYP-02](typography.md#typ-02-should) | should |  | Use regular weight or heavier for interface text, and go larger than usual if a typeface is thin. |
 | [TYP-03](typography.md#typ-03-must) | must | `raw-values` | Take every font size, line height and weight from the type style tokens instead of writing raw values. |

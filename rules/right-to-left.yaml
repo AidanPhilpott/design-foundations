@@ -1,0 +1,83 @@
+# Right-to-left rules in our own words: HIG right to left. No current project ships an RTL language, so these are should or consider.
+# Leading-side layout in general is LAY-02; inclusive icon imagery is ICN-11.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: RTL-01
+  rule: Build layouts on leading and trailing sides rather than left and right, so the whole interface can mirror for right-to-left languages.
+  why: Standard components flip automatically, and layouts written in terms of reading direction then need little extra work.
+  source: {topic: right-to-left, anchor: "Text alignment", via: hig}
+  platforms: [web, swift]
+  web: Set dir on the html element and use logical CSS (margin-inline-start, padding-inline-end, inset-inline-start, border-inline-start, text-align start), flexbox and grid, which follow dir; SwiftUI uses leading and trailing.
+  severity: should
+
+- id: RTL-02
+  rule: Never reverse the digits within a number such as a grade, phone number or distance.
+  why: A number reads the same in every language, and reordering its digits changes its value.
+  source: {topic: right-to-left, anchor: "Numbers and characters", via: hig}
+  platforms: [web, swift]
+  web: Wrap numbers and codes embedded in mixed-direction text in a bdi element or dir="ltr" so the bidi algorithm keeps them intact, and format with Intl.NumberFormat so the locale picks Western or Eastern Arabic digits.
+  severity: should
+
+- id: RTL-03
+  rule: Mirror navigation and controls that show progress or order, and reverse any numbered sequence along with them.
+  why: Forward means the reading direction, so a back button or slider that keeps its left-to-right orientation reads backwards.
+  source: {topic: right-to-left, anchor: "Controls", via: hig}
+  platforms: [web, swift]
+  web: Back chevrons point right and next arrows point left under dir="rtl"; native range inputs follow dir, but check custom sliders, steppers, rating stars and progress bars in Safari as well as Chromium.
+  severity: should
+
+- id: RTL-04
+  rule: Keep controls that point to a real direction or a place on screen exactly as they are.
+  why: A compass arrow or an east marker means the same direction in every language.
+  source: {topic: right-to-left, anchor: "Controls", via: hig}
+  platforms: [web, swift]
+  web: The map stays north-up and is never mirrored, and approach arrows, compass glyphs and pan controls keep their geographic sense.
+  severity: should
+
+- id: RTL-05
+  rule: Do not mirror photos, illustrations, logos, universal marks such as the checkmark, or icons of everyday objects.
+  why: Flipping can change what an image means, misrepresent real places, or break trademark and copyright rules.
+  source: {topic: right-to-left, anchor: "Images", via: hig}
+  platforms: [web, swift]
+  web: Topo photos, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
+  severity: should
+
+- id: RTL-06
+  rule: Align short text with the interface direction, but align a paragraph by the language it is written in.
+  why: A paragraph aligned against its own script is hard to read because the start of each line is hard to find.
+  source: {topic: right-to-left, anchor: "Text alignment", via: hig}
+  platforms: [web, swift]
+  web: Use text-align start for labels, and put dir="auto" (or unicode-bidi plaintext) on user-written notes and descriptions so each one aligns to its own script.
+  severity: consider
+
+- id: RTL-07
+  rule: Keep every item in a list on the same alignment, even when an item is in another script.
+  why: A ragged mix of alignments makes a list slow to scan.
+  source: {topic: right-to-left, anchor: "Text alignment", via: hig}
+  platforms: [web, swift]
+  web: List rows inherit the page direction for alignment while the text inside each one keeps its own direction with a bdi element or dir="auto".
+  severity: consider
+
+- id: RTL-08
+  rule: Mirror icons that stand for text or for forward and backward movement, and leave the rest alone.
+  why: Lines of text and motion read in the reading direction, while most other glyphs have no direction.
+  source: {topic: right-to-left, anchor: "Interface icons", via: hig}
+  platforms: [web, swift]
+  web: Mark directional SVGs with a class and flip only those with :dir(rtl) .icon-directional or [dir="rtl"] .icon-directional using transform scaleX(-1) (:dir() needs Safari 16.4 or later); keep badges, slashes and tools that imply handedness unflipped where flipping would look wrong.
+  severity: consider
+
+- id: RTL-09
+  rule: Reverse the order of images or cards whose sequence carries meaning, such as a timeline.
+  why: Chronological or ranked order runs in the reading direction.
+  source: {topic: right-to-left, anchor: "Images", via: hig}
+  platforms: [web, swift]
+  web: Lay such rows out with flexbox or grid, which reverse under dir="rtl" without extra CSS; do not use row-reverse or absolute left positions to fake the order.
+  severity: consider
+
+- id: RTL-10
+  rule: Enlarge Arabic or Hebrew text slightly when it sits beside capitalised Latin text.
+  why: These scripts have no capital letters and look smaller than uppercase Latin of the same size.
+  source: {topic: right-to-left, anchor: "Controls", via: hig}
+  platforms: [web, swift]
+  web: Add about 2 CSS px (0.125rem) to :lang(ar) and :lang(he) text in buttons and titles next to uppercase Latin.
+  severity: consider

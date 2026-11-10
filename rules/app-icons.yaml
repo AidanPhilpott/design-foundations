@@ -1,0 +1,101 @@
+# App icon rules in our own words: HIG app icons, translated to PWA manifest icons, apple-touch-icon and favicons.
+# ICO-01 and ICO-02 are enforced by the icons check. Interface icons (glyphs) live in icons.yaml; trademarks in branding.yaml.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: ICO-01
+  rule: List a 192 px and a 512 px PNG icon in the web app manifest, plus a separate 512 px icon marked maskable.
+  why: Chromium browsers want both sizes before offering to install the app, and Android launchers crop a maskable icon into their own shape instead of shrinking a square onto a plate.
+  source: {topic: app-icons, anchor: "Specifications", via: house}
+  platforms: [web]
+  web: 'icons in manifest.webmanifest hold {"sizes": "192x192"}, {"sizes": "512x512"} and a second 512 entry with "purpose": "maskable"; keep the maskable artwork in its own file rather than one entry marked "any maskable", which would show the padding wherever the plain icon is used.'
+  severity: must
+  check: icons
+
+- id: ICO-02
+  rule: Link a 180 px apple-touch-icon PNG with a fully opaque, full-bleed background.
+  why: iPhone Home Screen web apps use this file, and iOS paints any transparent pixels black.
+  source: {topic: app-icons, anchor: "Layer design", via: house}
+  platforms: [web]
+  web: 'A link element with rel="apple-touch-icon" and href="apple-touch-icon-180.png" in every HTML entry page, saved as RGB with no alpha channel; recent Safari falls back to manifest icons only when no such link exists, so still provide it.'
+  severity: must
+  check: icons
+
+- id: ICO-03
+  rule: Keep the main subject of the icon centred and well inside the edges, so no mask can clip it.
+  why: Corners are rounded and circles are cut differently on each device, and only the middle survives all of them.
+  source: {topic: app-icons, anchor: "Icon shape", via: hig}
+  platforms: [web, swift]
+  web: In the maskable icon, keep everything that matters within the central circle whose radius is 40% of the icon width, and fill the rest with background; preview it under circle and squircle masks.
+  severity: must
+
+- id: ICO-04
+  rule: Never show Apple hardware or other trademarked products in the icon.
+  why: Those designs are protected, and devices in an icon also date quickly.
+  source: {topic: app-icons, anchor: "Design", via: hig}
+  platforms: [web, swift]
+  web: No phone, watch or laptop silhouettes in the manifest icons or favicon.
+  severity: must
+
+- id: ICO-05
+  rule: Draw the icon as one square master at 1024 px with square, unrounded edges, and let each platform apply its own mask.
+  why: The system rounds or crops the corners itself, and artwork that arrives already rounded ends up with doubled or jagged edges.
+  source: {topic: app-icons, anchor: "Icon shape", via: hig}
+  platforms: [web, swift]
+  web: Export every manifest, apple-touch-icon and favicon size from the same square source (Pebble Picker uses app/brand/make_icons.js); never bake rounded corners or a circle cut-out into the PNGs.
+  severity: should
+
+- id: ICO-06
+  rule: Build the icon around one simple idea with few shapes on a plain background.
+  why: Fine detail turns to noise at Home Screen and tab sizes, while a single bold shape is recognised at a glance.
+  source: {topic: app-icons, anchor: "Design", via: hig}
+  platforms: [web, swift]
+  web: Check the design at 32 px and 16 px as well as 512 px; a solid colour or gentle gradient behind one mark is enough.
+  severity: should
+
+- id: ICO-07
+  rule: Leave words out of the icon unless a letter or wordmark is central to the brand, and never add instructions or labels such as New.
+  why: Text in an icon is too small to read, cannot be translated or read aloud, and repeats the name already printed beneath it.
+  source: {topic: app-icons, anchor: "Design", via: hig}
+  platforms: [web, swift]
+  web: Let the manifest short_name (about 12 characters or fewer, so launchers do not truncate it) and apple-mobile-web-app-title carry the name instead of the artwork.
+  severity: should
+
+- id: ICO-08
+  rule: Use a drawn illustration rather than a photograph or screenshot, and avoid hairline strokes and tiny sharp corners.
+  why: Photos and copied interface lose their meaning when shrunk, and very thin details vanish on low-resolution sizes.
+  source: {topic: app-icons, anchor: "Design", via: hig}
+  platforms: [web, swift]
+  web: The PNGs are rendered from vector artwork with strokes thick enough to survive the 16 px favicon.
+  severity: should
+
+- id: ICO-09
+  rule: Do not paint drop shadows, glows, bevels, gloss or blur into the icon artwork.
+  why: The platform adds its own lighting and depth, and baked-in effects look static, clash with it and get clipped by masks.
+  source: {topic: app-icons, anchor: "Visual effects", via: hig}
+  platforms: [web, swift]
+  web: Flat or gently layered artwork only; any depth comes from overlapping solid shapes, not raster effects.
+  severity: should
+
+- id: ICO-10
+  rule: Show the same icon design wherever the app appears, from the browser tab to the Home Screen.
+  why: One consistent mark lets people find the app quickly and never mistake it for two different apps.
+  source: {topic: app-icons, anchor: "Design", via: hig}
+  platforms: [web, swift]
+  web: Favicon, manifest icons, apple-touch-icon and any sign-in or store artwork come from one source; the favicon may drop small details but keeps the same shape and colours.
+  severity: should
+
+- id: ICO-11
+  rule: Provide an SVG favicon with a small PNG or ICO fallback.
+  why: A vector favicon stays sharp in any tab or bookmark size, and the fallback covers browsers whose SVG favicon support is missing or recent.
+  source: {topic: app-icons, anchor: "Layer design", via: house}
+  platforms: [web]
+  web: 'A link with rel="icon", href="favicon.ico" and sizes="32x32", followed by one with rel="icon", href="icon.svg" and type="image/svg+xml"; the sizes attribute stops Chromium preferring the ICO, and Safari support for SVG favicons is new enough that the fallback must stay.'
+  severity: should
+
+- id: ICO-12
+  rule: Keep the icon's core features recognisable when the system shows it darkened or tinted.
+  why: People who switch the Home Screen to a dark or tinted look still need to spot the app by its shape.
+  source: {topic: app-icons, anchor: "Appearances", via: hig}
+  platforms: [web, swift]
+  web: The manifest has no standard field for dark or tinted variants yet, and iOS may derive them from the web clip icon itself, so give the mark strong shape contrast that survives a single-colour treatment; in SwiftUI apps supply the dark and tinted variants.
+  severity: consider

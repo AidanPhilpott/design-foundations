@@ -1,0 +1,99 @@
+# Interface icon (glyph) rules in our own words: HIG icons, translated to inline SVG icon sets on the web.
+# Accessible names in general are ACC-01; icons scaling with text is TYP-10; non-text contrast for icons is ACC-03; RTL flipping is RTL-08.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: ICN-01
+  rule: Give every icon-only control an accessible name that says what it does, and hide icons that sit beside a visible label from assistive technology.
+  why: A screen reader cannot describe a picture, and announcing both the icon and its label is just noise.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: 'An icon-only button carries aria-label="Save to list" and its svg carries aria-hidden="true"; when text follows the icon, the svg keeps aria-hidden="true" and the button needs no aria-label.'
+  severity: must
+
+- id: ICN-02
+  rule: Icons that carry information rather than trigger an action, such as hazard or style pictographs, also need a text equivalent.
+  why: Meaning that lives only in a small picture is lost to screen reader users and to anyone who has not learned the symbol.
+  source: {topic: icons, anchor: "1.1.1 Non-text Content", via: wcag}
+  platforms: [web, swift]
+  web: Give informational SVGs role="img" with an aria-label (Sit start, Dangerous fall) or pair them with visible text, and keep a legend reachable from wherever the pictographs appear.
+  severity: must
+
+- id: ICN-03
+  rule: Choose a highly simplified icon with a familiar metaphor tied directly to the action or content it stands for.
+  why: Extra detail makes a glyph harder to read at small sizes, and an unfamiliar metaphor has to be learned.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: One idea per glyph at 20 to 24 px; if a glyph needs explaining, add a text label instead of more detail.
+  severity: should
+
+- id: ICN-04
+  rule: Use the widely known symbol for common actions instead of inventing a new one.
+  why: People already know what a magnifying glass, a plus, a trash can or three dots mean, so they can act without reading.
+  source: {topic: icons, anchor: "Standard icons", via: hig}
+  platforms: [web, swift]
+  web: Magnifier for search, plus for add, trash for delete, ellipsis for more, an x for close, a box with an upward arrow for share on Apple devices and three shortening lines or a funnel for filter; in SwiftUI use the matching SF Symbols.
+  severity: should
+
+- id: ICN-05
+  rule: Draw all interface icons as one family with the same grid, level of detail, stroke weight and viewpoint.
+  why: Mixed icon styles look accidental and make some icons seem more important than others.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: One SVG set on a shared viewBox (24 units) with a single stroke-width and line cap; nudge a visually heavy glyph a little smaller so it reads at the same size as the rest; do not mix icon libraries.
+  severity: should
+
+- id: ICN-06
+  rule: Ship interface icons as vectors that take their colour from the surrounding text.
+  why: A vector stays sharp at every pixel density without extra files, and inheriting colour keeps icons correct in dark mode and high contrast.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Inline SVG or an SVG sprite with fill or stroke set to currentColor, sized in em (1em to 1.25em) so it grows with the text as TYP-10 asks; no PNG glyphs.
+  severity: should
+
+- id: ICN-07
+  rule: Match an icon's visual weight to the weight of the text next to it unless one of them is meant to stand out.
+  why: Equal weights give a label and its icon the same emphasis, so neither looks out of place.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Thicken the stroke a step for icons beside semibold or bold labels; SwiftUI symbols follow the font weight automatically.
+  severity: consider
+
+- id: ICN-08
+  rule: Give each icon a single meaning throughout the app, and never reuse a glyph for an unrelated action.
+  why: Once people learn a symbol they act on it without thinking, so a second meaning causes mistakes.
+  source: {topic: icons, anchor: "Best practices", via: house}
+  platforms: [web, swift]
+  web: Keep an icon map in the project (for example bookmark always means save to a list, flag always means report an issue).
+  severity: should
+
+- id: ICN-09
+  rule: Centre asymmetric icons by eye rather than by their bounding box, building any correction into the asset's padding.
+  why: A glyph that is heavier on one side looks off-centre when its box is centred, and small shifts change how polished the interface feels.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Shift the paths inside the SVG viewBox so that centring the element with flexbox already looks right; no per-use margin hacks.
+  severity: consider
+
+- id: ICN-10
+  rule: Add a separate selected-state icon only when the control does not already show selection in another way.
+  why: Standard tab bars, toolbars and toggles mark selection for you, and a second icon set doubles the maintenance.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Show the selected tab or toggle with the accent role and aria-current="page" or aria-pressed="true"; a filled variant of the glyph is optional, never the only signal.
+  severity: consider
+
+- id: ICN-11
+  rule: Draw people in icons as gender-neutral figures and avoid images that only some cultures will recognise.
+  why: Icons should welcome everyone, and a figure or gesture that means nothing, or something rude, elsewhere excludes people.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Use a neutral person outline for account and climber glyphs; avoid hand gestures and culture-specific objects as metaphors.
+  severity: should
+
+- id: ICN-12
+  rule: Put letters inside an icon only when they are the clearest way to show the idea, and then localise them.
+  why: Characters in a glyph tie it to one language and script.
+  source: {topic: icons, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Prefer abstract lines to suggest text; an icon that shows lines of text gets a mirrored version for right-to-left pages (see RTL-08).
+  severity: consider

@@ -1,0 +1,123 @@
+# Privacy rules in our own words: HIG privacy (permissions, pre-prompts, transparency, protecting data), translated to browser permissions.
+# Judgement rules, no automated checks. Location and notification prompts are the main web cases.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: PRV-01
+  rule: Ask for a permission at the moment someone uses the feature that needs it, and not at launch unless the app cannot work at all without it.
+  why: A request with no visible reason looks suspicious and is often refused, while one that follows a tap explains itself.
+  source: {topic: privacy, anchor: "Requesting permission", via: hig}
+  platforms: [web, swift]
+  web: Call navigator.geolocation only from a tap on Locate me, and Notification.requestPermission only from a tap on Turn on alerts (Safari requires a user gesture, and iOS offers web push only to web apps added to the Home Screen, iOS 16.4 or later).
+  severity: must
+
+- id: PRV-02
+  rule: Collect only the data a feature needs, and ask for the narrowest form of access that does the job.
+  why: Every extra piece of data is something people must trust you with and something that can leak.
+  source: {topic: privacy, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Prefer one getCurrentPosition call to watchPosition, leave enableHighAccuracy off unless precision matters, and use a file input for photos, which needs no camera permission; store no more about a person than lists, sends and objectives require.
+  severity: must
+
+- id: PRV-03
+  rule: Never imitate, picture or annotate the permission prompt, and never offer rewards for accepting it.
+  why: Fake or decorated prompts trick people who tap quickly into choices they did not mean to make.
+  source: {topic: privacy, anchor: "Tracking requests", via: hig}
+  platforms: [web, swift]
+  web: No custom dialog that looks like the browser's own, no arrows pointing at Allow, no screenshots of the prompt and no unlocks in return for permission.
+  severity: must
+
+- id: PRV-04
+  rule: When people decline a permission, keep the rest of the feature working, explain how to turn it on later, and do not ask again unprompted.
+  why: Refusing access is a legitimate choice, and nagging or a dead end makes people distrust the whole app.
+  source: {topic: privacy, anchor: "Requesting permission", via: house}
+  platforms: [web, swift]
+  web: Browsers do not show the prompt again after a denial, so detect it (the PERMISSION_DENIED error, Notification.permission, or permissions.query where supported) and offer area search or a manual location instead, with a short note on where the site setting lives.
+  severity: must
+
+- id: PRV-05
+  rule: Say plainly what data the app collects, where it is kept and who can see it.
+  why: People share more comfortably when nothing about the handling of their data is hidden.
+  source: {topic: privacy, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: A short privacy note reachable from settings or sign-in lists what is stored in the cloud (lists, sends, objectives, issue reports), who can read it, and what stays on the device.
+  severity: must
+
+- id: PRV-06
+  rule: Do not load third-party trackers, and share personal data with outside services only as far as a feature needs it.
+  why: Each extra party that receives data is one more place it can be profiled, sold or leaked.
+  source: {topic: privacy, anchor: "Best practices", via: house}
+  platforms: [web, swift]
+  web: No ad or cross-site analytics scripts; weather or tile requests carry only the coordinates they must, and the privacy note says that map tile providers see which area is being viewed.
+  severity: must
+
+- id: PRV-07
+  rule: Never keep passwords, secret keys or other sensitive values in plain storage or in code that ships to the client.
+  why: Anything in the bundle or in unencrypted storage can be read by anyone who has the device or the files.
+  source: {topic: privacy, anchor: "Protecting data", via: hig}
+  platforms: [web, swift]
+  web: The public site holds only the publishable Supabase key, never the service role key; never put passwords in localStorage or IndexedDB, and keep private data behind row-level security; in SwiftUI use the Keychain.
+  severity: must
+
+- id: PRV-08
+  rule: Use an established sign-in method rather than a home-made scheme, avoiding passwords on their own where possible.
+  why: Proven providers and passkeys resist phishing and reuse far better than custom code.
+  source: {topic: privacy, anchor: "Protecting data", via: hig}
+  platforms: [web, swift]
+  web: Magic links, Google sign-in through the auth provider or WebAuthn passkeys; if passwords are ever needed, require a second factor; in SwiftUI offer Sign in with Apple and passkeys.
+  severity: must
+
+- id: PRV-09
+  rule: Tell people in one plain, specific, active sentence why the app wants access, right where they ask for the feature.
+  why: People agree more readily, and with more confidence, when they understand exactly what the access is for.
+  source: {topic: privacy, anchor: "Requesting permission", via: hig}
+  platforms: [web, swift]
+  web: Browser prompts show no custom explanation, so put it on or beside the button (Show boulders near you; your location stays on this phone); in SwiftUI write the usage description string the same way.
+  severity: should
+
+- id: PRV-10
+  rule: Use an explanation screen before the prompt only when the context does not already explain the request, and give it a single button that leads to the prompt.
+  why: A second, competing button or a label like Allow pushes people toward a choice before they have seen the real one.
+  source: {topic: privacy, anchor: "Pre-alert screens, windows, or views", via: hig}
+  platforms: [web, swift]
+  web: Label that button Continue or Next, never Allow, and add no other actions on the screen; the person reached it by tapping the feature, so the usual back navigation is the way out.
+  severity: should
+
+- id: PRV-11
+  rule: Process personal data on the device whenever the task allows.
+  why: Data that never leaves the phone cannot be intercepted or leaked from a server.
+  source: {topic: privacy, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Work out distances from the current position to boulders or saved places in the browser, and do not send the person's coordinates to the backend or to analytics.
+  severity: should
+
+- id: PRV-12
+  rule: Respect the privacy features people turn on, and do not work around them.
+  why: Choices such as hidden email addresses or mail privacy settings are deliberate, and defeating them breaks trust.
+  source: {topic: privacy, anchor: "Best practices", via: hig}
+  platforms: [web, swift]
+  web: Accept relay addresses such as privaterelay.appleid.com like any other email, do not rely on email tracking pixels, and do not fingerprint browsers to recognise people who cleared their data.
+  severity: should
+
+- id: PRV-13
+  rule: Offer a single, recognisable control for sharing the current location exactly when a task calls for it.
+  why: A clear one-tap way to share location only when wanted is lighter and more trustworthy than standing access.
+  source: {topic: privacy, anchor: "Location button", via: hig}
+  platforms: [web, swift]
+  web: A Locate me map button with the standard location-arrow glyph and an accessible name (Show my location); in SwiftUI use LocationButton.
+  severity: should
+
+- id: PRV-14
+  rule: While the app is following someone's location, make that visible and let them stop it with one tap.
+  why: People should always know when they are being located and be able to end it.
+  source: {topic: privacy, anchor: "Location button", via: house}
+  platforms: [web, swift]
+  web: Show an active state on the locate button while watchPosition runs, call clearWatch when it is tapped again, and stop watching when the page becomes hidden (visibilitychange).
+  severity: should
+
+- id: PRV-15
+  rule: Let people delete what they have stored, including their account, and remove it from the server rather than just hiding it.
+  why: Holding data people wanted gone keeps the risk without any benefit to them.
+  source: {topic: privacy, anchor: "Protecting data", via: house}
+  platforms: [web, swift]
+  web: Deleting a list, send, objective or account removes the rows in the database, and the privacy note says how to ask for full deletion.
+  severity: should
