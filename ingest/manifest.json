@@ -1,0 +1,107 @@
+{
+  "accessibility": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/accessibility.json",
+    "title": "Accessibility",
+    "changelogLatest": "June 9, 2025",
+    "contentHash": "bf35b82161f7e8c42166cd30552b250a99f0258c9b40c210905e84bb36692ac8",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "app-icons": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/app-icons.json",
+    "title": "App icons",
+    "changelogLatest": "October 28, 2026",
+    "contentHash": "7cbb90f8e00c208fb2129987b533e7d2500fccb0a2c12785235752212d02066a",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "branding": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/branding.json",
+    "title": "Branding",
+    "changelogLatest": "September 9, 2026",
+    "contentHash": "8ca8075982f45869bc245d80c255da77d9bbe76d41016f908c79589e66ea702a",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "color": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/color.json",
+    "title": "Color",
+    "changelogLatest": "December 16, 2025",
+    "contentHash": "2d59f42e38d97bb157abd6d52bfa5243bfc5902c826ff0b248482ffc364bbf94",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "dark-mode": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/dark-mode.json",
+    "title": "Dark Mode",
+    "changelogLatest": "August 6, 2024",
+    "contentHash": "623ece0931865683a818bde6b056bc0aeb76db568fb66162621fa412adf2a9f7",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "icons": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/icons.json",
+    "title": "Icons",
+    "changelogLatest": "June 9, 2025",
+    "contentHash": "7ca901f22b228cf80e2af87602f3250e863aa3d1e6f3cbcc221b5e721720011c",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "images": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/images.json",
+    "title": "Images",
+    "changelogLatest": "December 16, 2025",
+    "contentHash": "73e5970bd12284da68003bbd1150d8fe397b2fb5ce7b195dce219bf28e65f97d",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "inclusion": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/inclusion.json",
+    "title": "Inclusion",
+    "changelogLatest": null,
+    "contentHash": "eda3920a8b077556bcdff32fd9f1d16d93fe48b93a9c7bf210183328386c08d7",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "layout": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/layout.json",
+    "title": "Layout",
+    "changelogLatest": "September 9, 2026",
+    "contentHash": "e18712ffdaf2f664983d2b3b6ded7f5325c67e39bc4d32ee632dcb2b25ff86ce",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "materials": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/materials.json",
+    "title": "Materials",
+    "changelogLatest": "September 9, 2025",
+    "contentHash": "95b2060e04cd68ef1a063e8a6b6b067677f658ae5dfec9d82a74ef5fca3e51be",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "motion": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/motion.json",
+    "title": "Motion",
+    "changelogLatest": "September 9, 2025",
+    "contentHash": "e440ff4762adc96750184ef9b2d9def563ab3994f32ef9764e18f87b3f968651",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "privacy": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/privacy.json",
+    "title": "Privacy",
+    "changelogLatest": "June 21, 2023",
+    "contentHash": "1f4738af48f92ebefd04faeba9e80e06c9c1655c4f2038c3ec046a3644851670",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "right-to-left": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/right-to-left.json",
+    "title": "Right to left",
+    "changelogLatest": null,
+    "contentHash": "11002a27336866045b7d2245796dd64d4c539d3e7f9a738206a26d820accfa01",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "typography": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/typography.json",
+    "title": "Typography",
+    "changelogLatest": "December 16, 2025",
+    "contentHash": "4e95fee2631c5d652b80c29496665a2219b47a6d8dc27892fdaad157a8413292",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  },
+  "writing": {
+    "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/writing.json",
+    "title": "Writing",
+    "changelogLatest": "December 16, 2025",
+    "contentHash": "0208ac43d91d2a3b3d73119d7d931c02fcb9325071f503ca6ba3c1c62750d010",
+    "fetchedAt": "2026-11-09T21:11:36.253Z"
+  }
+}

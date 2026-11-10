@@ -1,0 +1,115 @@
+# Inclusion rules in our own words: HIG inclusion (welcoming language, gender identity, people, stereotypes, disability, languages).
+# Plain-language basics are WRT-09 and WRT-10; colour meanings across cultures are COL-13. Mostly judgement rules, no automated checks.
+# Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
+
+- id: INC-01
+  rule: Declare the language of every page, and of any passage written in a different language.
+  why: Screen readers and translation tools choose pronunciation, hyphenation and voice from the declared language.
+  source: {topic: inclusion, anchor: "3.1.1 Language of Page", via: wcag}
+  platforms: [web, swift]
+  web: 'lang="en" on the html element of every entry page, and a lang attribute on quoted text or names in another language; in Next.js write it on the html element in app/layout.tsx.'
+  severity: must
+
+- id: INC-02
+  rule: Format dates, times, numbers and units according to the person's language and region instead of hard-coding one style.
+  why: People read 03/04 as March or April depending on where they live, and they expect familiar separators and units.
+  source: {topic: inclusion, anchor: "Languages", via: hig}
+  platforms: [web, swift]
+  web: Use Intl.DateTimeFormat, Intl.NumberFormat and Intl.RelativeTimeFormat with the browser locale, write ISO dates in data, and let people choose metric or imperial where distances and temperatures appear; SwiftUI uses FormatStyle.
+  severity: should
+
+- id: INC-03
+  rule: Leave out gender wherever it is not needed, using plural or neutral nouns and they in place of he or she.
+  why: Gendered copy shuts out people who do not fit it and is harder to translate into languages with gendered grammar.
+  source: {topic: inclusion, anchor: "Gender identity", via: hig}
+  platforms: [web, swift]
+  web: Write Members in this list can add notes, not Each member can add his or her notes.
+  severity: should
+
+- id: INC-04
+  rule: Ask for gender only when a feature truly requires it, and then offer inclusive choices and a place to give pronouns.
+  why: Most features have no use for gender, and a forced binary choice tells some people they do not belong.
+  source: {topic: inclusion, anchor: "Gender identity", via: hig}
+  platforms: [web, swift]
+  web: Neither app needs gender; if a form ever does, offer woman, man, non-binary, self-describe and prefer not to say, and make the field optional.
+  severity: should
+
+- id: INC-05
+  rule: Show a generic person as a neutral figure, and let people choose how their own avatar looks.
+  why: A default human should read as anyone, not as a man or a woman.
+  source: {topic: inclusion, anchor: "Gender identity", via: hig}
+  platforms: [web, swift]
+  web: Default avatars use initials or a neutral outline, with an option to upload or pick a different one.
+  severity: should
+
+- id: INC-06
+  rule: Do not build features or copy on narrow assumptions about people's lives, bodies, families or means.
+  why: Anyone whose situation differs from the assumed one is shut out, and such assumptions are often hard to notice.
+  source: {topic: inclusion, anchor: "Avoiding stereotypes", via: hig}
+  platforms: [web, swift]
+  web: Do not assume everyone drives to the destination, owns the gear, goes with a partner or is highly experienced; offer transit or walking details where known, and avoid security questions about cars, schools or family.
+  severity: should
+
+- id: INC-07
+  rule: When imagery shows people, show a real range of ages, bodies, backgrounds and abilities, without stereotyped roles.
+  why: People who see others like themselves feel the app is meant for them too.
+  source: {topic: inclusion, anchor: "People and settings", via: hig}
+  platforms: [web, swift]
+  web: Onboarding, empty-state and marketing illustrations avoid showing only young, slim, able-bodied people or only men in charge.
+  severity: consider
+
+- id: INC-08
+  rule: Explain specialist terms the first time they appear, or use plain words instead.
+  why: Jargon makes newcomers feel the app is not for them, and plain sentences are easier for everyone to read and translate.
+  source: {topic: inclusion, anchor: "Welcoming language", via: hig}
+  platforms: [web, swift]
+  web: Trade terms such as latency, provisioning or idempotent get a short tooltip, legend or glossary entry, and weather terms such as freezing level get a one-line explanation.
+  severity: should
+
+- id: INC-09
+  rule: Swap idioms and slang for literal language, and retire terms with exclusionary histories.
+  why: Figures of speech rarely translate, and some carry hurtful meanings their writers never intended.
+  source: {topic: inclusion, anchor: "Welcoming language", via: hig}
+  platforms: [web, swift]
+  web: Write allowlist and blocklist rather than whitelist and blacklist, and It is a good day to go out rather than Conditions are on fire.
+  severity: should
+
+- id: INC-10
+  rule: Avoid a tone that assumes expertise, and drop minimising words such as just, simply, obviously and easy.
+  why: Copy that implies a task is trivial makes anyone who finds it hard feel unwelcome.
+  source: {topic: inclusion, anchor: "Welcoming language", via: hig}
+  platforms: [web, swift]
+  web: Write Tap Save to add it to a list, not Just tap Save; describe grades and conditions neutrally rather than as easy or soft.
+  severity: should
+
+- id: INC-11
+  rule: Write about disability with respect, putting the person first or using the term a community prefers, and never use a disability as a figure of speech for something bad.
+  why: Language that treats disability as a flaw excludes and hurts the people it describes.
+  source: {topic: inclusion, anchor: "Accessibility", via: hig}
+  platforms: [web, swift]
+  web: No lame, crippled, blind to or dumb as casual insults in copy, code comments that ship, or error messages.
+  severity: should
+
+- id: INC-12
+  rule: Make every feature available to people of all abilities instead of deciding in advance who will want it.
+  why: Assuming that a disability rules out an interest locks people out of things they would enjoy.
+  source: {topic: inclusion, anchor: "Accessibility", via: hig}
+  platforms: [web, swift]
+  web: Map content also has a list or search view that works with a screen reader, and no feature is marked as unavailable with assistive technology.
+  severity: should
+
+- id: INC-13
+  rule: Use humour sparingly, if at all, and never where people are stressed or facing risk.
+  why: Jokes are understood differently across cultures, wear thin on repetition and can sound dismissive.
+  source: {topic: inclusion, anchor: "Welcoming language", via: hig}
+  platforms: [web, swift]
+  web: No jokes in errors, warnings, avalanche or hazard copy, or anything people will see many times a day; the HIG warns about humour in general, and singling out stressful or risky moments is house advice.
+  severity: consider
+
+- id: INC-14
+  rule: Make the app usable without prior knowledge, with an optional way to learn it that people can skip.
+  why: Newcomers need a gentle path in, while returning people want to get straight to the content.
+  source: {topic: inclusion, anchor: "Being approachable", via: hig}
+  platforms: [web, swift]
+  web: A short, skippable first-run hint or help sheet, always reachable later from a help link, rather than a mandatory tour.
+  severity: consider

@@ -1,0 +1,26 @@
+{
+  "a11y": {
+    "target": {
+      "default": {
+        "$type": "dimension",
+        "$value": 44
+      },
+      "min": {
+        "$type": "dimension",
+        "$value": 28
+      }
+    },
+    "spacing": {
+      "bezel": {
+        "$type": "dimension",
+        "$value": 12,
+        "$description": "around bezelled controls"
+      },
+      "bare": {
+        "$type": "dimension",
+        "$value": 24,
+        "$description": "around bare controls"
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "version": "0.1.0",
+  "include": ["app/**/*.{css,js,html}"],
+  "exclude": ["app/vendor/**"],
+  "tokenFiles": ["app/tokens.css"],
+  "checks": { "raw-values": "error", "reduced-motion": "off", "targets": "warn", "icons": "off" },
+  "baseline": "design-foundations.baseline.json"
+}

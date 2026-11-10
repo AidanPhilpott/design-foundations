@@ -1,0 +1,78 @@
+{
+  "roles": [
+    "bg.primary",
+    "bg.secondary",
+    "bg.tertiary",
+    "bg.grouped.primary",
+    "bg.grouped.secondary",
+    "bg.grouped.tertiary",
+    "label.primary",
+    "label.secondary",
+    "label.tertiary",
+    "label.quaternary",
+    "label.placeholder",
+    "fill.primary",
+    "fill.secondary",
+    "fill.tertiary",
+    "separator",
+    "separator.opaque",
+    "link",
+    "accent",
+    "accent.on",
+    "status.success",
+    "status.warning",
+    "status.danger",
+    "status.info"
+  ],
+  "required": [
+    "bg.primary",
+    "bg.secondary",
+    "bg.tertiary",
+    "bg.grouped.primary",
+    "bg.grouped.secondary",
+    "bg.grouped.tertiary",
+    "label.primary",
+    "label.secondary",
+    "label.tertiary",
+    "separator",
+    "link",
+    "accent",
+    "accent.on",
+    "status.success",
+    "status.warning",
+    "status.danger",
+    "status.info"
+  ],
+  "pairs": [
+    {
+      "fg": "label.primary",
+      "bg": "bg.*",
+      "min": 4.5
+    },
+    {
+      "fg": "label.secondary",
+      "bg": "bg.*",
+      "min": 4.5
+    },
+    {
+      "fg": "label.tertiary",
+      "bg": "bg.primary",
+      "min": 3
+    },
+    {
+      "fg": "accent.on",
+      "bg": "accent",
+      "min": 4.5
+    },
+    {
+      "fg": "link",
+      "bg": "bg.primary",
+      "min": 4.5
+    },
+    {
+      "fg": "status.*",
+      "bg": "bg.primary",
+      "min": 3
+    }
+  ]
+}
