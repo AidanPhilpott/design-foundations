@@ -118,7 +118,7 @@ Make every feature available to people of all abilities instead of deciding in a
 Use humour sparingly, if at all, and never where people are stressed or facing risk.
 
 - Why: Jokes are understood differently across cultures, wear thin on repetition and can sound dismissive.
-- Web: No jokes in errors, warnings, avalanche or hazard copy, or anything people will see many times a day.
+- Web: No jokes in errors, warnings, avalanche or hazard copy, or anything people will see many times a day; the HIG warns about humour in general, and singling out stressful or risky moments is house advice.
 - Platforms: web, swift
 - Source: [HIG › Inclusion › Welcoming language](https://developer.apple.com/design/human-interface-guidelines/inclusion)
 

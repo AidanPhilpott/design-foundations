@@ -7,7 +7,7 @@
   why: A request with no visible reason looks suspicious and is often refused, while one that follows a tap explains itself.
   source: {topic: privacy, anchor: "Requesting permission", via: hig}
   platforms: [web, swift]
-  web: Call navigator.geolocation only from a tap on Locate me, and Notification.requestPermission only from a tap on Turn on alerts (Safari requires a user gesture, and iOS offers web push only to web apps added to the Home Screen, iOS 16.4 or later).
+  web: Call navigator.geolocation only from a tap on Locate me, and Notification.requestPermission only from a tap on Turn on alerts (Safari requires a user gesture); check 'Notification' in window first, because iOS Safari exposes it only in web apps added to the Home Screen (iOS 16.4 or later), and hide or explain the alerts option where it is missing.
   severity: must
 
 - id: PRV-02
@@ -23,7 +23,7 @@
   why: Fake or decorated prompts trick people who tap quickly into choices they did not mean to make.
   source: {topic: privacy, anchor: "Tracking requests", via: hig}
   platforms: [web, swift]
-  web: No custom dialog that looks like the browser's own, no arrows pointing at Allow, no screenshots of the prompt and no unlocks in return for permission.
+  web: No custom dialog that looks like the browser's own, no arrows pointing at Allow, no screenshots of the prompt and no unlocks in return for permission; the HIG states this for tracking prompts, and applying it to every permission is house advice.
   severity: must
 
 - id: PRV-04
@@ -31,7 +31,7 @@
   why: Refusing access is a legitimate choice, and nagging or a dead end makes people distrust the whole app.
   source: {topic: privacy, anchor: "Requesting permission", via: house}
   platforms: [web, swift]
-  web: Browsers do not show the prompt again after a denial, so detect it (the PERMISSION_DENIED error, Notification.permission, or permissions.query where supported) and offer area search or a manual location instead, with a short note on where the site setting lives.
+  web: Browsers usually will not prompt again after a denial and the app cannot force them to, so detect it (the PERMISSION_DENIED error, Notification.permission after checking 'Notification' in window, or permissions.query where supported) and offer area search or a manual location instead, with a short note on where the site setting lives.
   severity: must
 
 - id: PRV-05
@@ -79,7 +79,7 @@
   why: A second, competing button or a label like Allow pushes people toward a choice before they have seen the real one.
   source: {topic: privacy, anchor: "Pre-alert screens, windows, or views", via: hig}
   platforms: [web, swift]
-  web: Label that button Continue or Next, never Allow, and add no other actions on the screen; the person reached it by tapping the feature, so the usual back navigation is the way out.
+  web: Label that button Continue or Next, never Allow, and add no other actions; build it as a page or a dialog that still closes on Escape and back, skip it when the permission is already granted or denied, call requestPermission synchronously inside the Continue click handler so Safari sees a user gesture, and handle a result that stays default (the prompt was dismissed) as not yet decided.
   severity: should
 
 - id: PRV-11

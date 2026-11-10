@@ -100,6 +100,6 @@ Show a neutral placeholder while an image loads and a clear message if it cannot
 Request high-density map tiles and imagery on sharp screens where the provider offers them.
 
 - Why: Standard-resolution tiles look soft on phone screens, which hides the detail people zoom in for.
-- Web: Use the provider's @2x tile URLs or vector tiles, or Leaflet's detectRetina option, which fetches the next zoom level's tiles at a quarter of the size.
+- Web: Use the provider's @2x tile URLs or vector tiles, or Leaflet's detectRetina option, which shows half-size tiles from the next zoom level, four per tile.
 - Platforms: web
 - Source: house rule (related: [HIG › Images › Resolution](https://developer.apple.com/design/human-interface-guidelines/images))

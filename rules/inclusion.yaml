@@ -103,7 +103,7 @@
   why: Jokes are understood differently across cultures, wear thin on repetition and can sound dismissive.
   source: {topic: inclusion, anchor: "Welcoming language", via: hig}
   platforms: [web, swift]
-  web: No jokes in errors, warnings, avalanche or hazard copy, or anything people will see many times a day.
+  web: No jokes in errors, warnings, avalanche or hazard copy, or anything people will see many times a day; the HIG warns about humour in general, and singling out stressful or risky moments is house advice.
   severity: consider
 
 - id: INC-14

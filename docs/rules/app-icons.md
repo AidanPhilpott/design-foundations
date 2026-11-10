@@ -10,7 +10,7 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 List a 192 px and a 512 px PNG icon in the web app manifest, plus a separate 512 px icon marked maskable.
 
 - Why: Chromium browsers want both sizes before offering to install the app, and Android launchers crop a maskable icon into their own shape instead of shrinking a square onto a plate.
-- Web: icons in manifest.webmanifest hold {"sizes": "192x192"}, {"sizes": "512x512"} and a second 512 entry with "purpose": "maskable"; keep the maskable artwork in its own file rather than one entry marked "any maskable", which would show the padding wherever the plain icon is used.
+- Web: icons in manifest.webmanifest hold {"sizes": "192x192"}, {"sizes": "512x512"} and a second 512 entry with "purpose": "maskable"; keep the maskable artwork in its own file rather than one entry marked "any maskable", which would show the padding wherever the plain icon is used; the icons check runs only when config.manifest is set and verifies that a 192x192 entry, a 512x512 entry and a 512x512 entry whose purpose includes maskable exist and that local src files exist, so it accepts a single any maskable entry and does not test PNG type or real pixel size, which stay manual review.
 - Platforms: web
 - Source: house rule (related: [HIG › App Icons › Specifications](https://developer.apple.com/design/human-interface-guidelines/app-icons))
 - Check: `icons`
@@ -20,7 +20,7 @@ List a 192 px and a 512 px PNG icon in the web app manifest, plus a separate 512
 Link a 180 px apple-touch-icon PNG with a fully opaque, full-bleed background.
 
 - Why: iPhone Home Screen web apps use this file, and iOS paints any transparent pixels black.
-- Web: A link element with rel="apple-touch-icon" and href="apple-touch-icon-180.png" in every HTML entry page, saved as RGB with no alpha channel; recent Safari falls back to manifest icons only when no such link exists, so still provide it.
+- Web: A link element with rel="apple-touch-icon" and href="apple-touch-icon-180.png" in every HTML entry page, saved as RGB with no alpha channel; recent Safari falls back to manifest icons only when no such link exists, so still provide it; the icons check flags only when no HTML file has the link, and for each linked local file verifies that it is a 180x180 PNG with no alpha channel, so a link on every entry page and full-bleed artwork stay manual review.
 - Platforms: web
 - Source: house rule (related: [HIG › App Icons › Layer design](https://developer.apple.com/design/human-interface-guidelines/app-icons))
 - Check: `icons`

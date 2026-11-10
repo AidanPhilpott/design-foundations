@@ -87,5 +87,5 @@
   why: Standard-resolution tiles look soft on phone screens, which hides the detail people zoom in for.
   source: {topic: images, anchor: "Resolution", via: house}
   platforms: [web]
-  web: Use the provider's @2x tile URLs or vector tiles, or Leaflet's detectRetina option, which fetches the next zoom level's tiles at a quarter of the size.
+  web: Use the provider's @2x tile URLs or vector tiles, or Leaflet's detectRetina option, which shows half-size tiles from the next zoom level, four per tile.
   severity: consider

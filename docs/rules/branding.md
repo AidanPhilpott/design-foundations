@@ -10,7 +10,7 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 Never use Apple trademarks in the app's name or artwork, and never make the app look like an Apple product or system screen.
 
 - Why: Apple's marks and identity are protected, and imitating them misleads people about who made the app.
-- Web: No Apple logo, product names or device images in names, icons or splash art, and no screens styled to pass as iOS Settings, alerts or other Apple apps.
+- Web: No Apple logo, product names or device images in names, icons or splash art, and no screens styled to pass as iOS Settings, alerts or other Apple apps; the HIG covers trademarks, and the ban on imitating Apple products and system screens is house advice.
 - Platforms: web, swift
 - Source: [HIG › Branding › Best practices](https://developer.apple.com/design/human-interface-guidelines/branding)
 

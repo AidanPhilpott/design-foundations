@@ -10,7 +10,7 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 Give every icon-only control an accessible name that says what it does, and hide icons that sit beside a visible label from assistive technology.
 
 - Why: A screen reader cannot describe a picture, and announcing both the icon and its label is just noise.
-- Web: An icon-only button carries aria-label="Save to list" and its svg carries aria-hidden="true"; when text follows the icon, the svg keeps aria-hidden="true" and the button needs no aria-label.
+- Web: An icon-only button carries aria-label="Save to list" and its svg carries aria-hidden="true"; when text follows the icon, the svg keeps aria-hidden="true" and the button needs no aria-label; the HIG asks for labels on custom icons, and hiding an icon that sits beside visible text is house advice.
 - Platforms: web, swift
 - Source: [HIG › Icons › Best practices](https://developer.apple.com/design/human-interface-guidelines/icons)
 

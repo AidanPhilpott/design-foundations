@@ -7,7 +7,7 @@
   why: A screen reader cannot describe a picture, and announcing both the icon and its label is just noise.
   source: {topic: icons, anchor: "Best practices", via: hig}
   platforms: [web, swift]
-  web: 'An icon-only button carries aria-label="Save to list" and its svg carries aria-hidden="true"; when text follows the icon, the svg keeps aria-hidden="true" and the button needs no aria-label.'
+  web: 'An icon-only button carries aria-label="Save to list" and its svg carries aria-hidden="true"; when text follows the icon, the svg keeps aria-hidden="true" and the button needs no aria-label; the HIG asks for labels on custom icons, and hiding an icon that sits beside visible text is house advice.'
   severity: must
 
 - id: ICN-02

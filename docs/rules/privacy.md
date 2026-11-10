@@ -10,7 +10,7 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 Ask for a permission at the moment someone uses the feature that needs it, and not at launch unless the app cannot work at all without it.
 
 - Why: A request with no visible reason looks suspicious and is often refused, while one that follows a tap explains itself.
-- Web: Call navigator.geolocation only from a tap on Locate me, and Notification.requestPermission only from a tap on Turn on alerts (Safari requires a user gesture, and iOS offers web push only to web apps added to the Home Screen, iOS 16.4 or later).
+- Web: Call navigator.geolocation only from a tap on Locate me, and Notification.requestPermission only from a tap on Turn on alerts (Safari requires a user gesture); check 'Notification' in window first, because iOS Safari exposes it only in web apps added to the Home Screen (iOS 16.4 or later), and hide or explain the alerts option where it is missing.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Requesting permission](https://developer.apple.com/design/human-interface-guidelines/privacy)
 
@@ -28,7 +28,7 @@ Collect only the data a feature needs, and ask for the narrowest form of access 
 Never imitate, picture or annotate the permission prompt, and never offer rewards for accepting it.
 
 - Why: Fake or decorated prompts trick people who tap quickly into choices they did not mean to make.
-- Web: No custom dialog that looks like the browser's own, no arrows pointing at Allow, no screenshots of the prompt and no unlocks in return for permission.
+- Web: No custom dialog that looks like the browser's own, no arrows pointing at Allow, no screenshots of the prompt and no unlocks in return for permission; the HIG states this for tracking prompts, and applying it to every permission is house advice.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Tracking requests](https://developer.apple.com/design/human-interface-guidelines/privacy)
 
@@ -37,7 +37,7 @@ Never imitate, picture or annotate the permission prompt, and never offer reward
 When people decline a permission, keep the rest of the feature working, explain how to turn it on later, and do not ask again unprompted.
 
 - Why: Refusing access is a legitimate choice, and nagging or a dead end makes people distrust the whole app.
-- Web: Browsers do not show the prompt again after a denial, so detect it (the PERMISSION_DENIED error, Notification.permission, or permissions.query where supported) and offer area search or a manual location instead, with a short note on where the site setting lives.
+- Web: Browsers usually will not prompt again after a denial and the app cannot force them to, so detect it (the PERMISSION_DENIED error, Notification.permission after checking 'Notification' in window, or permissions.query where supported) and offer area search or a manual location instead, with a short note on where the site setting lives.
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Privacy › Requesting permission](https://developer.apple.com/design/human-interface-guidelines/privacy))
 
@@ -91,7 +91,7 @@ Tell people in one plain, specific, active sentence why the app wants access, ri
 Use an explanation screen before the prompt only when the context does not already explain the request, and give it a single button that leads to the prompt.
 
 - Why: A second, competing button or a label like Allow pushes people toward a choice before they have seen the real one.
-- Web: Label that button Continue or Next, never Allow, and add no other actions on the screen; the person reached it by tapping the feature, so the usual back navigation is the way out.
+- Web: Label that button Continue or Next, never Allow, and add no other actions; build it as a page or a dialog that still closes on Escape and back, skip it when the permission is already granted or denied, call requestPermission synchronously inside the Continue click handler so Safari sees a user gesture, and handle a result that stays default (the prompt was dismissed) as not yet decided.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Pre-alert screens, windows, or views](https://developer.apple.com/design/human-interface-guidelines/privacy)
 
