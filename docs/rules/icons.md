@@ -100,7 +100,7 @@ Add a separate selected-state icon only when the control does not already show s
 Draw people in icons as gender-neutral figures and avoid images that only some cultures will recognise.
 
 - Why: Icons should welcome everyone, and a figure or gesture that means nothing, or something rude, elsewhere excludes people.
-- Web: Use a neutral person outline for account and climber glyphs; avoid hand gestures and culture-specific objects as metaphors.
+- Web: Use a neutral person outline for account and member glyphs; avoid hand gestures and culture-specific objects as metaphors.
 - Platforms: web, swift
 - Source: [HIG › Icons › Best practices](https://developer.apple.com/design/human-interface-guidelines/icons)
 

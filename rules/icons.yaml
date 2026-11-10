@@ -87,7 +87,7 @@
   why: Icons should welcome everyone, and a figure or gesture that means nothing, or something rude, elsewhere excludes people.
   source: {topic: icons, anchor: "Best practices", via: hig}
   platforms: [web, swift]
-  web: Use a neutral person outline for account and climber glyphs; avoid hand gestures and culture-specific objects as metaphors.
+  web: Use a neutral person outline for account and member glyphs; avoid hand gestures and culture-specific objects as metaphors.
   severity: should
 
 - id: ICN-12

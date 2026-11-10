@@ -14,7 +14,7 @@ COL-06 — Give every colour role a light value, a dark value and a stronger inc
 
 ## Should
 
-COL-05 — Reserve the status roles for state, each with one fixed meaning in every screen, and never use them as decoration or branding. — status.success, status.warning, status.danger and status.info carry only their own meaning; domain scales such as Pebble Picker grade bands or Beacon signals get their own namespace (grade.*, signal.*) rather than borrowing status.*.
+COL-05 — Reserve the status roles for state, each with one fixed meaning in every screen, and never use them as decoration or branding. — status.success, status.warning, status.danger and status.info carry only their own meaning; domain scales such as difficulty grade bands or a go/no-go signal get their own namespace (grade.*, signal.*) rather than borrowing status.*.
 COL-07 — Make the increased-contrast variants clearly stronger than the normal ones, and make sure the high-contrast scheme passes even if the default scheme falls short. — In the hc slots push labels toward pure black or white, darken separators to opaque lines and deepen accent; verify by emulating the prefers-contrast media feature in browser devtools.
 COL-08 — Use each role only for the purpose its name states, never borrowing one for a different job because the shade happens to fit. — No separator as a text colour, no label.secondary as a background, no bg.* on text; add a project role when nothing fits.
 COL-09 — Show layering with the background roles, putting primary behind the whole view, secondary on groups inside it and tertiary on groups within those. — Page and map chrome use bg.primary, cards and sheets bg.secondary, rows inside a card bg.tertiary; settings-style grouped lists use the bg.grouped.* set instead.

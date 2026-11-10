@@ -88,7 +88,7 @@
 | [IMG-06](images.md#img-06-should) | should |  | Put words in real text rather than baking them into an image, except for logos and source material that cannot be separated. |
 | [IMG-07](images.md#img-07-should) | should |  | Try every image on several real devices before shipping it. |
 | [IMG-08](images.md#img-08-should) | should |  | Never send images much larger than they will be displayed, and load the ones off screen only when they are needed. |
-| [IMG-09](images.md#img-09-should) | should |  | Let people zoom into detailed images such as topos and diagrams. |
+| [IMG-09](images.md#img-09-should) | should |  | Let people zoom into detailed images such as maps, plans and diagrams. |
 | [IMG-10](images.md#img-10-should) | should |  | Show a neutral placeholder while an image loads and a clear message if it cannot load. |
 | [IMG-11](images.md#img-11-consider) | consider |  | Request high-density map tiles and imagery on sharp screens where the provider offers them. |
 | [INC-01](inclusion.md#inc-01-must) | must |  | Declare the language of every page, and of any passage written in a different language. |

@@ -1,6 +1,6 @@
 // Checker core: config, file collection, findings, fingerprints, baseline, df-allow.
 import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import { join, resolve, dirname, extname } from 'node:path';
 import { checkIds, getChecks } from './registry.mjs';
 import { matchGlob, normalizePath } from './glob.mjs';
@@ -55,9 +55,15 @@ export function loadConfig(path, { root } = {}) {
     if (!SEVERITIES.includes(sev)) throw new ConfigError(`bad severity ${JSON.stringify(sev)} for check "${id}" (use ${SEVERITIES.join(', ')})`);
   }
 
+  let rootDir = dirname(configPath);
+  if (root) {
+    rootDir = resolve(root);
+    if (!existsSync(rootDir) || !statSync(rootDir).isDirectory()) throw new ConfigError(`root not found: ${root}`);
+  }
+
   return {
     version: raw.version ?? null,
-    dir: root ? resolve(root) : dirname(configPath),
+    dir: rootDir,
     configPath,
     include: strList(raw.include, 'include', DEFAULT_INCLUDE).map(normalizePath),
     exclude: strList(raw.exclude, 'exclude', []).map(normalizePath),
@@ -161,13 +167,15 @@ export function writeBaseline(path, findings) {
   return entries.length;
 }
 
-const ALLOW = /df-allow\s+([\w-]+)\s*:/g;
+const ALLOW = /df-allow\s+([\w-]+)\s*:([^\n]*)/g;
+/** A df-allow only counts with a reason after the colon (comment closers do not count as one). */
+const hasReason = (rest) => rest.replace(/\*\/|-->/g, '').trim() !== '';
 function allowedChecks(lines, line) {
   const ids = new Set();
   // The preceding line counts only when it holds nothing but a comment.
   const commentOnly = (l) => l.replace(/\/\*.*?(?:\*\/|$)|\/\/.*$|<!--.*?(?:-->|$)|^(?:(?!\/\*).)*?\*\//g, '').trim() === '';
   const prev = lines[line - 2] ?? '';
-  for (const l of [lines[line - 1], commentOnly(prev) ? prev : '']) for (const m of (l ?? '').matchAll(ALLOW)) ids.add(m[1]);
+  for (const l of [lines[line - 1], commentOnly(prev) ? prev : '']) for (const m of (l ?? '').matchAll(ALLOW)) if (hasReason(m[2])) ids.add(m[1]);
   return ids;
 }
 
@@ -187,6 +195,17 @@ export function runChecks(config, ctx) {
     for (const f of result) {
       findings.push({ ruleIds: mod.ruleIds ?? [], ...f, check: mod.id, severity: f.severity ?? severity, line: f.line ?? 1, snippet: f.snippet ?? '' });
     }
+  }
+  // A df-allow without a reason suppresses nothing and is itself a finding.
+  for (const file of ctx.files) {
+    file.text.split(/\r?\n/).forEach((l, i) => {
+      for (const m of l.matchAll(ALLOW)) {
+        const severity = severityOf(config, m[1]);
+        if (!hasReason(m[2]) && severity !== 'off') {
+          findings.push({ ruleIds: [], check: m[1], severity, file: file.path, line: i + 1, snippet: normSnippet(l), message: 'df-allow needs a reason' });
+        }
+      }
+    });
   }
   assignFingerprints(findings);
 

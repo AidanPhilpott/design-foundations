@@ -13,7 +13,7 @@ ICO-04 — Never show Apple hardware or other trademarked products in the icon. 
 
 ## Should
 
-ICO-05 — Draw the icon as one square master at 1024 px with square, unrounded edges, and let each platform apply its own mask. — Export every manifest, apple-touch-icon and favicon size from the same square source (Pebble Picker uses app/brand/make_icons.js); never bake rounded corners or a circle cut-out into the PNGs.
+ICO-05 — Draw the icon as one square master at 1024 px with square, unrounded edges, and let each platform apply its own mask. — Export every manifest, apple-touch-icon and favicon size from the same square source (a small build script can export them all); never bake rounded corners or a circle cut-out into the PNGs.
 ICO-06 — Build the icon around one simple idea with few shapes on a plain background. — Check the design at 32 px and 16 px as well as 512 px; a solid colour or gentle gradient behind one mark is enough.
 ICO-07 — Leave words out of the icon unless a letter or wordmark is central to the brand, and never add instructions or labels such as New. — Let the manifest short_name (about 12 characters or fewer, so launchers do not truncate it) and apple-mobile-web-app-title carry the name instead of the artwork.
 ICO-08 — Use a drawn illustration rather than a photograph or screenshot, and avoid hairline strokes and tiny sharp corners. — The PNGs are rendered from vector artwork with strokes thick enough to survive the 16 px favicon.

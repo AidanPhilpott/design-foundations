@@ -10,7 +10,7 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 Give every informative image a text alternative that conveys its content or purpose, and mark purely decorative images as such.
 
 - Why: People who cannot see the image get nothing from it unless its meaning is also available as text.
-- Web: alt describes what the image shows or does (Topo of the Apron boulders with problems 16 to 21 marked), alt="" on decoration, and never a file name; in SwiftUI use accessibilityLabel or Image(decorative:).
+- Web: alt describes what the image shows or does (Floor plan of the second level with rooms 4 to 9 marked), alt="" on decoration, and never a file name; in SwiftUI use accessibilityLabel or Image(decorative:).
 - Platforms: web, swift
 - Source: WCAG 2.2 › 1.1.1 Non-text Content (see also [HIG › Images](https://developer.apple.com/design/human-interface-guidelines/images))
 
@@ -55,7 +55,7 @@ Keep every image at its own aspect ratio and reserve its space before it loads.
 Put words in real text rather than baking them into an image, except for logos and source material that cannot be separated.
 
 - Why: Text inside a picture cannot be resized, restyled for contrast, translated, searched or read aloud.
-- Web: Titles, captions and labels are HTML laid over or beside the image; scanned guidebook topos are exempt as source material, but the problems they mark are also listed as text.
+- Web: Titles, captions and labels are HTML laid over or beside the image; scanned diagrams from printed sources are exempt as source material, but the items they mark are also listed as text.
 - Platforms: web, swift
 - Source: WCAG 2.2 › 1.4.5 Images of Text (see also [HIG › Images](https://developer.apple.com/design/human-interface-guidelines/images))
 
@@ -79,7 +79,7 @@ Never send images much larger than they will be displayed, and load the ones off
 
 ## IMG-09 (should)
 
-Let people zoom into detailed images such as topos and diagrams.
+Let people zoom into detailed images such as maps, plans and diagrams.
 
 - Why: Marked lines and small numbers are often unreadable at phone width, especially for people with low vision.
 - Web: Open detailed images in a full-screen viewer with pinch zoom and visible zoom buttons, served at enough resolution to stay sharp when enlarged; do not block page zoom with user-scalable=no.
@@ -91,7 +91,7 @@ Let people zoom into detailed images such as topos and diagrams.
 Show a neutral placeholder while an image loads and a clear message if it cannot load.
 
 - Why: Blank gaps or broken-image icons look like bugs, and offline use makes failed loads common.
-- Web: Give image boxes the bg.secondary role until they load, handle the img error event with a short text such as Topo not available offline, and keep alt text meaningful for that case too.
+- Web: Give image boxes the bg.secondary role until they load, handle the img error event with a short text such as Map not available offline, and keep alt text meaningful for that case too.
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Images › Best practices](https://developer.apple.com/design/human-interface-guidelines/images))
 

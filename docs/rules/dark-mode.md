@@ -73,7 +73,7 @@ Make sure interface icons and full-colour images look right in both appearances,
 Tone down large white areas in images shown in dark appearance.
 
 - Why: A bright white photo background glows against a dark interface and strains the eyes.
-- Web: In dark mode give white-background images such as topo scans a slight dim (filter brightness around 0.9) without touching photos whose content must stay true.
+- Web: In dark mode give white-background images such as scanned diagrams a slight dim (filter brightness around 0.9) without touching photos whose content must stay true.
 - Platforms: web, swift
 - Source: [HIG › Dark Mode › Dark Mode colors](https://developer.apple.com/design/human-interface-guidelines/dark-mode)
 

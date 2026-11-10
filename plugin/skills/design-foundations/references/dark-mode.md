@@ -21,5 +21,5 @@ DRK-11 — Give the browser and installed PWA chrome a theme colour for each app
 
 ## Consider
 
-DRK-08 — Tone down large white areas in images shown in dark appearance. — In dark mode give white-background images such as topo scans a slight dim (filter brightness around 0.9) without touching photos whose content must stay true.
+DRK-08 — Tone down large white areas in images shown in dark appearance. — In dark mode give white-background images such as scanned diagrams a slight dim (filter brightness around 0.9) without touching photos whose content must stay true.
 DRK-10 — Use a dark-only interface only in rare cases, such as a screen centred on immersive photos or imagery. — A full-screen satellite or photo viewer may stay dark (declare color-scheme dark there); lists, settings and detail pages follow the system.

@@ -19,7 +19,7 @@ Keep content and controls inside the safe area, clear of notches, the home indic
 Arrange each screen by importance, placing what matters most at the top and on the leading side.
 
 - Why: People scan in reading order, so position is the first signal of priority.
-- Web: On an area or climb page the name, grade and key action come first; secondary details such as history and sources follow; use logical properties (inline-start) so the leading side flips in right-to-left text.
+- Web: On a detail page the name, grade and key action come first; secondary details such as history and sources follow; use logical properties (inline-start) so the leading side flips in right-to-left text.
 - Platforms: web, swift
 - Source: [HIG › Layout › Visual hierarchy](https://developer.apple.com/design/human-interface-guidelines/layout)
 
@@ -38,7 +38,7 @@ Leave about 12 points around controls with a visible bezel and about 24 points a
 Base layout decisions on the space actually available, never on the device type or its orientation.
 
 - Why: The same device can show the app at many widths, in split view, a resized window or landscape.
-- Web: Switch layouts with width media or container queries at the regular breakpoint token (700px by default, overridable per project, for example 761px in Pebble Picker); no user-agent sniffing and no orientation queries for layout.
+- Web: Switch layouts with width media or container queries at the regular breakpoint token (700px by default, overridable per project, for example 761px); no user-agent sniffing and no orientation queries for layout.
 - Platforms: web, swift
 - Source: [HIG › Layout › Size classes](https://developer.apple.com/design/human-interface-guidelines/layout)
 - Tokens: `layout.breakpoint.regular`
@@ -140,7 +140,7 @@ Test the smallest and largest layouts first, then the sizes, languages and text 
 When background art or imagery meets a new aspect ratio, scale it to fill rather than stretching or boxing it.
 
 - Why: Distorted or letterboxed artwork looks broken and wastes the screen.
-- Web: Give background and hero images object-fit cover (or background-size cover) with a sensible object-position, never a forced width and height alone; images whose edges carry information, such as topos with marked lines, use contain.
+- Web: Give background and hero images object-fit cover (or background-size cover) with a sensible object-position, never a forced width and height alone; images whose edges carry information, such as diagrams with marked lines, use contain.
 - Platforms: web, swift
 - Source: [HIG › Layout › Adaptability](https://developer.apple.com/design/human-interface-guidelines/layout)
 

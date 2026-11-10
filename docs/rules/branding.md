@@ -18,7 +18,7 @@ Never use Apple trademarks in the app's name or artwork, and never make the app 
 
 Let branding step back behind the content, never spending screen space on an element whose only job is to show the brand.
 
-- Why: On a phone every row given to a logo or banner is a row taken from the map, the climbs or the forecast.
+- Why: On a phone every row given to a logo or banner is a row taken from the map, the content or the forecast.
 - Web: No persistent brand header or footer on the map or detail screens; the app name lives in the title element, the manifest and the icon.
 - Platforms: web, swift
 - Source: [HIG › Branding › Best practices](https://developer.apple.com/design/human-interface-guidelines/branding)

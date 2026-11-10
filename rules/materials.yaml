@@ -56,7 +56,7 @@
   why: Text that reads well over plain ground can disappear over snow, sky or a dense photo.
   source: {topic: materials, anchor: "Standard materials", via: house}
   platforms: [web, swift]
-  web: Test controls over the lightest and darkest satellite tiles and over topo photos; if text fails anywhere, move to a thicker material or a solid fill.
+  web: Test controls over the lightest and darkest satellite tiles and over photos; if text fails anywhere, move to a thicker material or a solid fill.
   severity: should
 
 - id: MAT-08

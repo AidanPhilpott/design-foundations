@@ -15,7 +15,7 @@
   why: People scan in reading order, so position is the first signal of priority.
   source: {topic: layout, anchor: "Visual hierarchy", via: hig}
   platforms: [web, swift]
-  web: On an area or climb page the name, grade and key action come first; secondary details such as history and sources follow; use logical properties (inline-start) so the leading side flips in right-to-left text.
+  web: On a detail page the name, grade and key action come first; secondary details such as history and sources follow; use logical properties (inline-start) so the leading side flips in right-to-left text.
   severity: should
 
 - id: LAY-03
@@ -32,7 +32,7 @@
   why: The same device can show the app at many widths, in split view, a resized window or landscape.
   source: {topic: layout, anchor: "Size classes", via: hig}
   platforms: [web, swift]
-  web: Switch layouts with width media or container queries at the regular breakpoint token (700px by default, overridable per project, for example 761px in Pebble Picker); no user-agent sniffing and no orientation queries for layout.
+  web: Switch layouts with width media or container queries at the regular breakpoint token (700px by default, overridable per project, for example 761px); no user-agent sniffing and no orientation queries for layout.
   severity: must
   tokens: [layout.breakpoint.regular]
 
@@ -123,7 +123,7 @@
   why: Distorted or letterboxed artwork looks broken and wastes the screen.
   source: {topic: layout, anchor: "Adaptability", via: hig}
   platforms: [web, swift]
-  web: Give background and hero images object-fit cover (or background-size cover) with a sensible object-position, never a forced width and height alone; images whose edges carry information, such as topos with marked lines, use contain.
+  web: Give background and hero images object-fit cover (or background-size cover) with a sensible object-position, never a forced width and height alone; images whose edges carry information, such as diagrams with marked lines, use contain.
   severity: consider
 
 - id: LAY-16

@@ -82,7 +82,7 @@ Use an established sign-in method rather than a home-made scheme, avoiding passw
 Tell people in one plain, specific, active sentence why the app wants access, right where they ask for the feature.
 
 - Why: People agree more readily, and with more confidence, when they understand exactly what the access is for.
-- Web: Browser prompts show no custom explanation, so put it on or beside the button (Show boulders near you; your location stays on this phone); in SwiftUI write the usage description string the same way.
+- Web: Browser prompts show no custom explanation, so put it on or beside the button (Show places near you; your location stays on this phone); in SwiftUI write the usage description string the same way.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Requesting permission](https://developer.apple.com/design/human-interface-guidelines/privacy)
 
@@ -100,7 +100,7 @@ Use an explanation screen before the prompt only when the context does not alrea
 Process personal data on the device whenever the task allows.
 
 - Why: Data that never leaves the phone cannot be intercepted or leaked from a server.
-- Web: Work out distances from the current position to boulders or saved places in the browser, and do not send the person's coordinates to the backend or to analytics.
+- Web: Work out distances from the current position to saved places in the browser, and do not send the person's coordinates to the backend or to analytics.
 - Platforms: web, swift
 - Source: [HIG › Privacy › Best practices](https://developer.apple.com/design/human-interface-guidelines/privacy)
 

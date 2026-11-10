@@ -46,7 +46,7 @@ Keep controls that point to a real direction or a place on screen exactly as the
 Do not mirror photos, illustrations, logos, universal marks such as the checkmark, or icons of everyday objects.
 
 - Why: Flipping can change what an image means, misrepresent real places, or break trademark and copyright rules.
-- Web: Topo photos, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
+- Web: Photos, maps, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
 - Platforms: web, swift
 - Source: [HIG › Right To Left › Images](https://developer.apple.com/design/human-interface-guidelines/right-to-left)
 

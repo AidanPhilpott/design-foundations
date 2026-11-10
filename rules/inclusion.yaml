@@ -23,7 +23,7 @@
   why: Gendered copy shuts out people who do not fit it and is harder to translate into languages with gendered grammar.
   source: {topic: inclusion, anchor: "Gender identity", via: hig}
   platforms: [web, swift]
-  web: Write Climbers in this list can add notes, not Each climber can add his or her notes.
+  web: Write Members in this list can add notes, not Each member can add his or her notes.
   severity: should
 
 - id: INC-04
@@ -47,7 +47,7 @@
   why: Anyone whose situation differs from the assumed one is shut out, and such assumptions are often hard to notice.
   source: {topic: inclusion, anchor: "Avoiding stereotypes", via: hig}
   platforms: [web, swift]
-  web: Do not assume everyone drives to the crag, owns a rack, climbs with a partner or climbs hard; offer transit or walking details where known, and avoid security questions about cars, schools or family.
+  web: Do not assume everyone drives to the destination, owns the gear, goes with a partner or is highly experienced; offer transit or walking details where known, and avoid security questions about cars, schools or family.
   severity: should
 
 - id: INC-07
@@ -55,7 +55,7 @@
   why: People who see others like themselves feel the app is meant for them too.
   source: {topic: inclusion, anchor: "People and settings", via: hig}
   platforms: [web, swift]
-  web: Onboarding, empty-state and marketing illustrations avoid showing only young, slim, able-bodied climbers or only men leading.
+  web: Onboarding, empty-state and marketing illustrations avoid showing only young, slim, able-bodied people or only men in charge.
   severity: consider
 
 - id: INC-08
@@ -63,7 +63,7 @@
   why: Jargon makes newcomers feel the app is not for them, and plain sentences are easier for everyone to read and translate.
   source: {topic: inclusion, anchor: "Welcoming language", via: hig}
   platforms: [web, swift]
-  web: Climbing terms such as beta, highball or sit start get a short tooltip, legend or glossary entry, and weather terms such as freezing level get a one-line explanation.
+  web: Trade terms such as latency, provisioning or idempotent get a short tooltip, legend or glossary entry, and weather terms such as freezing level get a one-line explanation.
   severity: should
 
 - id: INC-09
@@ -71,7 +71,7 @@
   why: Figures of speech rarely translate, and some carry hurtful meanings their writers never intended.
   source: {topic: inclusion, anchor: "Welcoming language", via: hig}
   platforms: [web, swift]
-  web: Write allowlist and blocklist rather than whitelist and blacklist, and It is a good day to climb rather than Conditions are on fire.
+  web: Write allowlist and blocklist rather than whitelist and blacklist, and It is a good day to go out rather than Conditions are on fire.
   severity: should
 
 - id: INC-10

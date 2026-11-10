@@ -48,7 +48,7 @@ Give each colour a single meaning across the app, and keep the interactive colou
 Reserve the status roles for state, each with one fixed meaning in every screen, and never use them as decoration or branding.
 
 - Why: Success, warning, danger and info colours only work as signals if they always mean the same thing.
-- Web: status.success, status.warning, status.danger and status.info carry only their own meaning; domain scales such as Pebble Picker grade bands or Beacon signals get their own namespace (grade.*, signal.*) rather than borrowing status.*.
+- Web: status.success, status.warning, status.danger and status.info carry only their own meaning; domain scales such as difficulty grade bands or a go/no-go signal get their own namespace (grade.*, signal.*) rather than borrowing status.*.
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Color › Best practices](https://developer.apple.com/design/human-interface-guidelines/color))
 

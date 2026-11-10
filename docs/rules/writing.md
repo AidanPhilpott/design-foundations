@@ -9,8 +9,8 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 
 Say things plainly and briefly, removing any word that does not earn its place.
 
-- Why: Short, clear copy is read faster and misread less, especially on a phone at the crag or trailhead.
-- Web: Prefer Saved to Your boulder has been successfully saved; read new strings aloud before shipping them.
+- Why: Short, clear copy is read faster and misread less, especially on a phone outdoors.
+- Web: Prefer Saved to Your item has been successfully saved; read new strings aloud before shipping them.
 - Platforms: web, swift
 - Source: [HIG › Writing › Getting started](https://developer.apple.com/design/human-interface-guidelines/writing)
 
@@ -55,7 +55,7 @@ Label buttons and links with a verb for what they do, and favour clarity over cl
 Make link text describe its destination on its own, never a bare click here.
 
 - Why: Screen reader users often move through a page link by link, out of context.
-- Web: Write Open the Squamish forecast or View approach details as the link text itself.
+- Web: Write Open the weather forecast or View approach details as the link text itself.
 - Platforms: web, swift
 - Source: [HIG › Writing › Best practices](https://developer.apple.com/design/human-interface-guidelines/writing)
 
@@ -64,7 +64,7 @@ Make link text describe its destination on its own, never a bare click here.
 Decide on the app's voice and keep a short list of preferred terms, using the same word for the same thing everywhere.
 
 - Why: Consistent vocabulary makes the app feel coherent and stops people wondering whether two words mean two things.
-- Web: Keep a glossary in each project's docs (for example boulder, problem, wall and area in Pebble Picker; In, Watch and Out in Beacon) and use it in code strings too.
+- Web: Keep a glossary in each project's docs (for example item, collection and area in a map app; In, Watch and Out for a status signal) and use it in code strings too.
 - Platforms: web, swift
 - Source: [HIG › Writing › Getting started](https://developer.apple.com/design/human-interface-guidelines/writing)
 
@@ -73,7 +73,7 @@ Decide on the app's voice and keep a short list of preferred terms, using the sa
 Adapt the tone to the moment, straightforward for problems and safety and lighter for successes.
 
 - Why: The same voice can reassure or celebrate, but a cheerful tone during a failure or a hazard feels careless.
-- Web: Avalanche and conditions warnings in Beacon stay neutral and direct; a first logged send may get a light touch.
+- Web: Safety and conditions warnings stay neutral and direct; a first completed goal may get a light touch.
 - Platforms: web, swift
 - Source: [HIG › Writing › Getting started](https://developer.apple.com/design/human-interface-guidelines/writing)
 
@@ -127,7 +127,7 @@ Use interaction verbs that suit the device, or neutral ones when the same copy s
 Give every empty screen a short explanation of what belongs there and a button or link to take the next step.
 
 - Why: A blank view with no guidance looks broken, and an action turns it into a starting point.
-- Web: An empty list says how to add climbs and offers a Browse map button; keep essential information out of empty states, as they vanish once content exists.
+- Web: An empty list says how to add items and offers a Browse map button; keep essential information out of empty states, as they vanish once content exists.
 - Platforms: web, swift
 - Source: [HIG › Writing › Best practices](https://developer.apple.com/design/human-interface-guidelines/writing)
 
@@ -172,6 +172,6 @@ Lead each screen with what matters most, and split unrelated ideas into separate
 Match how a message is delivered to its urgency, from inline text through banners and dialogs to notifications.
 
 - Why: Interrupting for something minor wears people out, while burying something urgent means it is missed.
-- Web: Inline text for field help, a dismissible banner for sync status, a dialog only for a decision that cannot wait, and push notifications only for changes the person asked to hear about, such as Beacon going to In.
+- Web: Inline text for field help, a dismissible banner for sync status, a dialog only for a decision that cannot wait, and push notifications only for changes the person asked to hear about, such as a tracked status changing to In.
 - Platforms: web, swift
 - Source: [HIG › Writing › Best practices](https://developer.apple.com/design/human-interface-guidelines/writing)

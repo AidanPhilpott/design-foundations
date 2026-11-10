@@ -10,7 +10,7 @@ RTL-01 — Build layouts on leading and trailing sides rather than left and righ
 RTL-02 — Never reverse the digits within a number such as a grade, phone number or distance. — Wrap numbers and codes embedded in mixed-direction text in a bdi element or dir="ltr" so the bidi algorithm keeps them intact, and format with Intl.NumberFormat so the locale picks Western or Eastern Arabic digits.
 RTL-03 — Mirror navigation and controls that show progress or order, and reverse any numbered sequence along with them. — Back chevrons point right and next arrows point left under dir="rtl"; native range inputs follow dir, but check custom sliders, steppers, rating stars and progress bars in Safari as well as Chromium.
 RTL-04 — Keep controls that point to a real direction or a place on screen exactly as they are. — The map stays north-up and is never mirrored, and approach arrows, compass glyphs and pan controls keep their geographic sense.
-RTL-05 — Do not mirror photos, illustrations, logos, universal marks such as the checkmark, or icons of everyday objects. — Topo photos, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
+RTL-05 — Do not mirror photos, illustrations, logos, universal marks such as the checkmark, or icons of everyday objects. — Photos, maps, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
 
 ## Consider
 

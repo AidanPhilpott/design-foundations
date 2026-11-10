@@ -41,7 +41,7 @@
   why: The system rounds or crops the corners itself, and artwork that arrives already rounded ends up with doubled or jagged edges.
   source: {topic: app-icons, anchor: "Icon shape", via: hig}
   platforms: [web, swift]
-  web: Export every manifest, apple-touch-icon and favicon size from the same square source (Pebble Picker uses app/brand/make_icons.js); never bake rounded corners or a circle cut-out into the PNGs.
+  web: Export every manifest, apple-touch-icon and favicon size from the same square source (a small build script can export them all); never bake rounded corners or a circle cut-out into the PNGs.
   severity: should
 
 - id: ICO-06

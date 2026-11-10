@@ -1,5 +1,5 @@
 # Image rules in our own words: HIG images (resolution, formats, testing), plus WCAG and house rules for the web.
-# Embedded colour profiles are COL-15; dimming bright images in dark mode is DRK-08; topo framing (contain, never crop) is LAY-15.
+# Embedded colour profiles are COL-15; dimming bright images in dark mode is DRK-08; diagram framing (contain, never crop) is LAY-15.
 # Format: docs/specs/2026-11-09-design-foundations-design.md §5 (via: hig | swiftui-defaults | wcag | house). IDs are never reused.
 
 - id: IMG-01
@@ -7,7 +7,7 @@
   why: People who cannot see the image get nothing from it unless its meaning is also available as text.
   source: {topic: images, anchor: "1.1.1 Non-text Content", via: wcag}
   platforms: [web, swift]
-  web: alt describes what the image shows or does (Topo of the Apron boulders with problems 16 to 21 marked), alt="" on decoration, and never a file name; in SwiftUI use accessibilityLabel or Image(decorative:).
+  web: alt describes what the image shows or does (Floor plan of the second level with rooms 4 to 9 marked), alt="" on decoration, and never a file name; in SwiftUI use accessibilityLabel or Image(decorative:).
   severity: must
 
 - id: IMG-02
@@ -47,7 +47,7 @@
   why: Text inside a picture cannot be resized, restyled for contrast, translated, searched or read aloud.
   source: {topic: images, anchor: "1.4.5 Images of Text", via: wcag}
   platforms: [web, swift]
-  web: Titles, captions and labels are HTML laid over or beside the image; scanned guidebook topos are exempt as source material, but the problems they mark are also listed as text.
+  web: Titles, captions and labels are HTML laid over or beside the image; scanned diagrams from printed sources are exempt as source material, but the items they mark are also listed as text.
   severity: should
 
 - id: IMG-07
@@ -67,7 +67,7 @@
   severity: should
 
 - id: IMG-09
-  rule: Let people zoom into detailed images such as topos and diagrams.
+  rule: Let people zoom into detailed images such as maps, plans and diagrams.
   why: Marked lines and small numbers are often unreadable at phone width, especially for people with low vision.
   source: {topic: images, anchor: "Resolution", via: house}
   platforms: [web, swift]
@@ -79,7 +79,7 @@
   why: Blank gaps or broken-image icons look like bugs, and offline use makes failed loads common.
   source: {topic: images, anchor: "Best practices", via: house}
   platforms: [web, swift]
-  web: Give image boxes the bg.secondary role until they load, handle the img error event with a short text such as Topo not available offline, and keep alt text meaningful for that case too.
+  web: Give image boxes the bg.secondary role until they load, handle the img error event with a short text such as Map not available offline, and keep alt text meaningful for that case too.
   severity: should
 
 - id: IMG-11

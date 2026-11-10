@@ -48,7 +48,7 @@ Never show Apple hardware or other trademarked products in the icon.
 Draw the icon as one square master at 1024 px with square, unrounded edges, and let each platform apply its own mask.
 
 - Why: The system rounds or crops the corners itself, and artwork that arrives already rounded ends up with doubled or jagged edges.
-- Web: Export every manifest, apple-touch-icon and favicon size from the same square source (Pebble Picker uses app/brand/make_icons.js); never bake rounded corners or a circle cut-out into the PNGs.
+- Web: Export every manifest, apple-touch-icon and favicon size from the same square source (a small build script can export them all); never bake rounded corners or a circle cut-out into the PNGs.
 - Platforms: web, swift
 - Source: [HIG › App Icons › Icon shape](https://developer.apple.com/design/human-interface-guidelines/app-icons)
 

@@ -66,7 +66,7 @@ Draw fills and dividers on a material with the fill and separator roles, which a
 Judge legibility on a material against the brightest and busiest content that can appear behind it.
 
 - Why: Text that reads well over plain ground can disappear over snow, sky or a dense photo.
-- Web: Test controls over the lightest and darkest satellite tiles and over topo photos; if text fails anywhere, move to a thicker material or a solid fill.
+- Web: Test controls over the lightest and darkest satellite tiles and over photos; if text fails anywhere, move to a thicker material or a solid fill.
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Materials › Standard materials](https://developer.apple.com/design/human-interface-guidelines/materials))
 

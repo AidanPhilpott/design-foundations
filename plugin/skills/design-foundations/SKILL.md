@@ -54,7 +54,7 @@ Only for a real, explained exception. Put a comment on the same line or the line
 
 `/* df-allow raw-values: map tile fade must match the vendor's 150ms */`
 
-Every `df-allow` needs a reason after the colon; the checker will accept a bare one, but do not write one. Existing findings go in the baseline file (`--update-baseline`); do not hide new ones that way.
+Every `df-allow` needs a reason after the colon; a bare one suppresses nothing and is reported as a finding. Existing findings go in the baseline file (`--update-baseline`); do not hide new ones that way.
 
 ## Keeping it current
 

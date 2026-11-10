@@ -16,7 +16,7 @@ ICN-04 — Use the widely known symbol for common actions instead of inventing a
 ICN-05 — Draw all interface icons as one family with the same grid, level of detail, stroke weight and viewpoint. — One SVG set on a shared viewBox (24 units) with a single stroke-width and line cap; nudge a visually heavy glyph a little smaller so it reads at the same size as the rest; do not mix icon libraries.
 ICN-06 — Ship interface icons as vectors that take their colour from the surrounding text. — Inline SVG or an SVG sprite with fill or stroke set to currentColor, sized in em (1em to 1.25em) so it grows with the text as TYP-10 asks; no PNG glyphs.
 ICN-08 — Give each icon a single meaning throughout the app, and never reuse a glyph for an unrelated action. — Keep an icon map in the project (for example bookmark always means save to a list, flag always means report an issue).
-ICN-11 — Draw people in icons as gender-neutral figures and avoid images that only some cultures will recognise. — Use a neutral person outline for account and climber glyphs; avoid hand gestures and culture-specific objects as metaphors.
+ICN-11 — Draw people in icons as gender-neutral figures and avoid images that only some cultures will recognise. — Use a neutral person outline for account and member glyphs; avoid hand gestures and culture-specific objects as metaphors.
 
 ## Consider
 

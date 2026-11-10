@@ -63,7 +63,7 @@
   why: A bright white photo background glows against a dark interface and strains the eyes.
   source: {topic: dark-mode, anchor: "Dark Mode colors", via: hig}
   platforms: [web, swift]
-  web: In dark mode give white-background images such as topo scans a slight dim (filter brightness around 0.9) without touching photos whose content must stay true.
+  web: In dark mode give white-background images such as scanned diagrams a slight dim (filter brightness around 0.9) without touching photos whose content must stay true.
   severity: consider
 
 - id: DRK-09

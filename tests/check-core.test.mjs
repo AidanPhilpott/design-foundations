@@ -351,3 +351,31 @@ test('--root: config paths resolve from the given directory, not the config dire
   assert.deepEqual(j.fresh.map((f) => f.file), ['a.css']);
   assert.equal(runCheckCli(['--config', cfg, '--root'], { out() {}, err() {} }), 2);
 });
+
+test('--root: a nonexistent root is a config error (exit 2) naming the directory', () => {
+  const { cfg } = project({ 'a.css': '.a { color: red; }\n' });
+  const err = [];
+  const code = runCheckCli(['--config', cfg, '--root', join(tmpdir(), 'df-no-such-root-dir')], { out() {}, err: (s) => err.push(s) });
+  assert.equal(code, 2);
+  assert.match(err.join('\n'), /root not found: .*df-no-such-root-dir/);
+});
+
+test('df-allow: with a reason suppresses; empty reason does not and is reported', () => {
+  const css = [
+    '.a { transition: all .2s; } /* df-allow raw-values: vendor timing */',
+    '.b { transition: all .2s; } /* df-allow raw-values: */',
+    '/* df-allow raw-values:    */',
+    '.c { transition: all .2s; }',
+  ].join('\n');
+  const { cfg } = project({ 'a.css': css });
+  const r = evaluate(cfg);
+  assert.equal(r.suppressed.length, 1);
+  assert.equal(r.suppressed[0].line, 1);
+  const lines = r.fresh.map((f) => `${f.line}:${f.message}`).sort();
+  assert.deepEqual(lines, [
+    '2:df-allow needs a reason',
+    '2:literal transition',
+    '3:df-allow needs a reason',
+    '4:literal transition',
+  ]);
+});

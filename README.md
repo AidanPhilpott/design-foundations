@@ -25,7 +25,9 @@ Then in the HTML:
 <script src="vendor/design-foundations/motion.global.js"></script> <!-- classic script: exposes DFMotion -->
 <script>
   DFMotion.camera(map, latlng, { zoom: 16 });   // Leaflet flyTo that honours Reduce Motion
-  DFMotion.animate(panel, 'push');              // or 'pop', 'rise', 'sheet', 'feedback'
+  DFMotion.animate(panel, 'push');              // 'push', 'pop' and 'rise' have default keyframes
+  // 'sheet', 'feedback', 'camera' and 'loop' take keyframes as the third argument:
+  // DFMotion.animate(sheet, 'sheet', [{ transform: 'translateY(100%)' }, { transform: 'none' }]);
 </script>
 ```
 
@@ -71,7 +73,7 @@ npx github:AidanPhilpott/design-foundations#v0.1.0 check            # uses ./des
 design-foundations check --config path/to/config.json [--root dir] [--format text|json] [--update-baseline]
 ```
 
-Copy a config from `examples/` (`static-site.config.json` or `next-tailwind.config.json`) and edit the paths. Paths in the config resolve from the config file's directory; `--root <dir>` overrides that base directory (handy for checking another checkout with a config kept elsewhere).
+Copy a config from `examples/` (`static-site.config.json` or `next-tailwind.config.json`) and edit the paths. Paths in the config resolve from the config file's directory; `--root <dir>` overrides that base directory (handy for checking another checkout with a config kept elsewhere); a missing directory is a config error (exit 2). Note that `--root` with `--update-baseline` writes the baseline file into that checked project, because the baseline belongs to the project.
 
 | Check | Rule IDs | Finds |
 |---|---|---|
@@ -93,7 +95,14 @@ Exit code 0 is clean, 1 means new errors, 2 is a config or usage error. Each che
 outline: none; /* df-allow focus: custom ring is drawn by the parent */
 ```
 
-Allowed findings are counted in the summary as suppressed. The reason is mandatory.
+Allowed findings are counted in the summary as suppressed. The reason is mandatory: a `df-allow` with an empty reason suppresses nothing and is itself reported ("df-allow needs a reason").
+
+## Known gaps
+
+- Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`.
+- `reduced-motion` skips `tokenFiles`, so a file that is both the token file and a stylesheet hides its raw transitions. Keep tokens in their own file.
+- The `icons` check reads static HTML and the manifest; it does not see an apple-touch-icon that Next.js generates from metadata. Set `icons` to `off` or use `df-allow`.
+- `targets` sees only explicit CSS sizes; use `assertTargets` in end-to-end tests for real rendered sizes.
 
 ## Keeping up with Apple: ingest
 

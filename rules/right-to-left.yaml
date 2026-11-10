@@ -39,7 +39,7 @@
   why: Flipping can change what an image means, misrepresent real places, or break trademark and copyright rules.
   source: {topic: right-to-left, anchor: "Images", via: hig}
   platforms: [web, swift]
-  web: Topo photos, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
+  web: Photos, maps, imagery, the logo, checkmarks and clock or camera glyphs never get transform scaleX(-1); make a new version of an image only if its content is bound to reading direction.
   severity: should
 
 - id: RTL-06

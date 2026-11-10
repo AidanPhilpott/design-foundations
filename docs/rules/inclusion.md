@@ -28,7 +28,7 @@ Format dates, times, numbers and units according to the person's language and re
 Leave out gender wherever it is not needed, using plural or neutral nouns and they in place of he or she.
 
 - Why: Gendered copy shuts out people who do not fit it and is harder to translate into languages with gendered grammar.
-- Web: Write Climbers in this list can add notes, not Each climber can add his or her notes.
+- Web: Write Members in this list can add notes, not Each member can add his or her notes.
 - Platforms: web, swift
 - Source: [HIG › Inclusion › Gender identity](https://developer.apple.com/design/human-interface-guidelines/inclusion)
 
@@ -55,7 +55,7 @@ Show a generic person as a neutral figure, and let people choose how their own a
 Do not build features or copy on narrow assumptions about people's lives, bodies, families or means.
 
 - Why: Anyone whose situation differs from the assumed one is shut out, and such assumptions are often hard to notice.
-- Web: Do not assume everyone drives to the crag, owns a rack, climbs with a partner or climbs hard; offer transit or walking details where known, and avoid security questions about cars, schools or family.
+- Web: Do not assume everyone drives to the destination, owns the gear, goes with a partner or is highly experienced; offer transit or walking details where known, and avoid security questions about cars, schools or family.
 - Platforms: web, swift
 - Source: [HIG › Inclusion › Avoiding stereotypes](https://developer.apple.com/design/human-interface-guidelines/inclusion)
 
@@ -64,7 +64,7 @@ Do not build features or copy on narrow assumptions about people's lives, bodies
 When imagery shows people, show a real range of ages, bodies, backgrounds and abilities, without stereotyped roles.
 
 - Why: People who see others like themselves feel the app is meant for them too.
-- Web: Onboarding, empty-state and marketing illustrations avoid showing only young, slim, able-bodied climbers or only men leading.
+- Web: Onboarding, empty-state and marketing illustrations avoid showing only young, slim, able-bodied people or only men in charge.
 - Platforms: web, swift
 - Source: [HIG › Inclusion › People and settings](https://developer.apple.com/design/human-interface-guidelines/inclusion)
 
@@ -73,7 +73,7 @@ When imagery shows people, show a real range of ages, bodies, backgrounds and ab
 Explain specialist terms the first time they appear, or use plain words instead.
 
 - Why: Jargon makes newcomers feel the app is not for them, and plain sentences are easier for everyone to read and translate.
-- Web: Climbing terms such as beta, highball or sit start get a short tooltip, legend or glossary entry, and weather terms such as freezing level get a one-line explanation.
+- Web: Trade terms such as latency, provisioning or idempotent get a short tooltip, legend or glossary entry, and weather terms such as freezing level get a one-line explanation.
 - Platforms: web, swift
 - Source: [HIG › Inclusion › Welcoming language](https://developer.apple.com/design/human-interface-guidelines/inclusion)
 
@@ -82,7 +82,7 @@ Explain specialist terms the first time they appear, or use plain words instead.
 Swap idioms and slang for literal language, and retire terms with exclusionary histories.
 
 - Why: Figures of speech rarely translate, and some carry hurtful meanings their writers never intended.
-- Web: Write allowlist and blocklist rather than whitelist and blacklist, and It is a good day to climb rather than Conditions are on fire.
+- Web: Write allowlist and blocklist rather than whitelist and blacklist, and It is a good day to go out rather than Conditions are on fire.
 - Platforms: web, swift
 - Source: [HIG › Inclusion › Welcoming language](https://developer.apple.com/design/human-interface-guidelines/inclusion)
 
