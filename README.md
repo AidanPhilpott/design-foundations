@@ -102,7 +102,7 @@ Allowed findings are counted in the summary as suppressed. The reason is mandato
 - Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`.
 - `reduced-motion` skips `tokenFiles`, so a file that is both the token file and a stylesheet hides its raw transitions. Keep tokens in their own file.
 - The `icons` check reads static HTML and the manifest; it does not see an apple-touch-icon that Next.js generates from metadata. Set `icons` to `off` or use `df-allow`.
-- `targets` sees only explicit CSS sizes; use `assertTargets` in end-to-end tests for real rendered sizes.
+- `targets` sees only explicit CSS sizes; use `assertTargets` in end-to-end tests for real rendered sizes. `assertTargets` skips inline links inside running text (WCAG's inline exception); pass `{ includeInline: true }` to check them too.
 
 ## Keeping up with Apple: ingest
 

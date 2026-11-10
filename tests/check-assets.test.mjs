@@ -316,11 +316,16 @@ function fakeDom(boxes) {
     classList: b.cls ? [b.cls] : [],
     _b: b,
     matches: (sel) => (b.matches ?? []).includes(sel),
+    nodeType: 1,
     getBoundingClientRect: () => ({ width: b.w, height: b.h }),
   }));
+  // b.text: sibling text nodes in the element's parent (inline link inside a sentence).
+  for (const el of els) {
+    if (el._b.text) el.parentNode = { childNodes: [...el._b.text.map((t) => ({ nodeType: 3, nodeValue: t })), el] };
+  }
   return {
     document: { querySelectorAll: () => els },
-    getComputedStyle: (el) => ({ visibility: el._b.hidden ? 'hidden' : 'visible' }),
+    getComputedStyle: (el) => ({ visibility: el._b.hidden ? 'hidden' : 'visible', display: el._b.display ?? 'block' }),
   };
 }
 
@@ -340,6 +345,25 @@ test('assertTargets returns small elements by throwing a list', async () => {
     return true;
   });
   assert.equal(page.calls, 1);
+});
+
+test('assertTargets exempts inline links in running text unless includeInline', async () => {
+  const boxes = [
+    { tag: 'a', id: 'prose', w: 60, h: 18, display: 'inline', text: ['Read the ', ' first.'] },
+    { tag: 'a', id: 'alone', w: 60, h: 18, display: 'inline', text: ['  \n'] },
+    { tag: 'a', id: 'nopar', w: 60, h: 18, display: 'inline' },
+    { tag: 'a', id: 'blocky', w: 60, h: 18, display: 'inline-block', text: ['Read the '] },
+    { tag: 'button', id: 'btn', w: 60, h: 18, display: 'inline', text: ['Tap '] },
+  ];
+  await assert.rejects(() => assertTargets(fakePage(boxes)), (e) => {
+    assert.doesNotMatch(e.message, /a#prose/);
+    assert.match(e.message, /a#alone 60x18/);
+    assert.match(e.message, /a#nopar 60x18/);
+    assert.match(e.message, /a#blocky 60x18/);
+    assert.match(e.message, /button#btn 60x18/);
+    return true;
+  });
+  await assert.rejects(() => assertTargets(fakePage(boxes), { includeInline: true }), /a#prose 60x18/);
 });
 
 test('assertTargets returns [] when all pass, honours min and allow', async () => {
