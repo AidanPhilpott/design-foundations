@@ -147,6 +147,40 @@ test('animate under reduced motion keeps only reduced properties; loop returns n
   assert.equal(m.animate(mockEl(), 'sheet'), null); // needs explicit keyframes
 });
 
+const STANDARD = /^cubic-bezier\(0\.4, 0, 0\.2, 1\)$/;
+
+test('animate falls back to the standard ease when el.animate rejects linear()', () => {
+  stubMedia(false);
+  const el = mockEl();
+  const real = el.animate;
+  el.animate = function (k, o) {
+    if (/linear\(/.test(o.easing)) throw new TypeError("Failed to execute 'animate': Invalid easing");
+    return real.call(this, k, o);
+  };
+  const a = m.animate(el, 'push');
+  assert.ok(a, 'animation returned after retry');
+  assert.match(a.opts.easing, STANDARD);
+  assert.equal(a.opts.duration, 300);
+  assert.equal(el.anims.length, 1);
+});
+
+test('animate skips linear() up front where CSS.supports says it is unsupported', async () => {
+  stubMedia(false);
+  const seen = [];
+  globalThis.CSS = { supports: (p, v) => (seen.push([p, v]), !/linear\(/.test(v)) };
+  try {
+    const fresh = await import(pathToFileURL(join(outDir, 'motion.js')).href + '?nolinear');
+    const el = mockEl();
+    const a = fresh.animate(el, 'push');
+    assert.match(a.opts.easing, STANDARD);
+    fresh.animate(mockEl(), 'pop');
+    assert.equal(seen.length, 1, 'detected once');
+    assert.deepEqual(seen[0], ['transition-timing-function', 'linear(0, 1)']);
+  } finally {
+    delete globalThis.CSS;
+  }
+});
+
 test('dist/motion.js has no import statements', () => {
   const src = readFileSync(join(outDir, 'motion.js'), 'utf8');
   assert.doesNotMatch(src, /^\s*import\s/m);

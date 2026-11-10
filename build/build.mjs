@@ -46,7 +46,9 @@ export function motionTokens(resolved) {
   for (const [p, { type, value }] of resolved) {
     if (type === 'transition') transitions[p.split('.').at(-1)] = { normal: side(value.normal), reduced: side(value.reduced) };
   }
-  return { durations, transitions };
+  // Used by motion.js where a browser lacks CSS linear() (Safari < 17.2).
+  const standard = resolved.get('motion.ease.standard');
+  return { durations, transitions, fallbackEasing: standard ? easingString(standard.value) : 'ease' };
 }
 
 const PLACEHOLDER = '/*__DF_TOKENS__*/null';

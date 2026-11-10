@@ -141,7 +141,8 @@ const TOKENS = deepFreeze({
         "properties": []
       }
     }
-  }
+  },
+  "fallbackEasing": "cubic-bezier(0.4, 0, 0.2, 1)"
 });
 
 const QUERY = '(prefers-reduced-motion: reduce)';
@@ -232,6 +233,21 @@ const lastFrame = (keyframes) => {
 
 const running = new WeakMap();
 
+// linear() easings (springs) throw in el.animate on browsers without CSS linear() (Safari < 17.2).
+let linearOk;
+const supportsLinear = () => {
+  if (linearOk === undefined) {
+    try {
+      linearOk = typeof globalThis.CSS?.supports === 'function' ? globalThis.CSS.supports('transition-timing-function', 'linear(0, 1)') : true;
+    } catch {
+      linearOk = true;
+    }
+  }
+  return linearOk;
+};
+const hasLinear = (easing) => /(?:^|[\s,])linear\(/.test(easing);
+const safeEasing = (easing) => (hasLinear(easing) && !supportsLinear() ? TOKENS.fallbackEasing : easing);
+
 /**
  * Web Animations wrapper. Cancels the element's previous animation. Under Reduce Motion only the
  * transition's reduced properties animate; if none remain, the end state is applied and null returned.
@@ -248,7 +264,14 @@ function animate(el, name, keyframes = DEFAULT_KEYFRAMES[name]) {
     Object.assign(el.style, lastFrame(keyframes));
     return null;
   }
-  const anim = el.animate(frames, { duration: t.duration, easing: t.easing, fill: 'both' });
+  const opts = { duration: t.duration, easing: safeEasing(t.easing), fill: 'both' };
+  let anim;
+  try {
+    anim = el.animate(frames, opts);
+  } catch (e) {
+    if (!hasLinear(opts.easing)) throw e;
+    anim = el.animate(frames, { ...opts, easing: TOKENS.fallbackEasing });
+  }
   running.set(el, anim);
   return anim;
 }
