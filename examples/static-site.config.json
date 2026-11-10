@@ -1,0 +1,18 @@
+{
+  "version": "0.1.0",
+  "include": ["app/**/*.{css,js,html}"],
+  "exclude": ["app/vendor/**"],
+  "tokenFiles": ["app/style.tokens.css"],
+  "checks": {
+    "raw-values": "error",
+    "reduced-motion": "error",
+    "contrast": "error",
+    "text-floor": "error",
+    "targets": "warn",
+    "focus": "error",
+    "icons": "warn"
+  },
+  "motionCalls": ["flyTo", "flyToBounds", "scrollTo"],
+  "manifest": "app/manifest.webmanifest",
+  "baseline": "design-foundations.baseline.json"
+}

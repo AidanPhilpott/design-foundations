@@ -1,0 +1,18 @@
+{
+  "version": "0.1.0",
+  "include": ["src/**/*.{ts,tsx,css}"],
+  "exclude": [],
+  "tokenFiles": ["src/app/globals.css"],
+  "checks": {
+    "raw-values": "error",
+    "reduced-motion": "error",
+    "contrast": "error",
+    "text-floor": "error",
+    "targets": "warn",
+    "focus": "error",
+    "icons": "warn"
+  },
+  "motionCalls": ["scrollTo"],
+  "manifest": "public/manifest.json",
+  "baseline": "design-foundations.baseline.json"
+}
