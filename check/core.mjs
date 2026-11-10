@@ -32,8 +32,8 @@ const optStr = (v, key) => {
   return normalizePath(v);
 };
 
-/** Load and validate a project config. Paths in the result are relative to `dir` (the config's directory). */
-export function loadConfig(path) {
+/** Load and validate a project config. Paths in the result are relative to `dir` (the config's directory, or `root` when given). */
+export function loadConfig(path, { root } = {}) {
   const configPath = resolve(path);
   if (!existsSync(configPath)) throw new ConfigError(`config not found: ${path}`);
   let raw;
@@ -57,7 +57,7 @@ export function loadConfig(path) {
 
   return {
     version: raw.version ?? null,
-    dir: dirname(configPath),
+    dir: root ? resolve(root) : dirname(configPath),
     configPath,
     include: strList(raw.include, 'include', DEFAULT_INCLUDE).map(normalizePath),
     exclude: strList(raw.exclude, 'exclude', []).map(normalizePath),

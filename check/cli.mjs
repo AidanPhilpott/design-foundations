@@ -1,18 +1,20 @@
-// `design-foundations check [--config path] [--update-baseline] [--format text|json]`
+// `design-foundations check [--config path] [--root dir] [--update-baseline] [--format text|json]`
 import { resolve } from 'node:path';
 import { evaluate, loadConfig, writeBaseline, ConfigError } from './core.mjs';
 import './index.mjs';
 
-const USAGE = 'usage: design-foundations check [--config path] [--update-baseline] [--format text|json]';
+const USAGE = 'usage: design-foundations check [--config path] [--root dir] [--update-baseline] [--format text|json]';
 
 /** Returns the exit code: 0 clean, 1 new errors, 2 config/usage error. io = {out(line), err(line)}. */
 export function runCheckCli(args, io = { out: console.log, err: console.error }) {
   let configPath = './design-foundations.config.json';
+  let root;
   let format = 'text';
   let update = false;
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
     if (a === '--config' && args[i + 1]) configPath = args[++i];
+    else if (a === '--root' && args[i + 1]) root = args[++i];
     else if (a === '--format' && ['text', 'json'].includes(args[i + 1])) format = args[++i];
     else if (a === '--update-baseline') update = true;
     else {
@@ -21,7 +23,7 @@ export function runCheckCli(args, io = { out: console.log, err: console.error })
     }
   }
   try {
-    const config = loadConfig(configPath);
+    const config = loadConfig(configPath, { root });
     const res = evaluate(config);
     if (update) {
       const n = writeBaseline(resolve(config.dir, config.baseline), res.findings);

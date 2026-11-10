@@ -339,3 +339,15 @@ test('a finding-level severity overrides the check severity; targetSelectors is 
   assert.deepEqual(f.map((x) => [x.snippet, x.severity]), [['a', 'error'], ['b', 'warn']]);
   assert.deepEqual(r.config.targetSelectors, ['.chip']);
 });
+
+test('--root: config paths resolve from the given directory, not the config directory', () => {
+  const target = mkdtempSync(join(tmpdir(), 'df-root-'));
+  writeFileSync(join(target, 'a.css'), '.a { transition: all .2s; }\n');
+  const { cfg } = project({ 'unrelated.css': '/* nothing */\n' });
+  const out = [];
+  const code = runCheckCli(['--config', cfg, '--root', target, '--format', 'json'], { out: (s) => out.push(s), err() {} });
+  assert.equal(code, 1);
+  const j = JSON.parse(out.join('\n'));
+  assert.deepEqual(j.fresh.map((f) => f.file), ['a.css']);
+  assert.equal(runCheckCli(['--config', cfg, '--root'], { out() {}, err() {} }), 2);
+});
