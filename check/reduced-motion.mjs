@@ -73,6 +73,8 @@ function checkCss(ctx, out) {
 
 const blankAll = (s) => s.replace(/[^\r\n]/g, ' ');
 
+const MOTION_SRC = /(?:^|\/)motion(?:\.global)?\.js(?:[?#].*)?$/;
+
 /** JS source of a file, same length and line numbers: the file itself, or only the <script> contents of HTML. */
 function scriptSource(file) {
   if (file.kind === 'js') return { text: file.text, moduleSrc: false };
@@ -81,7 +83,7 @@ function scriptSource(file) {
   let moduleSrc = false;
   for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
     const src = m[1].match(/\bsrc\s*=\s*["']?([^"'\s>]+)/i);
-    if (src && /motion\.js(?:[?#].*)?$/.test(src[1]) && /\btype\s*=\s*["']?module/i.test(m[1])) moduleSrc = true;
+    if (src && MOTION_SRC.test(src[1])) moduleSrc = true; // module or classic: dist/motion.js or dist/motion.global.js
     const at = m.index + m[0].indexOf('>') + 1;
     for (let i = 0; i < m[2].length; i++) chars[at + i] = m[2][i];
   }
@@ -153,12 +155,12 @@ const ROUTED = new Set(['camera', 'animate', 'scrollToTop']); // motion.js helpe
 const CALL = /([A-Za-z_$][\w$]*(?:\s*\??\.\s*[A-Za-z_$][\w$]*)*)\s*\(/g;
 
 function checkScript(file, motionCalls, out) {
-  if (/(?:^|\/)motion\.js$/.test(file.path)) return; // the helper itself is where the raw calls belong
+  if (/(?:^|\/)motion(?:\.global)?\.js$/.test(file.path)) return; // the helper itself is where the raw calls belong
   const { text, moduleSrc } = scriptSource(file);
   const stripped = stripJsComments(text);
   const code = maskStrings(stripped);
   const bodies = functionBodies(code);
-  const imports = moduleSrc || /\bimport\b[^;]*?\bfrom\s*['"][^'"]*motion\.js['"]|\bimport\s*['"][^'"]*motion\.js['"]|\bimport\s*\(\s*['"][^'"]*motion\.js['"]/.test(stripped);
+  const imports = moduleSrc || /\bDFMotion\s*\./.test(code) || /\bimport\b[^;]*?\bfrom\s*['"][^'"]*motion\.js['"]|\bimport\s*['"][^'"]*motion\.js['"]|\bimport\s*\(\s*['"][^'"]*motion\.js['"]/.test(stripped);
   const enclosing = (idx) => bodies.filter((b) => b.start < idx && idx < b.end);
 
   // Heuristic: with motion.js imported, a motionCalls call is accepted only inside a function that also asks

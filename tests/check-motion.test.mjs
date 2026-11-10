@@ -134,3 +134,27 @@ test('expression-bodied arrow with prefersReducedMotion guard and motion.js impo
 test('a file named motion.js is skipped', () => {
   assert.deepEqual(found(run({ 'src/motion.js': 'export function camera(map) { map.flyTo([1, 2], 3); }\n' })), []);
 });
+
+test('classic or module <script src=...motion(.global).js> (with query) routes HTML through motion.js', () => {
+  const inline = '<script>\n  function go(m) {\n    if (prefersReducedMotion()) return;\n    m.flyTo([1, 2], 12);\n  }\n</script>\n';
+  for (const tag of [
+    '<script src="/dist/motion.global.js"></script>',
+    '<script src="vendor/motion.global.js?v=3"></script>',
+    '<script type="module" src="/dist/motion.js?v=3"></script>',
+    '<script src="motion.js"></script>',
+  ]) assert.deepEqual(found(run({ 'p.html': tag + '\n' + inline })), [], tag);
+  const other = run({ 'p.html': '<script src="/dist/notmotion.js.map"></script>\n' + inline });
+  assert.deepEqual(snips(other), ['m.flyTo(']);
+});
+
+test('JS referencing DFMotion. counts as using motion.js; strings and comments do not', () => {
+  const ok = "function go(m) {\n  if (DFMotion.prefersReducedMotion()) m.setView(1);\n  else m.flyTo(1);\n}\n";
+  assert.deepEqual(found(run({ 'app.js': ok })), []);
+  const fake = "// DFMotion.camera\nconst s = 'DFMotion.camera';\nfunction go(m) {\n  if (prefersReducedMotion()) return;\n  m.flyTo(1);\n}\n";
+  assert.deepEqual(snips(run({ 'app.js': fake })), ['m.flyTo(']);
+  assert.deepEqual(found(run({ 'app.js': 'DFMotion.camera(map, [1, 2], { zoom: 12 });\n' })), []);
+});
+
+test('motion.global.js itself is exempt like motion.js', () => {
+  assert.deepEqual(found(run({ 'dist/motion.global.js': 'map.flyTo(1);\n' })), []);
+});

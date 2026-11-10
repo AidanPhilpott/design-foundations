@@ -65,6 +65,17 @@ export function motionTokens(resolved) {
 
 const PLACEHOLDER = '/*__DF_TOKENS__*/null';
 
+/** Classic-script build of an ESM file: `export` keywords dropped, wrapped in an IIFE that sets globalThis[globalName]. */
+export function toClassicScript(text, globalName) {
+  const names = [];
+  const body = text.replace(/^export\s+(?:async\s+)?(?:function\*?|const|let|class)\s+([A-Za-z_$][\w$]*)/gm, (m, name) => {
+    names.push(name);
+    return m.replace(/^export\s+/, '');
+  });
+  if (/^\s*(?:import|export)\s/m.test(body)) throw new Error(`cannot make a classic script: unsupported module syntax in ${globalName} source`);
+  return `(function () {\n'use strict';\n${body}\nglobalThis.${globalName} = Object.freeze({ ${names.join(', ')} });\n})();\n`;
+}
+
 export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'), rulesDir = join(ROOT, 'rules'), docsRoot } = {}) {
   const resolved = baseTokens();
   const rules = loadRules(rulesDir);
@@ -82,7 +93,9 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'),
     for (const f of readdirSync(srcDir).filter((n) => /\.(m?js)$/.test(n)).sort()) {
       const text = readFileSync(join(srcDir, f), 'utf8');
       if (text.includes(PLACEHOLDER)) {
-        writeFileSync(join(out, f), text.replace(PLACEHOLDER, () => JSON.stringify(motionTokens(resolved), null, 2)));
+        const built = text.replace(PLACEHOLDER, () => JSON.stringify(motionTokens(resolved), null, 2));
+        writeFileSync(join(out, f), built);
+        if (f === 'motion.js') writeFileSync(join(out, 'motion.global.js'), toClassicScript(built, 'DFMotion'));
       } else {
         copyFileSync(join(srcDir, f), join(out, f));
       }

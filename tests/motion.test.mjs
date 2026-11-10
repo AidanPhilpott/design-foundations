@@ -155,3 +155,19 @@ test('dist/motion.js has no import statements', () => {
   assert.doesNotMatch(src, /__DF_TOKENS__/);
   assert.match(src, /"cameraFar":\s*800/);
 });
+
+test('dist/motion.global.js is a classic script exposing the same API as DFMotion', async () => {
+  const vm = await import('node:vm');
+  const src = readFileSync(join(outDir, 'motion.global.js'), 'utf8');
+  assert.doesNotMatch(src, /^\s*(?:import|export)\s/m);
+  assert.doesNotMatch(src, /__DF_TOKENS__/);
+  stubMedia(true);
+  const ctx = { matchMedia: globalThis.matchMedia };
+  ctx.globalThis = ctx;
+  vm.runInNewContext(src, ctx); // classic script: no module syntax allowed
+  assert.deepEqual(Object.keys(ctx.DFMotion).sort(), Object.keys(m).sort());
+  assert.equal(ctx.DFMotion.prefersReducedMotion(), true);
+  assert.equal(ctx.DFMotion.duration('camera' + 'Far'), 0);
+  assert.equal(ctx.DFMotion.duration('short'), m.duration('short'));
+  assert.deepEqual(JSON.parse(JSON.stringify(ctx.DFMotion.transition('push'))), m.transition('push'));
+});
