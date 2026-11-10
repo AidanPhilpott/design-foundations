@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import path from 'node:path';
+import { realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -24,19 +25,45 @@ async function ingest(args) {
   return 2;
 }
 
+const BAD_VALUE = Symbol('bad value');
+
+/** Value after `flag`: undefined when the flag is absent, BAD_VALUE when it is missing or another flag. */
+function flagValue(args, flag) {
+  const i = args.indexOf(flag);
+  if (i < 0) return undefined;
+  const v = args[i + 1];
+  return v === undefined || v.startsWith('--') ? BAD_VALUE : v;
+}
+
 async function buildCmd(args) {
-  const opt = (flag) => {
-    const i = args.indexOf(flag);
-    return i >= 0 ? args[i + 1] : undefined;
-  };
-  const { build } = await import('../build/build.mjs');
+  const out = flagValue(args, '--out');
+  const project = flagValue(args, '--project');
+  if (out === BAD_VALUE || project === BAD_VALUE) {
+    console.error('usage: design-foundations build [--out <dir>] [--project <colours.json>]');
+    return 2;
+  }
   const { TokenError } = await import('../build/tokens.mjs');
-  const { RulesError } = await import('../build/rules.mjs');
   try {
-    await build({ out: opt('--out') ?? path.join(ROOT, 'dist'), project: opt('--project'), docsRoot: ROOT });
+    if (project) {
+      // Project-only build: writes project.css and nothing else (no yaml/rules needed).
+      const { buildProject } = await import('../build/base.mjs');
+      console.log(`wrote ${path.relative(process.cwd(), buildProject(project)) || 'project.css'}`);
+      return 0;
+    }
+    const { build } = await import('../build/build.mjs');
+    const { RulesError } = await import('../build/rules.mjs');
+    try {
+      await build({ out: out ?? path.join(ROOT, 'dist'), docsRoot: ROOT });
+    } catch (e) {
+      if (e instanceof RulesError) {
+        console.error(e.message);
+        return 2;
+      }
+      throw e;
+    }
     return 0;
   } catch (e) {
-    if (e instanceof TokenError || e instanceof RulesError) {
+    if (e instanceof TokenError) {
       console.error(e.message);
       return 2;
     }
@@ -50,13 +77,9 @@ async function checkCmd(args) {
 }
 
 async function syncCmd(args) {
-  const opt = (flag) => {
-    const i = args.indexOf(flag);
-    return i >= 0 ? args[i + 1] : undefined;
-  };
-  const to = opt('--to');
-  const skill = opt('--skill');
-  if (!to || to.startsWith('--') || (args.includes('--skill') && (!skill || skill.startsWith('--')))) {
+  const to = flagValue(args, '--to');
+  const skill = flagValue(args, '--skill');
+  if (!to || to === BAD_VALUE || skill === BAD_VALUE) {
     console.error('usage: design-foundations sync --to <dir> [--skill <dir>]');
     return 2;
   }
@@ -91,7 +114,15 @@ export async function main(argv) {
   return handler(args);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// Run when this file is the entry point, also through a symlink (npm's node_modules/.bin, npx).
+const realOrSelf = (p) => {
+  try {
+    return realpathSync(p);
+  } catch {
+    return path.resolve(p);
+  }
+};
+if (process.argv[1] && realOrSelf(process.argv[1]) === realOrSelf(fileURLToPath(import.meta.url))) {
   main(process.argv.slice(2)).then(
     (code) => { process.exitCode = code ?? 0; },
     (err) => { console.error(err?.stack ?? String(err)); process.exitCode = 2; },

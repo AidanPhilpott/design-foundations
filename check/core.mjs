@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, writeFileSync, existsSync, statSync } from '
 import { join, resolve, dirname, extname } from 'node:path';
 import { checkIds, getChecks } from './registry.mjs';
 import { matchGlob, normalizePath } from './glob.mjs';
-import { baseTokens } from '../build/build.mjs';
+import { baseTokens } from '../build/base.mjs';
 
 export class ConfigError extends Error {
   constructor(message) {

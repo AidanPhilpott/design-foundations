@@ -102,7 +102,7 @@ export function validateRules(rules, { checkIds, tokenPaths, checkRuleIds = new 
 /** Validation context from the real check registry and base tokens. */
 export async function ruleContext(resolved) {
   const { getChecks } = await import('../check/index.mjs');
-  if (!resolved) resolved = (await import('./build.mjs')).baseTokens();
+  if (!resolved) resolved = (await import('./base.mjs')).baseTokens();
   const checks = getChecks();
   return {
     checkIds: new Set(checks.map((c) => c.id)),

@@ -1,23 +1,16 @@
-// `design-foundations build`: tokens/base -> dist/tokens.css + dist/tokens.json (+ project.css);
+// `design-foundations build`: tokens/base -> dist/tokens.css + dist/tokens.json;
 // rules/*.yaml -> validated, then docs/rules/*.md under docsRoot (opt-in).
+// With `project`, only that project's project.css is written (see base.mjs).
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
-import { join, dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { loadTokens, resolveTokens, TokenError } from './tokens.mjs';
+import { join, dirname } from 'node:path';
 import { springCurve } from './spring.mjs';
-import { emitColorCss } from './color.mjs';
 import { emitCss } from './css.mjs';
+import { baseTokens, buildProject, roleSchema, ROOT } from './base.mjs';
 import { emitPreset } from './tailwind.mjs';
 import { emitPluginRefs } from './plugin.mjs';
 import { loadRules, validateRules, emitRuleDocs, ruleContext, RulesError } from './rules.mjs';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const BASE_DIR = join(ROOT, 'tokens', 'base');
-
-export function baseTokens() {
-  const files = readdirSync(BASE_DIR).filter((f) => f.endsWith('.tokens.json')).sort();
-  return resolveTokens(loadTokens(files.map((f) => join(BASE_DIR, f))));
-}
+export { baseTokens, buildProject };
 
 /** Flat {dotted path: value}; springs carry duration, bounce, easing and settleMs. */
 export function flatten(resolved) {
@@ -27,14 +20,6 @@ export function flatten(resolved) {
     out[p] = type === 'spring' ? { ...ext, ...springCurve(ext) } : value;
   }
   return out;
-}
-
-function readJson(path) {
-  try {
-    return JSON.parse(readFileSync(path, 'utf8'));
-  } catch (e) {
-    throw new TokenError(`cannot load ${path}: ${e.message}`, path);
-  }
 }
 
 const toMs = (v) => (typeof v === 'number' ? v : /ms$/.test(v) ? parseFloat(v) : parseFloat(v) * 1000);
@@ -78,6 +63,10 @@ export function toClassicScript(text, globalName) {
 }
 
 export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'), rulesDir = join(ROOT, 'rules'), docsRoot } = {}) {
+  if (project) {
+    buildProject(project);
+    return;
+  }
   const resolved = baseTokens();
   const rules = loadRules(rulesDir);
   const errs = validateRules(rules, await ruleContext(resolved));
@@ -87,7 +76,7 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'),
   writeFileSync(join(out, 'tokens.css'), emitCss(resolved));
   writeFileSync(join(out, 'tokens.json'), JSON.stringify(flatten(resolved), null, 2) + '\n');
 
-  const schema = readJson(join(ROOT, 'tokens', 'roles.schema.json'));
+  const schema = roleSchema();
   writeFileSync(join(out, 'tailwind-preset.cjs'), emitPreset(resolved, schema.roles));
 
   if (existsSync(srcDir)) {
@@ -107,15 +96,5 @@ export async function build({ out = 'dist', project, srcDir = join(ROOT, 'src'),
   for (const [rel, text] of docsRoot ? Object.entries({ ...emitRuleDocs(rules), ...emitPluginRefs(rules, resolved) }) : []) {
     mkdirSync(dirname(join(docsRoot, rel)), { recursive: true });
     writeFileSync(join(docsRoot, rel), text);
-  }
-
-  if (project) {
-    const proj = readJson(project);
-    let css = emitColorCss(proj, schema);
-    if (proj.tokens) {
-      const tmp = resolveTokens(proj.tokens);
-      css += emitCss(tmp, { header: false });
-    }
-    writeFileSync(join(dirname(resolve(project)), 'project.css'), css);
   }
 }
