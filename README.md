@@ -103,7 +103,7 @@ Allowed findings are counted in the summary as suppressed. The reason is mandato
 
 ## Text roles and auditTextStyles
 
-Five type roles sit beside the iOS-style ramp: `title`, `headline`, `body`, `footnote`, `label` (defaults 28/34 bold, 17/22 semibold, 15/20, 13/18, and 12/16 semibold uppercase with +0.06em tracking). Use them as `font: var(--df-type-role-body)` plus `letter-spacing: var(--df-type-role-label-tracking)` and `text-transform: var(--df-type-role-label-transform)`, or as Tailwind `text-role-label`. A project that wants another size overrides the `--df-type-role-<r>-*` variables (or the token in its own tokens file).
+Five type roles sit beside the iOS-style ramp: `title`, `headline`, `body`, `footnote`, `label` (defaults 28/34 bold, 17/22 semibold, 15/20, 13/18, and 12/16 semibold uppercase with +0.06em tracking). Use them as `font: var(--df-type-role-body)` (it is composed from the `-weight`, `-size` and `-leading` variables, so overriding those changes it) plus `letter-spacing: var(--df-type-role-label-tracking)` and `text-transform: var(--df-type-role-label-transform)`, or as Tailwind `text-role-label`. A project that wants another size overrides the `--df-type-role-<r>-*` variables (or the token in its own tokens file).
 
 Rule TYP-18 caps a screen at 5 text roles, 3 weights and 3 text colours. Enforce it in Playwright with the runtime helper:
 
@@ -112,7 +112,7 @@ import { auditTextStyles } from 'design-foundations/dist/text-audit.mjs';
 await auditTextStyles(page, { maxStyles: 5, maxWeights: 3, maxColours: 3, ignore: ['.chip', 'svg', '.leaflet-marker-pane *'] });
 ```
 
-It counts visible, in-viewport text by (size, weight, text-transform, monospace) and throws with the list when over budget. Text on a filled chip (the element, or an ancestor within 2 levels, has a background-color with alpha above 0.5 that differs from the page background) is excluded from the colour count. Use `ignore` for things that are not text roles: chips, map marks, icon glyphs.
+It counts visible, in-viewport text by (size, weight, text-transform, monospace) and throws with the list when over budget. Text on a filled chip (its own element has a background-color with alpha above 0.5 that differs from the page background, or an ancestor within 2 levels does and is at most 64px tall) is excluded from the colour count; tall opaque sheets and cards do not count as chips. Chips not passed in `ignore` still count in styles and weights. Use `ignore` for things that are not text roles: chips, map marks, icon glyphs.
 
 ## Known gaps
 

@@ -91,7 +91,7 @@ test('auditTextStyles ignores selectors, filled chips, hidden and off-screen tex
     { text: '9', fs: '11px', fw: '700', cls: 'pnum', ff: 'monospace' },
     { tag: 'span', cls: 'wrap', children: [{ text: 'inside', fs: '10px', cls: 'tbadge' }] },
     { text: 'V5', fs: '12px', fw: '700', color: 'rgb(255, 255, 255)', bg: 'rgb(53, 122, 49)' },
-    { bg: 'rgb(53, 122, 49)', children: [{ children: [{ text: 'deep', fs: '12px', fw: '700', color: 'rgb(255, 255, 255)' }] }] },
+    { bg: 'rgb(53, 122, 49)', rect: { width: 60, height: 24, left: 10, top: 40, right: 70, bottom: 64 }, children: [{ children: [{ text: 'deep', fs: '12px', fw: '700', color: 'rgb(255, 255, 255)' }] }] },
     { text: 'gone', fs: '30px', fw: '300', display: 'none', rect: { width: 0, height: 0, left: 0, top: 0, right: 0, bottom: 0 } },
     { text: 'below', fs: '31px', fw: '300', rect: { width: 50, height: 20, left: 10, top: 900, right: 60, bottom: 920 } },
     { text: 'clear', fs: '32px', fw: '300', opacity: '0' },
@@ -102,4 +102,22 @@ test('auditTextStyles ignores selectors, filled chips, hidden and off-screen tex
   assert.ok(!r.colours.some((c) => c.key === 'rgb(255, 255, 255)'));
   assert.ok(!r.styles.some((s) => /^(10|11|30|31|32)px/.test(s.key)));
   await assert.rejects(() => auditTextStyles(page(items), { ignore: ['.pnum', '.tbadge'], maxStyles: 5 }), /6 text styles/);
+});
+
+test('chip rule: tall opaque card text is counted in colours, short filled chip text is not', async () => {
+  const card = { bg: 'rgb(240, 240, 230)', rect: { width: 300, height: 400, left: 0, top: 0, right: 300, bottom: 400 }, children: [{ text: 'in card', color: 'rgb(10, 120, 10)' }] };
+  const chip = { bg: 'rgb(53, 122, 49)', rect: { width: 60, height: 24, left: 10, top: 10, right: 70, bottom: 34 }, children: [{ text: 'in chip', color: 'rgb(250, 250, 0)' }] };
+  const r = await auditTextStyles(page([card, chip]));
+  assert.ok(r.colours.some((c) => c.key === 'rgb(10, 120, 10)'));
+  assert.ok(!r.colours.some((c) => c.key === 'rgb(250, 250, 0)'));
+});
+
+test('in-page function is self-contained (runs after stringification)', async () => {
+  let fn;
+  const spy = { async evaluate(f, arg) { fn = f; return { styles: [], weights: [], colours: [] }; } };
+  await auditTextStyles(spy);
+  const rebuilt = new Function('return ' + String(fn))();
+  const real = page(base);
+  const r = await real.evaluate(rebuilt, []);
+  assert.equal(r.styles.length, 5);
 });

@@ -143,31 +143,31 @@ Use these instead of raw values. `dist/tokens.css` is the source; values below a
 --df-type-large-title-leading: 2.5625rem
 --df-type-large-title-weight: 400
 --df-type-large-title-weight-em: 700
---df-type-role-body: 400 0.9375rem/1.25rem var(--df-type-font-family-default)
+--df-type-role-body: var(--df-type-role-body-weight) var(--df-type-role-body-size)/var(--df-type-role-body-leading) var(--df-type-font-family-default)
 --df-type-role-body-size: 0.9375rem
 --df-type-role-body-leading: 1.25rem
 --df-type-role-body-weight: 400
 --df-type-role-body-tracking: 0em
 --df-type-role-body-transform: none
---df-type-role-footnote: 400 0.8125rem/1.125rem var(--df-type-font-family-default)
+--df-type-role-footnote: var(--df-type-role-footnote-weight) var(--df-type-role-footnote-size)/var(--df-type-role-footnote-leading) var(--df-type-font-family-default)
 --df-type-role-footnote-size: 0.8125rem
 --df-type-role-footnote-leading: 1.125rem
 --df-type-role-footnote-weight: 400
 --df-type-role-footnote-tracking: 0em
 --df-type-role-footnote-transform: none
---df-type-role-headline: 600 1.0625rem/1.375rem var(--df-type-font-family-default)
+--df-type-role-headline: var(--df-type-role-headline-weight) var(--df-type-role-headline-size)/var(--df-type-role-headline-leading) var(--df-type-font-family-default)
 --df-type-role-headline-size: 1.0625rem
 --df-type-role-headline-leading: 1.375rem
 --df-type-role-headline-weight: 600
 --df-type-role-headline-tracking: 0em
 --df-type-role-headline-transform: none
---df-type-role-label: 600 0.75rem/1rem var(--df-type-font-family-default)
+--df-type-role-label: var(--df-type-role-label-weight) var(--df-type-role-label-size)/var(--df-type-role-label-leading) var(--df-type-font-family-default)
 --df-type-role-label-size: 0.75rem
 --df-type-role-label-leading: 1rem
 --df-type-role-label-weight: 600
 --df-type-role-label-tracking: 0.06em
 --df-type-role-label-transform: uppercase
---df-type-role-title: 700 1.75rem/2.125rem var(--df-type-font-family-default)
+--df-type-role-title: var(--df-type-role-title-weight) var(--df-type-role-title-size)/var(--df-type-role-title-leading) var(--df-type-font-family-default)
 --df-type-role-title-size: 1.75rem
 --df-type-role-title-leading: 2.125rem
 --df-type-role-title-weight: 700

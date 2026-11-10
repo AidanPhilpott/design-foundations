@@ -21,14 +21,19 @@ export async function auditTextStyles(page, { maxStyles = 5, maxWeights = 3, max
     const bgOf = (el) => getComputedStyle(el).backgroundColor;
     // Page background: body if it paints one, else the root element, else unknown (null).
     const pageBg = [document.body, document.documentElement].map((e) => e && bgOf(e)).find((c) => c && alpha(c) > 0) ?? null;
-    // Filled-chip heuristic: text sits on a chip when its element, or an ancestor within 2 levels, has a
-    // background-color with alpha > 0.5 that differs from the page background. Such text (white on a grade
-    // colour, dark on lichen) keeps its size/weight in the style count but is left out of the colour count.
+    // Filled-chip heuristic: text sits on a chip when its own element has a background-color with alpha > 0.5
+    // that differs from the page background, or when an ancestor within 2 levels does and that ancestor's box
+    // is at most 64px tall (chip/button sized, so an opaque sheet or card does not count). Chip text keeps
+    // its size/weight in the style and weight counts but is left out of the colour count.
+    const filled = (e) => {
+      const bg = bgOf(e);
+      return alpha(bg) > 0.5 && (pageBg === null || rgb(bg) !== rgb(pageBg));
+    };
     const onChip = (el) => {
-      let e = el;
-      for (let i = 0; e && i < 3; i++, e = e.parentElement) {
-        const bg = bgOf(e);
-        if (alpha(bg) > 0.5 && (pageBg === null || rgb(bg) !== rgb(pageBg))) return true;
+      if (filled(el)) return true;
+      let e = el.parentElement;
+      for (let i = 0; e && i < 2; i++, e = e.parentElement) {
+        if (filled(e) && e.getBoundingClientRect().height <= 64) return true;
       }
       return false;
     };

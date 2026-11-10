@@ -85,7 +85,8 @@ export function emitCss(resolved, { header = true } = {}) {
       // Type roles: px -> rem at the 16px root; not scaled by html.df-dynamic-type (projects own their role sizes).
       const fam = `var(${varName('type.fontFamily.default')})`;
       root.push(
-        [name, `${value.weight} ${rem(value.size)}/${rem(value.leading)} ${fam}`],
+        // Composed from the component vars so a project overriding -size/-leading changes `font: var(--df-type-role-x)`.
+        [name, `var(${name}-weight) var(${name}-size)/var(${name}-leading) ${fam}`],
         [`${name}-size`, rem(value.size)],
         [`${name}-leading`, rem(value.leading)],
         [`${name}-weight`, String(value.weight)],

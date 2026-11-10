@@ -112,8 +112,8 @@ test('CLI build exits 0; a broken project file exits 2', async () => {
 
 test('role tokens emit CSS vars and the shorthand', () => {
   const out = css();
-  assert.match(out, /--df-type-role-body: 400 0\.9375rem\/1\.25rem var\(--df-type-font-family-default\);/);
-  assert.match(out, /--df-type-role-title: 700 1\.75rem\/2\.125rem var\(--df-type-font-family-default\);/);
+  assert.match(out, /--df-type-role-body: var\(--df-type-role-body-weight\) var\(--df-type-role-body-size\)\/var\(--df-type-role-body-leading\) var\(--df-type-font-family-default\);/);
+  assert.match(out, /--df-type-role-title: var\(--df-type-role-title-weight\) var\(--df-type-role-title-size\)\/var\(--df-type-role-title-leading\) var\(--df-type-font-family-default\);/);
   assert.match(out, /--df-type-role-body-size: 0\.9375rem;/);
   assert.match(out, /--df-type-role-body-leading: 1\.25rem;/);
   assert.match(out, /--df-type-role-body-weight: 400;/);
@@ -129,4 +129,13 @@ test('build copies text-audit.mjs to dist', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'df-ta-'));
   await build({ out: dir });
   assert.ok(existsSync(join(dir, 'text-audit.mjs')));
+});
+
+test('role shorthand references the overridable -size and -leading vars', () => {
+  for (const r of ['title', 'headline', 'body', 'footnote', 'label']) {
+    const m = css().match(new RegExp(`--df-type-role-${r}: ([^;]+);`))[1];
+    assert.ok(m.includes(`var(--df-type-role-${r}-size)`), r);
+    assert.ok(m.includes(`var(--df-type-role-${r}-leading)`), r);
+    assert.doesNotMatch(m, /\d+(\.\d+)?rem/, r);
+  }
 });
