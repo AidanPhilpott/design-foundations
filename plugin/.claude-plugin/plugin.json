@@ -1,5 +1,5 @@
 {
   "name": "design-foundations",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Design standards from Apple's HIG for web projects: tokens, rules by topic, and a checker workflow."
 }

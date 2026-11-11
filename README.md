@@ -87,6 +87,7 @@ Copy a config from `examples/` (`static-site.config.json` or `next-tailwind.conf
 | `text-floor` | TYP-01, ACC-02 | font sizes below 11px |
 | `targets` | ACC-04 | interactive elements with explicit size under 44px (`assertTargets` for Playwright is exported at runtime) |
 | `focus` | ACC-05 | `outline: none` with no `:focus-visible` replacement |
+| `grid` | LAY-07 | `padding`, `margin`, `gap`, `inset`/`top`/`left`..., `width`/`height` (and min/max), `flex-basis` and border radii whose px (or rem, at 16px) values are not a multiple of 4 (2px and 0 are allowed), in CSS, inline styles, JS style objects (a bare number counts as px) and Tailwind arbitrary values (`p-[6px]`, `rounded-[10px]`). Exempt: %, viewport units, `em`, `var()`, radii of 999px or more, borders, outlines, line-heights, transforms, custom properties. 1px and 0.5px on these properties are findings (use 0, 2 or a border). Defaults to `warn` |
 | `icons` | ICO-01, ICO-02 | manifest 192 / 512 / maskable 512 icons, an opaque 180 px apple-touch-icon |
 
 Exit code 0 is clean, 1 means new errors, 2 is a config or usage error. Each check's severity (`error`, `warn`, `off`) comes from the config; `warn` never fails. One exception: a few findings carry their own severity regardless of the config. An unresolvable contrast pair (a colour the checker cannot parse, such as `var()` or `color-mix()`) is always an error, so it can fail CI even with `contrast` set to `warn`; a missing role or mode is always a warning.
@@ -116,7 +117,7 @@ It counts visible, in-viewport text by (size, weight, text-transform, monospace)
 
 ## Known gaps
 
-- Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`.
+- Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`, and `grid` reads only arbitrary values (`p-[6px]`), not scale keys such as `p-1.5`. `grid` also skips the `flex` shorthand, custom properties (`--pin: 18px`) and non-React JS such as `el.style.padding = ...`.
 - `reduced-motion` skips `tokenFiles`, so a file that is both the token file and a stylesheet hides its raw transitions. Keep tokens in their own file.
 - The `icons` check reads static HTML and the manifest; it does not see an apple-touch-icon that Next.js generates from metadata. Set `icons` to `off` or use `df-allow`.
 - `targets` sees only explicit CSS sizes; use `assertTargets` in end-to-end tests for real rendered sizes. `assertTargets` skips inline links inside running text (WCAG's inline exception); pass `{ includeInline: true }` to check them too.

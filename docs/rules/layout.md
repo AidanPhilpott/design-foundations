@@ -67,9 +67,10 @@ Use the standard side margins, 16 points in compact widths and 20 points in regu
 Keep spacing on the 4-point grid by taking every gap, padding and margin from the space scale.
 
 - Why: A shared rhythm makes screens look orderly and keeps spacing consistent across both apps.
-- Web: Write var(--df-space-*) or the Tailwind spacing keys from the preset instead of arbitrary pixel values.
+- Web: Write var(--df-space-*) or the Tailwind spacing keys from the preset instead of arbitrary pixel values; the grid check flags padding, margin, gap, inset, size and radius px values that are not a multiple of 4 (2px allowed).
 - Platforms: web, swift
 - Source: house rule (related: [HIG › Layout › Visual hierarchy](https://developer.apple.com/design/human-interface-guidelines/layout))
+- Check: `grid`
 - Tokens: `space.0`, `space.0_5`, `space.1`, `space.2`, `space.3`, `space.4`, `space.5`, `space.6`, `space.8`, `space.10`, `space.12`, `space.16`
 
 ## LAY-08 (should)

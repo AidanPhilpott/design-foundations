@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+The 4-point grid check.
+
+- New check `grid` (rule LAY-07, now `check: grid`; defaults to `warn`). For padding*, margin*, gap/row-gap/column-gap, inset*, top/right/bottom/left, width/height (incl. min-/max-, inline-size, block-size), flex-basis and border radii, every px literal must be a multiple of 4, the 2px half step, or 0; rem converts at 16px; `calc()` literals and `var(--x, 10px)` fallbacks are read. Works in stylesheets, `<style>`, style attributes, JS style objects (a bare number is px, as in React) and Tailwind arbitrary values (`p-[6px]`, `w-[18px]`, `rounded-[10px]`).
+- Exempt: %, viewport units, `em`, keywords, `var()`, radii of 999px or more, borders, outlines, line-heights, transforms, custom properties. 1px and 0.5px on a checked property are findings (use 0, 2 or a border).
+- `df-allow grid: <reason>` and the baseline work as for the other checks.
+
 ## 0.2.0
 
 Type roles and a text-style budget.

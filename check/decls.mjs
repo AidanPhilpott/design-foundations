@@ -25,6 +25,9 @@ function splitTop(text) {
   return parts;
 }
 
+/** Properties the grid check reads: React treats a bare number on these as px. */
+export const GRID_PROP = /^(?:(?:padding|margin|inset|scroll-margin|scroll-padding)(?:-[a-z]+)*|gap|row-gap|column-gap|grid-gap|grid-row-gap|grid-column-gap|top|right|bottom|left|(?:min-|max-)?(?:width|height|inline-size|block-size)|flex-basis|border(?:-[a-z]+){0,2}-radius)$/;
+
 /** `{ color: "red", fontSize: 12 }` (inner text of a style object) -> declarations; dynamic values are skipped. */
 function scanStyleObject(text, line) {
   const out = [];
@@ -36,7 +39,7 @@ function scanStyleObject(text, line) {
     let value = null;
     const str = raw.match(/^(?:"([^"]*)"|'([^']*)'|`([^`$]*)`)$/);
     if (str) value = str[1] ?? str[2] ?? str[3];
-    else if (/^-?\d*\.?\d+$/.test(raw) && prop === 'font-size') value = `${raw}px`;
+    else if (/^-?\d*\.?\d+$/.test(raw) && (prop === 'font-size' || GRID_PROP.test(prop))) value = `${raw}px`;
     if (value === null || !value.trim()) continue;
     const upto = text.slice(0, at + (part.length - part.trimStart().length));
     out.push({ prop, value: value.trim().replace(/\s+/g, ' '), line: line + (upto.match(/\n/g) ?? []).length, selector: '', atRules: [] });
