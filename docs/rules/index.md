@@ -111,7 +111,7 @@
 | [LAY-04](layout.md#lay-04-must) | must |  | Base layout decisions on the space actually available, never on the device type or its orientation. |
 | [LAY-05](layout.md#lay-05-must) | must |  | Offer the same functions at every size, changing only how much of it is visible at once. |
 | [LAY-06](layout.md#lay-06-should) | should |  | Use the standard side margins, 16 points in compact widths and 20 points in regular widths. |
-| [LAY-07](layout.md#lay-07-should) | should |  | Keep spacing on the 4-point grid by taking every gap, padding and margin from the space scale. |
+| [LAY-07](layout.md#lay-07-should) | should | `grid` | Keep spacing on the 4-point grid by taking every gap, padding and margin from the space scale. |
 | [LAY-08](layout.md#lay-08-should) | should |  | Align items to shared edges for easy scanning, and indent only to show that an item belongs beneath the one above. |
 | [LAY-09](layout.md#lay-09-should) | should |  | Group related items and set unrelated ones apart using whitespace, a shared container or a separator. |
 | [LAY-10](layout.md#lay-10-should) | should |  | Show the essentials first and reveal detail on request. |

@@ -58,8 +58,9 @@
   why: A shared rhythm makes screens look orderly and keeps spacing consistent across both apps.
   source: {topic: layout, anchor: "Visual hierarchy", via: house}
   platforms: [web, swift]
-  web: Write var(--df-space-*) or the Tailwind spacing keys from the preset instead of arbitrary pixel values.
+  web: Write var(--df-space-*) or the Tailwind spacing keys from the preset instead of arbitrary pixel values; the grid check flags padding, margin, gap, inset, size and radius px values that are not a multiple of 4 (2px allowed).
   severity: should
+  check: grid
   tokens: [space.0, space.0_5, space.1, space.2, space.3, space.4, space.5, space.6, space.8, space.10, space.12, space.16]
 
 - id: LAY-08
