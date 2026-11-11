@@ -117,6 +117,7 @@ It counts visible, in-viewport text by (size, weight, text-transform, monospace)
 
 ## Known gaps
 
+- `grid` flags visually-hidden patterns (`.sr-only{width:1px;height:1px;margin:-1px}`); allow them with `df-allow grid: visually hidden`.
 - Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`, and `grid` reads only arbitrary values (`p-[6px]`), not scale keys such as `p-1.5`. `grid` also skips the `flex` shorthand, custom properties (`--pin: 18px`) and non-React JS such as `el.style.padding = ...`.
 - `reduced-motion` skips `tokenFiles`, so a file that is both the token file and a stylesheet hides its raw transitions. Keep tokens in their own file.
 - The `icons` check reads static HTML and the manifest; it does not see an apple-touch-icon that Next.js generates from metadata. Set `icons` to `off` or use `df-allow`.

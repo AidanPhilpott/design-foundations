@@ -161,3 +161,50 @@ test('severity: default warn, off disables', () => {
   assert.equal(grid(run({ 'a.css': '.a{padding:6px}' }, { checks: {} }))[0].severity, 'warn');
   assert.equal(grid(run({ 'a.css': '.a{padding:6px}' }, { checks: { grid: 'off' } })).length, 0);
 });
+
+test('units are case-insensitive', () => {
+  const r = run({ 'a.css': '.a { width: 10PX; padding: 0.375REM; }\n.b { margin: 8Px; }\n', 'a.html': '<div class="p-[10PX]"></div>' });
+  assert.deepEqual(snips(r), ['width: 10PX', 'padding: 0.375REM', 'p-[10PX]']);
+});
+
+test('!important is read; min()/clamp() literals are checked', () => {
+  const r = run({
+    'a.css': ['.a { padding: 6px !important; }', '.b { padding: 8px !important; }', '.c { width: min(100%, 18px); }', '.d { width: clamp(10px, 5vw, 320px); }', '.e { width: clamp(8px, 5vw, 320px); }'].join('\n'),
+  });
+  assert.deepEqual(snips(r), ['padding: 6px !important', 'width: min(100%, 18px)', 'width: clamp(10px, 5vw, 320px)']);
+});
+
+test('@media / @container preludes are not flagged', () => {
+  const r = run({
+    'a.css': [
+      '@media (min-width: 641px) and (max-width: 1023px) { .a { padding: 8px; } }',
+      '@container card (min-width: 37px) { .b { margin: 4px; } }',
+      '@media (min-width: 45.5rem) { .c { gap: 4px; } }',
+    ].join('\n'),
+  });
+  assert.deepEqual(snips(r), []);
+});
+
+test('advice: nearest allowed values; "or a border" only for sub-2px size properties', () => {
+  const msg = (css) => grid(run({ 'a.css': css }))[0].message;
+  assert.match(msg('.a{padding:3px}'), /use 2 or 4 /);
+  assert.match(msg('.a{padding:5px}'), /use 4 or 8 /);
+  assert.match(msg('.a{padding:1px}'), /use 0 or 2 /);
+  assert.doesNotMatch(msg('.a{padding:1px}'), /border/);
+  assert.doesNotMatch(msg('.a{border-radius:1px}'), /border/);
+  assert.match(msg('.a{height:1px}'), /use 0 or 2 \(or a border\)/);
+  assert.match(msg('.a{max-width:1px}'), /border/);
+  assert.doesNotMatch(msg('.a{width:3px}'), /border/);
+  assert.match(gridClassReason('w-[1px]'), /or a border/);
+  assert.doesNotMatch(gridClassReason('p-[1px]'), /border/);
+});
+
+test('a JS style object with bare numbers on grid props does not change other checks', () => {
+  const src = 'export const A = () => <div style={{ padding: 6, width: 18, height: 30, fontSize: 14, color: "#123456", transition: "opacity 200ms" }} />;\n';
+  const cfg = { checks: { 'raw-values': 'error', 'text-floor': 'error', targets: 'error', focus: 'error', grid: 'off' } };
+  const off = run({ 'a.jsx': src }, cfg);
+  const on = run({ 'a.jsx': src }, { checks: { ...cfg.checks, grid: 'error' } });
+  const strip = (r) => r.findings.filter((f) => f.check !== 'grid').map((f) => [f.check, f.line, f.snippet, f.message]);
+  assert.deepEqual(strip(on), strip(off));
+  assert.ok(grid(on).length >= 3);
+});
