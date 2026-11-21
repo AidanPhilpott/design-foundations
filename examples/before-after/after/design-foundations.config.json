@@ -1,0 +1,17 @@
+{
+  "version": "0.1.0",
+  "include": ["*.{css,html}"],
+  "tokenFiles": ["tokens.css", "project.css"],
+  "projectTokens": "project.tokens.json",
+  "checks": {
+    "raw-values": "error",
+    "reduced-motion": "error",
+    "contrast": "error",
+    "text-floor": "error",
+    "targets": "error",
+    "focus": "error",
+    "grid": "warn",
+    "icons": "off"
+  },
+  "baseline": "design-foundations.baseline.json"
+}

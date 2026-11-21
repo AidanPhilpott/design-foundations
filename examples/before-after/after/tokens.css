@@ -1,0 +1,4 @@
+/* Project overrides of the shared tokens. */
+:root {
+  --df-type-font-family-default: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}

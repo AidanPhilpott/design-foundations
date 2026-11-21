@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order tracking (after)</title>
+<link rel="stylesheet" href="../../../dist/tokens.css">
+<link rel="stylesheet" href="project.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="screen">
+  <nav class="bar">
+    <button class="back" aria-label="Back to orders">
+      <svg width="12" height="20" viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </nav>
+
+  <header class="status">
+    <p class="eyebrow">Sourdough &amp; Co.</p>
+    <h1>Arriving around 8:40</h1>
+    <p class="lede">Your courier picked up your order at 8:24 and is 2.4 km away.</p>
+    <div class="track" role="img" aria-label="Step 3 of 4: on the way">
+      <span class="done"></span><span class="done"></span><span class="now"></span><span></span>
+    </div>
+    <div class="steps"><span class="current">On the way</span><span>Next: delivered</span></div>
+  </header>
+
+  <section class="group" aria-labelledby="order-h">
+    <h2 id="order-h">Your order</h2>
+    <ul class="list">
+      <li><span>Country sourdough</span><span>£6.50</span></li>
+      <li><span>Cardamom bun <span class="qty">× 2</span></span><span>£7.00</span></li>
+      <li class="total"><span>Total</span><span>£13.50</span></li>
+    </ul>
+  </section>
+
+  <section class="group" aria-labelledby="where-h">
+    <h2 id="where-h">Delivering to</h2>
+    <div class="list"><p class="addr">14 Elm Row, flat 2<span class="qty">Leave at the door</span></p></div>
+  </section>
+
+  <footer class="actions">
+    <button class="primary">Message courier</button>
+    <a class="help" href="#">Get help with this order</a>
+  </footer>
+</main>
+</body>
+</html>

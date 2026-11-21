@@ -1,0 +1,149 @@
+{
+  "modes": [
+    "light",
+    "dark",
+    "light-hc",
+    "dark-hc"
+  ],
+  "roles": {
+    "bg.primary": {
+      "light": "#fbfaf7",
+      "dark": "#12110f",
+      "light-hc": "#ffffff",
+      "dark-hc": "#000000"
+    },
+    "bg.secondary": {
+      "light": "#f3f1ec",
+      "dark": "#1c1a17",
+      "light-hc": "#f1efea",
+      "dark-hc": "#121110"
+    },
+    "bg.tertiary": {
+      "light": "#e9e6df",
+      "dark": "#26241f",
+      "light-hc": "#e5e2db",
+      "dark-hc": "#1c1a17"
+    },
+    "bg.grouped.primary": {
+      "light": "#f3f1ec",
+      "dark": "#0d0c0a",
+      "light-hc": "#f1efea",
+      "dark-hc": "#000000"
+    },
+    "bg.grouped.secondary": {
+      "light": "#ffffff",
+      "dark": "#1c1a17",
+      "light-hc": "#ffffff",
+      "dark-hc": "#121110"
+    },
+    "bg.grouped.tertiary": {
+      "light": "#f3f1ec",
+      "dark": "#26241f",
+      "light-hc": "#f1efea",
+      "dark-hc": "#1c1a17"
+    },
+    "label.primary": {
+      "light": "#1c1a17",
+      "dark": "#f4f2ee",
+      "light-hc": "#000000",
+      "dark-hc": "#ffffff"
+    },
+    "label.secondary": {
+      "light": "#5a554c",
+      "dark": "#bdb7ac",
+      "light-hc": "#3f3b34",
+      "dark-hc": "#d8d3ca"
+    },
+    "label.tertiary": {
+      "light": "#6e685e",
+      "dark": "#968f84",
+      "light-hc": "#55504a",
+      "dark-hc": "#b4ada2"
+    },
+    "label.quaternary": {
+      "light": "#a29c91",
+      "dark": "#5f5a52",
+      "light-hc": "#87817a",
+      "dark-hc": "#857e74"
+    },
+    "label.placeholder": {
+      "light": "#6e685e",
+      "dark": "#968f84",
+      "light-hc": "#55504a",
+      "dark-hc": "#b4ada2"
+    },
+    "fill.primary": {
+      "light": "#e3dfd7",
+      "dark": "#38352f",
+      "light-hc": "#cfcac0",
+      "dark-hc": "#4a463f"
+    },
+    "fill.secondary": {
+      "light": "#ebe8e1",
+      "dark": "#2e2b26",
+      "light-hc": "#d9d5cc",
+      "dark-hc": "#3d3a34"
+    },
+    "fill.tertiary": {
+      "light": "#f1eee8",
+      "dark": "#24221e",
+      "light-hc": "#e3dfd7",
+      "dark-hc": "#302d28"
+    },
+    "separator": {
+      "light": "#b9b3a8",
+      "dark": "#4d4943",
+      "light-hc": "#736d63",
+      "dark-hc": "#968f84"
+    },
+    "separator.opaque": {
+      "light": "#e2ded6",
+      "dark": "#2f2c27",
+      "light-hc": "#8f897f",
+      "dark-hc": "#6d675e"
+    },
+    "link": {
+      "light": "#1f5d4a",
+      "dark": "#7fcfae",
+      "light-hc": "#14463a",
+      "dark-hc": "#a6e3c8"
+    },
+    "accent": {
+      "light": "#1f5d4a",
+      "dark": "#7fcfae",
+      "light-hc": "#14463a",
+      "dark-hc": "#a6e3c8"
+    },
+    "accent.on": {
+      "light": "#ffffff",
+      "dark": "#0b1a14",
+      "light-hc": "#ffffff",
+      "dark-hc": "#000000"
+    },
+    "status.success": {
+      "light": "#1d7a46",
+      "dark": "#4cc38a",
+      "light-hc": "#115c32",
+      "dark-hc": "#7fe0ae"
+    },
+    "status.warning": {
+      "light": "#9a5a00",
+      "dark": "#f0b44c",
+      "light-hc": "#734100",
+      "dark-hc": "#ffd27d"
+    },
+    "status.danger": {
+      "light": "#c0322b",
+      "dark": "#ff7b72",
+      "light-hc": "#962019",
+      "dark-hc": "#ffa8a1"
+    },
+    "status.info": {
+      "light": "#2a6fa8",
+      "dark": "#6cb4ee",
+      "light-hc": "#1a5584",
+      "dark-hc": "#9fd0f7"
+    }
+  },
+  "pairs": []
+}
