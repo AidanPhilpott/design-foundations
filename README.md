@@ -10,6 +10,10 @@ Shared design standards for Aidan's projects, derived from Apple's Human Interfa
 
 Rules are paraphrased, and Apple's pages are never committed (see Copyright). This is an independent project, not affiliated with or endorsed by Apple.
 
+![The checker run on examples/demo: eleven findings, each with file and line, check name, rule ID and a fix](docs/images/check-output.png)
+
+*The checker on [`examples/demo`](examples/demo), a small project with deliberate mistakes. Regenerate the image with `node scripts/screenshot-check.mjs` (needs Playwright).*
+
 The examples below pin `v0.3.0`, the latest release; see `CHANGELOG.md` for every release.
 
 ## Quick start: static projects (no build step)
@@ -183,7 +187,7 @@ check/        the checker
 ingest/       HIG fetch and diff
 sync/         copy dist/ (and the skill) into a project
 plugin/       the Claude skill; .claude-plugin/ holds the marketplace file
-examples/     generic checker configs
+examples/     generic checker configs; demo/ is the project in the screenshot
 ```
 
 `npm test` runs the test suite; after changing tokens or rules, run `build` and commit the regenerated `dist/` and `docs/rules/`.

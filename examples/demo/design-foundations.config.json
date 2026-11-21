@@ -1,0 +1,16 @@
+{
+  "version": "0.1.0",
+  "include": ["app/**/*.{css,js,html}"],
+  "tokenFiles": ["app/tokens.css"],
+  "checks": {
+    "raw-values": "error",
+    "reduced-motion": "error",
+    "text-floor": "error",
+    "targets": "warn",
+    "focus": "error",
+    "grid": "warn",
+    "icons": "off"
+  },
+  "motionCalls": ["flyTo", "scrollTo"],
+  "baseline": "design-foundations.baseline.json"
+}
