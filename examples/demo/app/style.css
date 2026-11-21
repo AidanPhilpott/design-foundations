@@ -1,0 +1,18 @@
+.sheet {
+  transition: transform 300ms ease-in-out;
+  padding: 10px 16px;
+}
+.caption {
+  font-size: 9px;
+  color: tomato;
+}
+.icon-button {
+  width: 32px;
+  height: 32px;
+}
+.icon-button:focus {
+  outline: none;
+}
+.spinner {
+  animation: spin 1s linear infinite;
+}

@@ -16,7 +16,7 @@ Type roles and a text-style budget.
 - Rule TYP-18 (house, should): at most 5 text roles, 3 weights and 3 text colours per screen. Runtime helper, no static check (203 rules).
 - Helper: `dist/text-audit.mjs` exports `auditTextStyles(page, {maxStyles, maxWeights, maxColours, ignore})` for Playwright; throws listing each over-budget style, weight or colour. Text on filled chips is left out of the colour count.
 
-## 0.1.0 (unreleased)
+## 0.1.0
 
 First release. Not tagged yet.
 
