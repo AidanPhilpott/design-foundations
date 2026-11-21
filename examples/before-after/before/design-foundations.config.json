@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "include": ["*.{css,html}"],
+  "checks": {
+    "raw-values": "error",
+    "reduced-motion": "error",
+    "text-floor": "error",
+    "targets": "error",
+    "focus": "error",
+    "grid": "warn",
+    "icons": "off"
+  },
+  "baseline": "design-foundations.baseline.json"
+}

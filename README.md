@@ -10,9 +10,9 @@ Shared design standards for Aidan's projects, derived from Apple's Human Interfa
 
 Rules are paraphrased, and Apple's pages are never committed (see Copyright). This is an independent project, not affiliated with or endorsed by Apple.
 
-![The checker run on examples/demo: eleven findings, each with file and line, check name, rule ID and a fix](docs/images/check-output.png)
+![The same order-tracking screen before and after: the before has a gradient banner, two alert banners, five chips and 18 text styles; the after has one clear title, a progress bar, a grouped order list and a single primary button](docs/images/before-after.png)
 
-*The checker on [`examples/demo`](examples/demo), a small project with deliberate mistakes. Regenerate the image with `node scripts/screenshot-check.mjs` (needs Playwright).*
+*Before: 92 checker findings, 18 text styles, 4 tap targets under 44px. After: none, 5 text styles, every target 44px or larger. Both screens and their configs are in [`examples/before-after`](examples/before-after); `node scripts/screenshot-before-after.mjs` rebuilds the image from fresh runs (needs Playwright).*
 
 The examples below pin `v0.3.0`, the latest release; see `CHANGELOG.md` for every release.
 
@@ -93,6 +93,10 @@ Copy a config from `examples/` (`static-site.config.json` or `next-tailwind.conf
 | `focus` | ACC-05 | `outline: none` with no `:focus-visible` replacement |
 | `grid` | LAY-07 | `padding`, `margin`, `gap`, `inset`/`top`/`left`..., `width`/`height` (and min/max), `flex-basis` and border radii whose px (or rem, at 16px) values are not a multiple of 4 (2px and 0 are allowed), in CSS, inline styles, JS style objects (a bare number counts as px) and Tailwind arbitrary values (`p-[6px]`, `rounded-[10px]`). Exempt: %, viewport units, `em`, `var()`, radii of 999px or more, borders, outlines, line-heights, transforms, custom properties. 1px and 0.5px on these properties are findings (use 0, 2 or a border). Defaults to `warn` |
 | `icons` | ICO-01, ICO-02 | manifest 192 / 512 / maskable 512 icons, an opaque 180 px apple-touch-icon |
+
+![The checker run on examples/demo: eleven findings, each with file and line, check name, rule ID and a fix](docs/images/check-output.png)
+
+*The checker on [`examples/demo`](examples/demo), a small project with deliberate mistakes. Regenerate the image with `node scripts/screenshot-check.mjs` (needs Playwright).*
 
 Exit code 0 is clean, 1 means new errors, 2 is a config or usage error. Each check's severity (`error`, `warn`, `off`) comes from the config; `warn` never fails. One exception: a few findings carry their own severity regardless of the config. An unresolvable contrast pair (a colour the checker cannot parse, such as `var()` or `color-mix()`) is always an error, so it can fail CI even with `contrast` set to `warn`; a missing role or mode is always a warning.
 
@@ -187,7 +191,7 @@ check/        the checker
 ingest/       HIG fetch and diff
 sync/         copy dist/ (and the skill) into a project
 plugin/       the Claude skill; .claude-plugin/ holds the marketplace file
-examples/     generic checker configs; demo/ is the project in the screenshot
+examples/     generic checker configs; demo/ and before-after/ are the projects in the screenshots
 ```
 
 `npm test` runs the test suite; after changing tokens or rules, run `build` and commit the regenerated `dist/` and `docs/rules/`.
@@ -195,3 +199,7 @@ examples/     generic checker configs; demo/ is the project in the screenshot
 ## Copyright
 
 The rules are paraphrased in our own words and cite the HIG section they derive from; they are not copies of Apple's text. Apple's pages are downloaded only into `cache/hig/`, which is git-ignored and never published. Do not commit Apple's text: keep new rules in your own words, with a link to the HIG section.
+
+## License
+
+MIT, see `LICENSE`. The licence covers this repo's code, tokens and rule text; it grants nothing over Apple's guidelines, which the rules only cite.
