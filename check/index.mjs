@@ -8,3 +8,4 @@ import './contrast.mjs';
 import './icons.mjs';
 import './targets.mjs';
 import './grid.mjs';
+import './safe-area.mjs';

@@ -105,7 +105,7 @@
 | [INC-12](inclusion.md#inc-12-should) | should |  | Make every feature available to people of all abilities instead of deciding in advance who will want it. |
 | [INC-13](inclusion.md#inc-13-consider) | consider |  | Use humour sparingly, if at all, and never where people are stressed or facing risk. |
 | [INC-14](inclusion.md#inc-14-consider) | consider |  | Make the app usable without prior knowledge, with an optional way to learn it that people can skip. |
-| [LAY-01](layout.md#lay-01-must) | must |  | Keep content and controls inside the safe area, clear of notches, the home indicator, rounded corners and browser bars. |
+| [LAY-01](layout.md#lay-01-must) | must | `safe-area` | Keep content and controls inside the safe area, clear of notches, the home indicator, rounded corners and browser bars. |
 | [LAY-02](layout.md#lay-02-should) | should |  | Arrange each screen by importance, placing what matters most at the top and on the leading side. |
 | [LAY-03](layout.md#lay-03-should) | should |  | Leave about 12 points around controls with a visible bezel and about 24 points around bare icons or text controls. |
 | [LAY-04](layout.md#lay-04-must) | must |  | Base layout decisions on the space actually available, never on the device type or its orientation. |

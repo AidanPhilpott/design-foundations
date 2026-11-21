@@ -8,7 +8,8 @@
     "targets": "error",
     "focus": "error",
     "grid": "warn",
-    "icons": "off"
+    "icons": "off",
+    "safe-area": "error"
   },
   "baseline": "design-foundations.baseline.json"
 }

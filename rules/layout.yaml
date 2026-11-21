@@ -7,8 +7,9 @@
   why: Anything under a hardware cutout or system bar is hidden or impossible to tap.
   source: {topic: layout, anchor: "Guides and safe areas", via: hig}
   platforms: [web, swift]
-  web: Set viewport-fit=cover in the viewport meta and pad fixed headers, tab bars, bottom sheets and map controls with env(safe-area-inset-top|right|bottom|left, 0px); full-bleed maps and imagery may extend underneath.
+  web: Set viewport-fit=cover in the viewport meta and pad fixed headers, tab bars, bottom sheets and map controls with env(safe-area-inset-top|right|bottom|left, 0px); full-bleed maps and imagery may extend underneath. The safe-area check flags viewport-fit=cover when a side's inset is never used.
   severity: must
+  check: safe-area
 
 - id: LAY-02
   rule: Arrange each screen by importance, placing what matters most at the top and on the leading side.

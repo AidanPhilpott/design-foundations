@@ -10,9 +10,10 @@ WCAG, SwiftUI-defaults and house rules come from those sources or from this proj
 Keep content and controls inside the safe area, clear of notches, the home indicator, rounded corners and browser bars.
 
 - Why: Anything under a hardware cutout or system bar is hidden or impossible to tap.
-- Web: Set viewport-fit=cover in the viewport meta and pad fixed headers, tab bars, bottom sheets and map controls with env(safe-area-inset-top|right|bottom|left, 0px); full-bleed maps and imagery may extend underneath.
+- Web: Set viewport-fit=cover in the viewport meta and pad fixed headers, tab bars, bottom sheets and map controls with env(safe-area-inset-top|right|bottom|left, 0px); full-bleed maps and imagery may extend underneath. The safe-area check flags viewport-fit=cover when a side's inset is never used.
 - Platforms: web, swift
 - Source: [HIG › Layout › Guides and safe areas](https://developer.apple.com/design/human-interface-guidelines/layout)
+- Check: `safe-area`
 
 ## LAY-02 (should)
 
