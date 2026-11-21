@@ -8,16 +8,16 @@ Shared design standards for Aidan's projects, derived from Apple's Human Interfa
 - **A checker**: `design-foundations check` fails CI on new violations and ignores known ones through a baseline.
 - **A Claude Code plugin**: a skill that builds UI from the tokens and reviews UI against the rules.
 
-Private repo. Rules are paraphrased; Apple's pages are never committed (see Copyright).
+Rules are paraphrased, and Apple's pages are never committed (see Copyright). This is an independent project, not affiliated with or endorsed by Apple.
 
-> **The `v0.1.0` tag does not exist yet.** It is created when this branch is merged. Until then every `#v0.1.0` below fails to resolve; pin a commit SHA (`#<sha>`) instead, and switch to the tag once it exists.
+The examples below pin `v0.3.0`, the latest release; see `CHANGELOG.md` for every release.
 
 ## Quick start: static projects (no build step)
 
 Vendor a pinned copy of `dist/` into the project:
 
 ```sh
-npx github:AidanPhilpott/design-foundations#v0.1.0 sync --to app/vendor/design-foundations
+npx github:AidanPhilpott/design-foundations#v0.3.0 sync --to app/vendor/design-foundations
 ```
 
 Then in the HTML:
@@ -38,7 +38,7 @@ In CSS use the variables, e.g. `transition: transform var(--df-motion-transition
 ## Quick start: Next.js / Tailwind
 
 ```sh
-npm i github:AidanPhilpott/design-foundations#v0.1.0
+npm i github:AidanPhilpott/design-foundations#v0.3.0
 ```
 
 ```js
@@ -73,7 +73,7 @@ This writes only `design/project.css` next to the file (nothing in `dist/` or `d
 ## The checker
 
 ```sh
-npx github:AidanPhilpott/design-foundations#v0.1.0 check            # uses ./design-foundations.config.json
+npx github:AidanPhilpott/design-foundations#v0.3.0 check            # uses ./design-foundations.config.json
 design-foundations check --config path/to/config.json [--root dir] [--format text|json] [--update-baseline]
 ```
 
@@ -146,10 +146,10 @@ This repo is also a plugin marketplace (`.claude-plugin/marketplace.json`) with 
 }
 ```
 
-**Status: not yet verified in a cloud session** (private marketplace install has not been tried there). Fallback that needs no marketplace: copy the skill into the project and commit it.
+**Status: not yet verified in a cloud session** (marketplace install has not been tried there). Fallback that needs no marketplace: copy the skill into the project and commit it.
 
 ```sh
-npx github:AidanPhilpott/design-foundations#v0.1.0 sync --to app/vendor/design-foundations --skill .claude/skills
+npx github:AidanPhilpott/design-foundations#v0.3.0 sync --to app/vendor/design-foundations --skill .claude/skills
 ```
 
 That writes `.claude/skills/design-foundations/`.
@@ -190,4 +190,4 @@ examples/     generic checker configs
 
 ## Copyright
 
-The rules are paraphrased in our own words and cite the HIG section they derive from; they are not copies of Apple's text. Apple's pages are downloaded only into `cache/hig/`, which is git-ignored and never published. Keep this repo private.
+The rules are paraphrased in our own words and cite the HIG section they derive from; they are not copies of Apple's text. Apple's pages are downloaded only into `cache/hig/`, which is git-ignored and never published. Do not commit Apple's text: keep new rules in your own words, with a link to the HIG section.
