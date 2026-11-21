@@ -7,7 +7,13 @@ body {
 .screen {
   max-width: 400px;
   margin: 0 auto;
-  padding: 0 var(--df-layout-margin-regular) var(--df-space-8);
+  /* LAY-01: viewport-fit=cover lets the page reach the screen edges, so keep content clear of the
+     status bar, camera cutout and home indicator by adding the safe-area insets to the margins. */
+  padding:
+    env(safe-area-inset-top, 0px)
+    calc(var(--df-layout-margin-regular) + env(safe-area-inset-right, 0px))
+    calc(var(--df-space-8) + env(safe-area-inset-bottom, 0px))
+    calc(var(--df-layout-margin-regular) + env(safe-area-inset-left, 0px));
 }
 h1, h2, p, ul { margin: 0; }
 

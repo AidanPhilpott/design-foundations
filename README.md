@@ -12,7 +12,7 @@ Rules are paraphrased, and Apple's pages are never committed (see Copyright). Th
 
 ![The same order-tracking screen before and after: the before has a gradient banner, two alert banners, five chips and 18 text styles; the after has one clear title, a progress bar, a grouped order list and a single primary button](docs/images/before-after.png)
 
-*Before: 92 checker findings, 18 text styles, 4 tap targets under 44px. After: none, 5 text styles, every target 44px or larger. Both screens and their configs are in [`examples/before-after`](examples/before-after); `node scripts/screenshot-before-after.mjs` rebuilds the image from fresh runs (needs Playwright).*
+*Before: 92 checker findings, 18 text styles, 4 tap targets under 44px, and a back button under the status bar (it sets `viewport-fit=cover` but never pads for the safe area, LAY-01). After: no findings, 5 text styles, every target 44px or larger, and content padded with `env(safe-area-inset-*)`. Screenshots use emulated iPhone safe-area insets. Both screens and their configs are in [`examples/before-after`](examples/before-after); `node scripts/screenshot-before-after.mjs` rebuilds the image from fresh runs (needs Playwright).*
 
 The examples below pin `v0.3.0`, the latest release; see `CHANGELOG.md` for every release.
 
