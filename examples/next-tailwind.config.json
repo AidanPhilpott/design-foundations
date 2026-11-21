@@ -10,7 +10,8 @@
     "text-floor": "error",
     "targets": "warn",
     "focus": "error",
-    "icons": "warn"
+    "icons": "warn",
+    "safe-area": "warn"
   },
   "motionCalls": ["scrollTo"],
   "manifest": "public/manifest.json",

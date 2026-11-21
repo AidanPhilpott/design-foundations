@@ -12,16 +12,16 @@ Rules are paraphrased, and Apple's pages are never committed (see Copyright). Th
 
 ![The same order-tracking screen before and after: the before has a gradient banner, two alert banners, five chips and 18 text styles; the after has one clear title, a progress bar, a grouped order list and a single primary button](docs/images/before-after.png)
 
-*Before: 92 checker findings, 18 text styles, 4 tap targets under 44px, and a back button under the status bar (it sets `viewport-fit=cover` but never pads for the safe area, LAY-01). After: no findings, 5 text styles, every target 44px or larger, and content padded with `env(safe-area-inset-*)`. Screenshots use emulated iPhone safe-area insets. Both screens and their configs are in [`examples/before-after`](examples/before-after); `node scripts/screenshot-before-after.mjs` rebuilds the image from fresh runs (needs Playwright).*
+*Before: 93 checker findings, 18 text styles, 4 tap targets under 44px, and a back button under the status bar (it sets `viewport-fit=cover` but never pads for the safe area, LAY-01). After: no findings, 5 text styles, every target 44px or larger, and content padded with `env(safe-area-inset-*)`. Screenshots use emulated iPhone safe-area insets. Both screens and their configs are in [`examples/before-after`](examples/before-after); `node scripts/screenshot-before-after.mjs` rebuilds the image from fresh runs (needs Playwright).*
 
-The examples below pin `v0.3.0`, the latest release; see `CHANGELOG.md` for every release.
+The examples below pin `v0.4.0`, the latest release; see `CHANGELOG.md` for every release.
 
 ## Quick start: static projects (no build step)
 
 Vendor a pinned copy of `dist/` into the project:
 
 ```sh
-npx github:AidanPhilpott/design-foundations#v0.3.0 sync --to app/vendor/design-foundations
+npx github:AidanPhilpott/design-foundations#v0.4.0 sync --to app/vendor/design-foundations
 ```
 
 Then in the HTML:
@@ -42,7 +42,7 @@ In CSS use the variables, e.g. `transition: transform var(--df-motion-transition
 ## Quick start: Next.js / Tailwind
 
 ```sh
-npm i github:AidanPhilpott/design-foundations#v0.3.0
+npm i github:AidanPhilpott/design-foundations#v0.4.0
 ```
 
 ```js
@@ -77,7 +77,7 @@ This writes only `design/project.css` next to the file (nothing in `dist/` or `d
 ## The checker
 
 ```sh
-npx github:AidanPhilpott/design-foundations#v0.3.0 check            # uses ./design-foundations.config.json
+npx github:AidanPhilpott/design-foundations#v0.4.0 check            # uses ./design-foundations.config.json
 design-foundations check --config path/to/config.json [--root dir] [--format text|json] [--update-baseline]
 ```
 
@@ -92,6 +92,7 @@ Copy a config from `examples/` (`static-site.config.json` or `next-tailwind.conf
 | `targets` | ACC-04 | interactive elements with explicit size under 44px (`assertTargets` for Playwright is exported at runtime) |
 | `focus` | ACC-05 | `outline: none` with no `:focus-visible` replacement |
 | `grid` | LAY-07 | `padding`, `margin`, `gap`, `inset`/`top`/`left`..., `width`/`height` (and min/max), `flex-basis` and border radii whose px (or rem, at 16px) values are not a multiple of 4 (2px and 0 are allowed), in CSS, inline styles, JS style objects (a bare number counts as px) and Tailwind arbitrary values (`p-[6px]`, `rounded-[10px]`). Exempt: %, viewport units, `em`, `var()`, radii of 999px or more, borders, outlines, line-heights, transforms, custom properties. 1px and 0.5px on these properties are findings (use 0, 2 or a border). Defaults to `warn` |
+| `safe-area` | LAY-01 | `viewport-fit=cover` (viewport meta or a Next.js `viewportFit: 'cover'` export) when `env(safe-area-inset-top\|right\|bottom\|left)` is never used for some side, so content can sit under the status bar, camera cutout or home indicator. Defaults to `warn` |
 | `icons` | ICO-01, ICO-02 | manifest 192 / 512 / maskable 512 icons, an opaque 180 px apple-touch-icon |
 
 ![The checker run on examples/demo: eleven findings, each with file and line, check name, rule ID and a fix](docs/images/check-output.png)
@@ -125,6 +126,7 @@ It counts visible, in-viewport text by (size, weight, text-transform, monospace)
 
 ## Known gaps
 
+- `safe-area` checks that each side's inset is used somewhere in the project, not that every fixed header, tab bar or sheet pads for it; it cannot see insets applied by a framework or component library outside the checked files (allow those with `df-allow safe-area: <reason>` on the viewport meta).
 - `grid` flags visually-hidden patterns (`.sr-only{width:1px;height:1px;margin:-1px}`); allow them with `df-allow grid: visually hidden`.
 - Tailwind utilities that are not arbitrary values (`duration-150`, `text-xs`) are not flagged by `raw-values`, and `grid` reads only arbitrary values (`p-[6px]`), not scale keys such as `p-1.5`. `grid` also skips the `flex` shorthand, custom properties (`--pin: 18px`) and non-React JS such as `el.style.padding = ...`.
 - `reduced-motion` skips `tokenFiles`, so a file that is both the token file and a stylesheet hides its raw transitions. Keep tokens in their own file.
@@ -157,7 +159,7 @@ This repo is also a plugin marketplace (`.claude-plugin/marketplace.json`) with 
 **Status: not yet verified in a cloud session** (marketplace install has not been tried there). Fallback that needs no marketplace: copy the skill into the project and commit it.
 
 ```sh
-npx github:AidanPhilpott/design-foundations#v0.3.0 sync --to app/vendor/design-foundations --skill .claude/skills
+npx github:AidanPhilpott/design-foundations#v0.4.0 sync --to app/vendor/design-foundations --skill .claude/skills
 ```
 
 That writes `.claude/skills/design-foundations/`.

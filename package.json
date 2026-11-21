@@ -1,6 +1,6 @@
 {
   "name": "design-foundations",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Shared design standards (tokens, rules, checker, Claude plugin) derived from Apple's Human Interface Guidelines.",
   "license": "MIT",
   "type": "module",

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0
+
+The safe-area check.
+
+- New check `safe-area` (rule LAY-01, now `check: safe-area`; defaults to `warn`). When a viewport meta sets `viewport-fit=cover` (or a Next.js `viewport` export sets `viewportFit: 'cover'`), every side's `env(safe-area-inset-top|right|bottom|left)` must be used somewhere in the checked files, or the page can draw under the status bar, camera cutout and home indicator. The finding sits on the cover declaration and names the missing sides. CSS, `<style>`, style attributes, JS style objects and Tailwind arbitrary values all count; `safe-area-max-inset-*` and the old `constant()` spelling count; comments do not.
+- `examples/before-after` turns the check on; the before screen fails it.
+
 ## 0.3.0
 
 The 4-point grid check.
