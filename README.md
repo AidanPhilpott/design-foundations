@@ -174,6 +174,8 @@ Semver tags; projects pin a tag.
 
 `CHANGELOG.md` lists the rule IDs added or changed in each release.
 
+**Releasing.** Bump `version` in `package.json` and `plugin/.claude-plugin/plugin.json`, add a `## X.Y.Z` section to `CHANGELOG.md`, run `build`, and merge. On `main`, the release workflow sees a version with no tag, tags that commit `vX.Y.Z` and publishes a GitHub release with the CHANGELOG section as its notes. A test fails if the package version has no CHANGELOG section.
+
 ## Adoption notes
 
 - Tailwind opacity modifiers (`bg-accent/50`) do not work with colours that are `var()` references; use a role that already has the alpha you need, or `color-mix()` in CSS.
