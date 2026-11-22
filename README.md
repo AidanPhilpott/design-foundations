@@ -1,5 +1,7 @@
 # design-foundations
 
+[![test](https://github.com/AidanPhilpott/design-foundations/actions/workflows/test.yml/badge.svg)](https://github.com/AidanPhilpott/design-foundations/actions/workflows/test.yml)
+
 Shared design standards for Aidan's projects, derived from Apple's Human Interface Guidelines (Foundations), WCAG and a few house rules. One versioned repo gives every project the same:
 
 - **Rules**: 203 rules in 15 topics, in our own words, each with an ID (`MOT-05`), a severity (must / should / consider) and a link back to the HIG section it comes from. Readable pages are in `docs/rules/`.
@@ -145,7 +147,7 @@ node bin/design-foundations.mjs ingest diff --accept  # after reviewing those ru
 
 ## Claude Code plugin
 
-This repo is also a plugin marketplace (`.claude-plugin/marketplace.json`) with one plugin and one skill, `design-foundations` (build mode and review mode, with the rule pages as references). To use it in a project, put this in the project's `.claude/settings.json`:
+The repo is also a plugin marketplace with one plugin, `design-foundations`. Its skill has a build mode (write UI from the tokens and helpers) and a review mode (run the checker, then judge the rules it cannot automate), with the rule pages as references. Enable it in the project's `.claude/settings.json`:
 
 ```json
 {
@@ -156,13 +158,11 @@ This repo is also a plugin marketplace (`.claude-plugin/marketplace.json`) with 
 }
 ```
 
-**Status: not yet verified in a cloud session** (marketplace install has not been tried there). Fallback that needs no marketplace: copy the skill into the project and commit it.
+To pin the skill to a release, or to work without the marketplace, vendor it with `sync` instead; this writes `.claude/skills/design-foundations/` alongside the `dist/` copy:
 
 ```sh
 npx github:AidanPhilpott/design-foundations#v0.4.0 sync --to app/vendor/design-foundations --skill .claude/skills
 ```
-
-That writes `.claude/skills/design-foundations/`.
 
 ## Versioning
 

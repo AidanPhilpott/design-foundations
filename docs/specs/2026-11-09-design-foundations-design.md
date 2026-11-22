@@ -26,7 +26,7 @@ and reusable in any project, on the web now and in Swift later.
 
 ### Decisions already made
 
-- Packaging **B**: plain files + git-installable package + Claude plugin, in this repo (private).
+- Packaging **B**: plain files + git-installable package + Claude plugin, in this repo (public, MIT).
 - Look **C**: copy iOS values for neutral things (type ramp, spacing, motion timing, materials);
   colour and brand stay each project's own (shared colour *roles*, project-supplied values).
 - Enforcement **B**: guidance + automated checks with a baseline. Visual regression is out of scope.
@@ -273,8 +273,8 @@ Exit codes: 0 clean, 1 new errors, 2 config/usage error.
     privacy, layout hierarchy) and report findings by rule ID with file:line.
 - `references/<topic>.md` generated from `rules/` plus a token cheat-sheet; never hand-edited.
 - Install: projects add the marketplace + enable the plugin in `.claude/settings.json`. Fallback
-  if a private marketplace can't install in cloud sessions: `sync` also copies the skill into the
-  project's `.claude/skills/design-foundations/`. Verifying which works is a v0.1.0 task.
+  for pinning the skill to a release or working without the marketplace: `sync` also copies the skill
+  into the project's `.claude/skills/design-foundations/`. Both routes have been used in projects.
 
 ## 8. Ingest
 
