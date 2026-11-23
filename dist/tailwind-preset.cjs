@@ -201,6 +201,14 @@ module.exports = {
           "info": "var(--df-color-status-info)"
         }
       },
+      "gap": {
+        "gutter-compact": "var(--df-layout-gutter-compact)",
+        "gutter-expanded": "var(--df-layout-gutter-expanded)",
+        "gutter-regular": "var(--df-layout-gutter-regular)"
+      },
+      "maxWidth": {
+        "layout": "var(--df-layout-max-width)"
+      },
       "minWidth": {
         "target": "var(--df-a11y-target-default)",
         "target-min": "var(--df-a11y-target-min)"

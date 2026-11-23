@@ -148,6 +148,24 @@ so the browser or OS text-size setting scales every style:
 - Space (4pt grid): 0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64.
 - Margins: `layout.margin.compact` 16, `layout.margin.regular` 20; breakpoint for regular: 700px by default,
   overridable per project (Pebble Picker uses 761px).
+- Column grid (web, LAY-17 to LAY-20): `layout.columns.compact|regular|expanded` 4 / 8 / 12,
+  `layout.gutter.compact|regular|expanded` 16 / 16 / 24, `layout.breakpoint.expanded` 1024px (overridable),
+  `layout.maxWidth` 1280 (columns and gutters, margins excluded). Regular starts at `layout.breakpoint.regular`,
+  so margins and columns change together. Apple prescribes no column grid; the values were checked against
+  the published source of other systems (Nov 2026):
+
+  | System | Columns | Breakpoints | Gutters | Max width |
+  |---|---|---|---|---|
+  | Material (`@material/layout-grid` 14) | 4 / 8 / 12 | 0 / 600 / 840 | 16 / 16 / 24 | none |
+  | Material 3 window size classes | panes, not columns | 600 / 840 / 1200 / 1600 | 24 pane spacer | n/a |
+  | Carbon (`@carbon/grid` 11) | 4 / 8 / 16 | 320 / 672 / 1056 / 1312 / 1584 | 32 | 1584 |
+  | Bootstrap 5.3 | 12 | 576 / 768 / 992 / 1200 / 1400 | 24 | 1320 container |
+  | Atlassian (`@atlaskit/primitives`) | n/a | 480 / 768 / 1024 / 1440 / 1768 | n/a | n/a |
+  | GOV.UK Frontend 5 | fractions (½, ⅓, ⅔, ¼) | 641 / 769 | 30 | 960 |
+
+  4 / 8 / 12 is the common mobile / tablet / desktop progression and every count divides by 4, so a span of
+  4 works at all three. 1024px matches Atlassian and Tailwind `lg` and sits between Bootstrap (992) and
+  Carbon (1056); iPad portrait gets 8 columns and iPad landscape 12. Gutters are Material's defaults.
 - Safe areas: `layout.safe.*` = `env(safe-area-inset-*, 0px)`.
 - Targets: `a11y.target.default` 44, `a11y.target.min` 28; spacing around bezelled controls 12,
   around bare controls 24.

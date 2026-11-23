@@ -5,9 +5,17 @@
   --df-a11y-spacing-bezel: 12px;
   --df-a11y-target-default: 44px;
   --df-a11y-target-min: 28px;
+  --df-layout-breakpoint-expanded: 1024px;
   --df-layout-breakpoint-regular: 700px;
+  --df-layout-columns-compact: 4;
+  --df-layout-columns-expanded: 12;
+  --df-layout-columns-regular: 8;
+  --df-layout-gutter-compact: 16px;
+  --df-layout-gutter-expanded: 24px;
+  --df-layout-gutter-regular: 16px;
   --df-layout-margin-compact: 16px;
   --df-layout-margin-regular: 20px;
+  --df-layout-max-width: 1280px;
   --df-material-regular-blur: 30px;
   --df-material-regular-opacity: 0.75;
   --df-material-thick-blur: 40px;

@@ -27,7 +27,7 @@ References live next to this file in `references/`. One file per topic, plus the
 | colour, contrast, dark mode | `references/color.md`, `references/dark-mode.md` |
 | font sizes, text styles | `references/typography.md` |
 | focus, targets, keyboard, screen readers, zoom | `references/accessibility.md` |
-| spacing, breakpoints, safe areas, orientation | `references/layout.md` |
+| spacing, column grid, breakpoints, safe areas, orientation | `references/layout.md` |
 | blur, translucency | `references/materials.md` |
 | interface icons / app icon, manifest, apple-touch-icon | `references/icons.md`, `references/app-icons.md` |
 | photos, illustrations, image formats | `references/images.md` |

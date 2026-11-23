@@ -18,9 +18,17 @@ Use these instead of raw values. `dist/tokens.css` is the source; values below a
 ### --df-layout-*
 
 ```css
+--df-layout-breakpoint-expanded: 1024px
 --df-layout-breakpoint-regular: 700px
+--df-layout-columns-compact: 4
+--df-layout-columns-expanded: 12
+--df-layout-columns-regular: 8
+--df-layout-gutter-compact: 16px
+--df-layout-gutter-expanded: 24px
+--df-layout-gutter-regular: 16px
 --df-layout-margin-compact: 16px
 --df-layout-margin-regular: 20px
+--df-layout-max-width: 1280px
 ```
 
 ### --df-material-*
@@ -231,6 +239,8 @@ Add `presets: [require("./vendor/design-foundations/tailwind-preset.cjs")]`. Eve
 - fontSize: `body`, `callout`, `caption1`, `caption2`, `footnote`, `headline`, `large-title`, `subhead`, `title1`, `title2`, `title3`, `role-body`, `role-footnote`, `role-headline`, `role-label`, `role-title`
 - borderRadius: `full`, `lg`, `md`, `sm`, `xl`, `xs`
 - colors: `bg.primary`, `bg.secondary`, `bg.tertiary`, `bg.grouped.primary`, `bg.grouped.secondary`, `bg.grouped.tertiary`, `label.primary`, `label.secondary`, `label.tertiary`, `label.quaternary`, `label.placeholder`, `fill.primary`, `fill.secondary`, `fill.tertiary`, `separator`, `separator.opaque`, `link`, `accent`, `accent.on`, `status.success`, `status.warning`, `status.danger`, `status.info`
+- gap: `gutter-compact`, `gutter-expanded`, `gutter-regular`
+- maxWidth: `layout`
 - minWidth: `target`, `target-min`
 - minHeight: `target`, `target-min`
 

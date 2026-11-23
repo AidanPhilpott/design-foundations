@@ -90,3 +90,10 @@ test('preset has fontSize.role-label', () => {
   for (const r of ['title', 'headline', 'body', 'footnote']) assert.ok(ext.fontSize[`role-${r}`], r);
   assert.match(tokensCss, /--df-type-role-label-size: 0\.75rem;/);
 });
+
+test('preset has column-grid gutters and the layout max width', () => {
+  for (const k of ['compact', 'regular', 'expanded']) assert.equal(ext.gap[`gutter-${k}`], `var(--df-layout-gutter-${k})`);
+  assert.equal(ext.maxWidth.layout, 'var(--df-layout-max-width)');
+  assert.match(tokensCss, /--df-layout-columns-expanded: 12;/);
+  assert.match(tokensCss, /--df-layout-gutter-expanded: 24px;/);
+});
