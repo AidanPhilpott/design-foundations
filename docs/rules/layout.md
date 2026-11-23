@@ -154,3 +154,41 @@ On wide screens, limit how long a line of running text can get instead of lettin
 - Web: Give paragraphs and description blocks max-inline-size around 70ch (centred or leading-aligned in the column), while maps, tables and images may still use the full width.
 - Platforms: web, swift
 - Source: [HIG › Layout › Guides and safe areas](https://developer.apple.com/design/human-interface-guidelines/layout)
+
+## LAY-17 (should)
+
+On content pages, lay content out on a fluid column grid of 4 columns in compact widths, 8 in regular widths and 12 in expanded widths.
+
+- Why: One shared set of columns gives every screen the same alignment edges, and using the same counts, gutters and margins in design files and code makes handoff exact.
+- Web: Use display grid with grid-template-columns repeat(var(--df-layout-columns-compact), minmax(0, 1fr)) and column-gap var(--df-layout-gutter-compact), then switch to the regular and expanded column and gutter tokens at the regular (700px) and expanded (1024px) breakpoints, written as 43.75em and 64em so they follow text size (TYP-09); side margins stay those of LAY-06. Write minmax(0, 1fr), not 1fr, so a long word or wide image cannot push a column wider than its share. In Figma, give each frame size a Stretch column layout guide with the same count, gutter and margin. Full-screen maps and tools do not need a column grid.
+- Platforms: web
+- Source: house rule (related: [HIG › Layout › Size classes](https://developer.apple.com/design/human-interface-guidelines/layout))
+- Tokens: `layout.columns.compact`, `layout.columns.regular`, `layout.columns.expanded`, `layout.gutter.compact`, `layout.gutter.regular`, `layout.gutter.expanded`, `layout.breakpoint.regular`, `layout.breakpoint.expanded`, `layout.margin.compact`, `layout.margin.regular`
+
+## LAY-18 (should)
+
+Size and place content by spanning whole columns, so its edges fall on column edges and the gutters stay clear, and let only full-bleed media break out of the grid.
+
+- Why: Content that starts and ends on shared column lines stays aligned at every width, while fixed pixel widths drift off the columns as soon as the window changes.
+- Web: Use grid-column span N or line numbers instead of fixed widths, and give each width class a span that fits its column count; because 4, 8 and 12 all divide by 4, a span of 4 gives one card per row in compact, two in regular and three in expanded. Let nested components line up with the page columns through grid-template-columns subgrid rather than a grid of their own. Full-bleed images, maps and coloured bands sit outside the margined grid container and run to the window edges.
+- Platforms: web
+- Source: house rule (related: [HIG › Layout › Visual hierarchy](https://developer.apple.com/design/human-interface-guidelines/layout))
+
+## LAY-19 (must)
+
+Let content reflow at 320 CSS pixels wide so nothing needs scrolling in two directions, except content such as maps, data tables and diagrams that needs both.
+
+- Why: People who zoom to 400% get a viewport about 320 pixels wide and lose their place if every line has to be scrolled sideways.
+- Web: At 320px every span fits the compact grid's 4 columns and side-by-side items stack; no page container, grid track or min-width is wider than the viewport; give text overflow-wrap break-word so long words, URLs and IDs wrap instead of spilling out of their column; wide tables and code blocks scroll inside their own container with overflow-x auto, never the whole page. Test at 320px wide, or at 1280px wide zoomed to 400%.
+- Platforms: web
+- Source: WCAG 2.2 › 1.4.10 Reflow (see also [HIG › Layout](https://developer.apple.com/design/human-interface-guidelines/layout))
+
+## LAY-20 (should)
+
+On very wide windows, stop the column grid at the layout maximum width and centre it, instead of stretching the columns without limit.
+
+- Why: Columns stretched across a wide monitor pull related content apart and make scanning a row slow.
+- Web: Give the grid container max-inline-size var(--df-layout-max-width) and margin-inline auto inside a wrapper that keeps the LAY-06 margins; page backgrounds, full-bleed media and full-screen maps may still run to the window edges, and running text inside stays capped by LAY-16.
+- Platforms: web
+- Source: house rule (related: [HIG › Layout › Adaptability](https://developer.apple.com/design/human-interface-guidelines/layout))
+- Tokens: `layout.maxWidth`

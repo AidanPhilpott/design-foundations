@@ -64,6 +64,11 @@ export function emitPreset(resolved, roles) {
     fontSize[`role-${kebab(key)}`] = [v('size'), { lineHeight: v('leading'), fontWeight: v('weight'), letterSpacing: v('tracking') }];
   }
 
+  // Column-grid gutters (gap-x-gutter-regular) and the layout max width (max-w-layout).
+  const gap = {};
+  for (const [key, path] of leaves(resolved, 'layout.gutter', 'dimension')) gap[`gutter-${key}`] = ref(path);
+  const maxWidth = { layout: ref('layout.maxWidth') };
+
   const target = {
     target: ref('a11y.target.default'),
     'target-min': ref('a11y.target.min'),
@@ -78,6 +83,8 @@ export function emitPreset(resolved, roles) {
         fontSize,
         borderRadius,
         colors: nestColors(roles),
+        gap,
+        maxWidth,
         minWidth: target,
         minHeight: { ...target },
       },

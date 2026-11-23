@@ -57,6 +57,12 @@ test('space, layout, a11y, radius, materials', () => {
   assert.equal(v(t, 'layout.margin.compact'), 16);
   assert.equal(v(t, 'layout.margin.regular'), 20);
   assert.equal(v(t, 'layout.breakpoint.regular'), '700px');
+  assert.equal(v(t, 'layout.breakpoint.expanded'), '1024px');
+  for (const [k, cols, gutter] of [['compact', 4, 16], ['regular', 8, 16], ['expanded', 12, 24]]) {
+    assert.equal(v(t, `layout.columns.${k}`), cols, k);
+    assert.equal(v(t, `layout.gutter.${k}`), gutter, k);
+  }
+  assert.equal(v(t, 'layout.maxWidth'), 1280);
   assert.equal(v(t, 'a11y.target.default'), 44);
   assert.equal(v(t, 'a11y.target.min'), 28);
   assert.equal(v(t, 'a11y.spacing.bezel'), 12);

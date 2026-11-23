@@ -102,6 +102,20 @@ test('motion.yaml validates', async () => {
   assert.equal(byId['MOT-13'].severity, 'must');
 });
 
+test('layout.yaml validates, with the column-grid rules on their tokens', async () => {
+  const rules = loadRules(RULES_DIR).filter((r) => r.topic === 'layout');
+  assert.deepEqual(validateRules(rules, await ruleContext()), []);
+  const byId = Object.fromEntries(rules.map((r) => [r.id, r]));
+  for (const id of ['LAY-17', 'LAY-18', 'LAY-19', 'LAY-20']) assert.deepEqual(byId[id].platforms, ['web'], id);
+  for (const k of ['compact', 'regular', 'expanded']) {
+    assert.ok(byId['LAY-17'].tokens.includes(`layout.columns.${k}`), k);
+    assert.ok(byId['LAY-17'].tokens.includes(`layout.gutter.${k}`), k);
+  }
+  assert.equal(byId['LAY-19'].source.via, 'wcag');
+  assert.equal(byId['LAY-19'].severity, 'must');
+  assert.ok(byId['LAY-20'].tokens.includes('layout.maxWidth'));
+});
+
 test('index.md lists every id', () => {
   const rules = loadRules(RULES_DIR);
   const docs = emitRuleDocs(rules);

@@ -4,7 +4,7 @@
 
 Shared design standards for Aidan's projects, derived from Apple's Human Interface Guidelines (Foundations), WCAG and a few house rules. One versioned repo gives every project the same:
 
-- **Rules**: 203 rules in 15 topics, in our own words, each with an ID (`MOT-05`), a severity (must / should / consider) and a link back to the HIG section it comes from. Readable pages are in `docs/rules/`.
+- **Rules**: 207 rules in 15 topics, in our own words, each with an ID (`MOT-05`), a severity (must / should / consider) and a link back to the HIG section it comes from. Readable pages are in `docs/rules/`.
 - **Tokens**: motion (durations, easings, springs, transitions), type ramp, spacing, radius, materials, accessibility minimums, plus colour *roles* that each project fills in. Built to `dist/`.
 - **Helpers**: `motion.js`, a small Reduce-Motion-aware layer for what CSS can't express (map camera moves, scrolling, JS animation).
 - **A checker**: `design-foundations check` fails CI on new violations and ignores known ones through a baseline.

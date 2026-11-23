@@ -121,6 +121,10 @@
 | [LAY-14](layout.md#lay-14-should) | should |  | Test the smallest and largest layouts first, then the sizes, languages and text settings in between. |
 | [LAY-15](layout.md#lay-15-consider) | consider |  | When background art or imagery meets a new aspect ratio, scale it to fill rather than stretching or boxing it. |
 | [LAY-16](layout.md#lay-16-should) | should |  | On wide screens, limit how long a line of running text can get instead of letting it span the whole window. |
+| [LAY-17](layout.md#lay-17-should) | should |  | On content pages, lay content out on a fluid column grid of 4 columns in compact widths, 8 in regular widths and 12 in expanded widths. |
+| [LAY-18](layout.md#lay-18-should) | should |  | Size and place content by spanning whole columns, so its edges fall on column edges and the gutters stay clear, and let only full-bleed media break out of the grid. |
+| [LAY-19](layout.md#lay-19-must) | must |  | Let content reflow at 320 CSS pixels wide so nothing needs scrolling in two directions, except content such as maps, data tables and diagrams that needs both. |
+| [LAY-20](layout.md#lay-20-should) | should |  | On very wide windows, stop the column grid at the layout maximum width and centre it, instead of stretching the columns without limit. |
 | [MAT-01](materials.md#mat-01-must) | must |  | Turn every translucent surface solid when Reduce Transparency is on or when the browser cannot blur. |
 | [MAT-02](materials.md#mat-02-should) | should |  | Use a material for surfaces that float above content, such as bars, map controls and sheets, so the layer below still shows through faintly. |
 | [MAT-03](materials.md#mat-03-should) | should |  | Pick a material by its purpose and the legibility it must give, not by the tint it adds. |

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+A column grid for the web.
+
+- Tokens: `layout.columns.compact|regular|expanded` (4 / 8 / 12), `layout.gutter.compact|regular|expanded` (16 / 16 / 24px), `layout.breakpoint.expanded` (1024px, overridable) and `layout.maxWidth` (1280px). The regular tier starts at the existing `layout.breakpoint.regular`, so margins and columns change together. The Tailwind preset gets `gap` keys `gutter-compact|regular|expanded` and `maxWidth.layout`.
+- Rules (web; 207 rules): LAY-17 (house, should) lay content pages out on the 4/8/12 fluid grid with `minmax(0, 1fr)` tracks, breakpoints in em, and a matching Stretch layout guide in Figma; LAY-18 (house, should) size content by whole-column spans, share page columns with `subgrid`, and only full-bleed media break out; LAY-19 (WCAG 1.4.10 Reflow, must) no two-direction scrolling at 320 CSS px, with long words wrapping and wide tables scrolling in their own container; LAY-20 (house, should) cap the grid at the max width and centre it.
+- The spec (§4.3) records the values next to Material, Carbon, Bootstrap, Atlassian and GOV.UK, taken from their published source.
+
 ## 0.4.0
 
 The safe-area check.

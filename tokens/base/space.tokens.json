@@ -65,8 +65,47 @@
       "regular": {
         "$type": "dimension",
         "$value": "700px",
-        "$description": "width at which regular margins apply; projects may override"
+        "$description": "width at which regular margins and the 8-column grid apply; projects may override"
+      },
+      "expanded": {
+        "$type": "dimension",
+        "$value": "1024px",
+        "$description": "width at which the 12-column grid and expanded gutters apply; projects may override"
       }
+    },
+    "columns": {
+      "compact": {
+        "$type": "number",
+        "$value": 4
+      },
+      "regular": {
+        "$type": "number",
+        "$value": 8
+      },
+      "expanded": {
+        "$type": "number",
+        "$value": 12
+      },
+      "$description": "column-grid column counts: compact below the regular breakpoint, regular up to expanded, expanded above"
+    },
+    "gutter": {
+      "compact": {
+        "$type": "dimension",
+        "$value": 16
+      },
+      "regular": {
+        "$type": "dimension",
+        "$value": 16
+      },
+      "expanded": {
+        "$type": "dimension",
+        "$value": 24
+      }
+    },
+    "maxWidth": {
+      "$type": "dimension",
+      "$value": 1280,
+      "$description": "widest the column grid (columns and gutters, margins excluded) grows before it centres"
     }
   }
 }
